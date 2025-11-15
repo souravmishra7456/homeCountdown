@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Countdown to Home</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 600px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        color: #667eea;
+        margin-bottom: 10px;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .countdown-display {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .countdown-box {
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .time-unit {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        backdrop-filter: blur(10px);
+      }
+
+      .time-value {
+        font-size: 2.5em;
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      .time-label {
+        font-size: 0.9em;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .percentage-text {
+        font-size: 1.2em;
+        opacity: 0.95;
+        margin-top: 10px;
+      }
+
+      .progress-section {
+        margin-bottom: 35px;
+      }
+
+      .section-title {
+        color: #333;
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 25px;
+        background: #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        transition: width 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: white;
+        min-width: 30px;
+      }
+
+      .motivational-quotes {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 25px;
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.05em;
+        line-height: 1.6;
+        font-style: italic;
+      }
+
+      .milestones {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+
+      .time-breakdown {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+
+      .breakdown-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 1.05em;
+      }
+
+      .breakdown-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .breakdown-label {
+        color: #666;
+        font-weight: 500;
+      }
+
+      .breakdown-value {
+        color: #667eea;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-refresh {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-refresh:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-reset {
+        background: #e0e0e0;
+        color: #333;
+      }
+
+      .btn-reset:hover {
+        background: #d0d0d0;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .motivation-icon {
+        font-size: 1.5em;
+        display: inline-block;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+          border-radius: 15px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+          margin-bottom: 8px;
+        }
+
+        .header p {
+          font-size: 0.95em;
+        }
+
+        .countdown-display {
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+
+        .countdown-box {
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .time-unit {
+          flex: 0 1 calc(50% - 4px);
+          padding: 12px;
+        }
+
+        .time-value {
+          font-size: 1.8em;
+        }
+
+        .time-label {
+          font-size: 0.75em;
+        }
+
+        .percentage-text {
+          font-size: 1em;
+        }
+
+        .section-title {
+          font-size: 1em;
+        }
+
+        .progress-bar {
+          height: 22px;
+        }
+
+        .progress-fill {
+          font-size: 0.75em;
+          padding-right: 8px;
+        }
+
+        .motivational-quotes {
+          padding: 16px;
+          font-size: 0.95em;
+          min-height: 70px;
+        }
+
+        .breakdown-item {
+          padding: 10px 0;
+          font-size: 0.95em;
+        }
+
+        .time-breakdown {
+          padding: 16px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
+        .container {
+          padding: 15px;
+          border-radius: 12px;
+        }
+
+        .header h1 {
+          font-size: 1.5em;
+        }
+
+        .header p {
+          font-size: 0.9em;
+        }
+
+        .countdown-display {
+          padding: 15px;
+          margin-bottom: 15px;
+        }
+
+        .countdown-box {
+          gap: 6px;
+        }
+
+        .time-unit {
+          flex: 0 1 calc(50% - 3px);
+          padding: 10px;
+          border-radius: 8px;
+        }
+
+        .time-value {
+          font-size: 1.5em;
+        }
+
+        .time-label {
+          font-size: 0.7em;
+          margin-top: 4px;
+        }
+
+        .percentage-text {
+          font-size: 0.9em;
+          margin-top: 8px;
+        }
+
+        .section-title {
+          font-size: 0.95em;
+          margin-bottom: 12px;
+        }
+
+        .progress-section {
+          margin-bottom: 20px;
+        }
+
+        .progress-bar {
+          height: 20px;
+          border-radius: 10px;
+        }
+
+        .progress-fill {
+          font-size: 0.7em;
+          padding-right: 6px;
+        }
+
+        .motivational-quotes {
+          padding: 12px;
+          font-size: 0.85em;
+          line-height: 1.4;
+          min-height: 65px;
+          margin-bottom: 20px;
+        }
+
+        .motivation-icon {
+          font-size: 1.2em;
+        }
+
+        .time-breakdown {
+          padding: 12px;
+          margin-bottom: 20px;
+        }
+
+        .breakdown-item {
+          padding: 8px 0;
+          font-size: 0.9em;
+        }
+
+        .breakdown-label {
+          font-size: 0.9em;
+        }
+
+        .breakdown-value {
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🏡 Journey Home</h1>
+        <p>Making every moment count</p>
+      </div>
+
+      <div class="countdown-display">
+        <div class="countdown-box">
+          <div class="time-unit">
+            <div class="time-value" id="days">0</div>
+            <div class="time-label">Days</div>
+          </div>
+          <div class="time-unit">
+            <div class="time-value" id="hours">0</div>
+            <div class="time-label">Hours</div>
+          </div>
+          <div class="time-unit">
+            <div class="time-value" id="minutes">0</div>
+            <div class="time-label">Minutes</div>
+          </div>
+          <div class="time-unit">
+            <div class="time-value" id="seconds">0</div>
+            <div class="time-label">Seconds</div>
+          </div>
+        </div>
+        <div class="percentage-text">
+          <span id="percentage">0</span>% Complete
+        </div>
+      </div>
+
+      <div class="motivational-quotes">
+        <div
+          id="quoteTitle"
+          style="font-weight: bold; font-size: 1.1em; margin-bottom: 8px"
+        >
+          📍 Week 1: Embrace the Journey
+        </div>
+        <div id="quote">
+          You're just getting started. Use this time to settle in and find your
+          rhythm.
+        </div>
+      </div>
+
+      <div class="progress-section">
+        <div class="section-title">📊 Overall Progress</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="overallProgress" style="width: 0%">
+            <span id="progressText">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="time-breakdown">
+        <div class="section-title">📈 Your Progress</div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Days Completed:</span>
+          <span class="breakdown-value" id="daysPassed">0</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Days Remaining:</span>
+          <span class="breakdown-value" id="daysRemaining">0</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const targetDate = new Date("2025-12-26T00:00:00").getTime();
+      const startDate = new Date("2025-11-15T00:00:00").getTime();
+      const totalDuration = targetDate - startDate;
+
+      const weeklyMessages = [
+        {
+          title: "📍 Week 1: Embrace the Journey",
+          message:
+            "You're just getting started. Use this time to settle in and find your rhythm.",
+        },
+        {
+          title: "🌱 Week 2: Growth & Reflection",
+          message:
+            "By now, you're adapting. Notice how you're becoming stronger and more resilient.",
+        },
+        {
+          title: "🎯 Week 3: Purpose & Progress",
+          message:
+            "You're halfway there! Channel this momentum into things that matter to you.",
+        },
+        {
+          title: "💫 Week 4: Gratitude & Homestretch",
+          message:
+            "You're in the final stretch. Appreciate both where you are and where you're going.",
+        },
+        {
+          title: "🏡 Week 5: Almost There!",
+          message:
+            "The finish line is visible. Every moment now feels like it's counting down to something special.",
+        },
+        {
+          title: "🎉 Week 6: The Final Days",
+          message:
+            "Home is calling. You've made it this far—these last days will fly by!",
+        },
+      ];
+
+      function getWeeklyMessage() {
+        const now = new Date().getTime();
+        const elapsedTime = now - startDate;
+        const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        const weekIndex = Math.floor(daysPassed / 5);
+
+        if (weekIndex >= weeklyMessages.length) {
+          return weeklyMessages[weeklyMessages.length - 1];
+        }
+        return weeklyMessages[weekIndex];
+      }
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const timeRemaining = targetDate - now;
+
+        if (timeRemaining < 0) {
+          document.getElementById("days").textContent = "0";
+          document.getElementById("hours").textContent = "0";
+          document.getElementById("minutes").textContent = "0";
+          document.getElementById("seconds").textContent = "0";
+          document.getElementById("percentage").textContent = "100";
+          document.getElementById("quote").textContent =
+            "🎉 Welcome Home! Your journey is complete!";
+          return;
+        }
+
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = String(hours).padStart(
+          2,
+          "0"
+        );
+        document.getElementById("minutes").textContent = String(
+          minutes
+        ).padStart(2, "0");
+        document.getElementById("seconds").textContent = String(
+          seconds
+        ).padStart(2, "0");
+
+        // Calculate percentage
+        const elapsedTime = now - startDate;
+        const percentage = Math.floor((elapsedTime / totalDuration) * 100);
+        document.getElementById("percentage").textContent = Math.min(
+          percentage,
+          100
+        );
+
+        // Update progress bar
+        const progressFill = document.getElementById("overallProgress");
+        const progressPercent = Math.min(percentage, 100);
+        progressFill.style.width = progressPercent + "%";
+        document.getElementById("progressText").textContent =
+          progressPercent + "%";
+
+        // Update days breakdown
+        const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        const daysRemaining = days;
+        document.getElementById("daysPassed").textContent = daysPassed;
+        document.getElementById("daysRemaining").textContent = daysRemaining;
+
+        // Update weekly message (changes every 5 days)
+        const weeklyMsg = getWeeklyMessage();
+        document.getElementById("quoteTitle").textContent = weeklyMsg.title;
+        document.getElementById("quote").textContent = weeklyMsg.message;
+      }
+
+      // Initial update
+      updateCountdown();
+
+      // Update every second
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
