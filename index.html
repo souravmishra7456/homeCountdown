@@ -463,6 +463,10 @@
       <div class="time-breakdown">
         <div class="section-title">📈 Your Progress</div>
         <div class="breakdown-item">
+          <span class="breakdown-label">Weeks:</span>
+          <span class="breakdown-value" id="weekProgress">1/6</span>
+        </div>
+        <div class="breakdown-item">
           <span class="breakdown-label">Days Completed:</span>
           <span class="breakdown-value" id="daysPassed">0</span>
         </div>
@@ -474,40 +478,55 @@
     </div>
 
     <script>
+      // Start: Sunday, Nov 16, 2025 00:00:00
+      // End: Friday, Dec 26, 2025 00:00:00
       const targetDate = new Date("2025-12-26T00:00:00").getTime();
-      const startDate = new Date("2025-11-15T00:00:00").getTime();
+      const startDate = new Date("2025-11-16T00:00:00").getTime();
       const totalDuration = targetDate - startDate;
 
+      // Weekly messages with correct date ranges
       const weeklyMessages = [
         {
           title: "📍 Week 1: Embrace the Journey",
           message:
-            "You're just getting started. Use this time to settle in and find your rhythm.",
+            "Nov 16-22: You're just getting started. Use this time to settle in and find your rhythm.",
+          startDay: 0,
+          endDay: 6,
         },
         {
           title: "🌱 Week 2: Growth & Reflection",
           message:
-            "By now, you're adapting. Notice how you're becoming stronger and more resilient.",
+            "Nov 23-29: By now, you're adapting. Notice how you're becoming stronger and more resilient.",
+          startDay: 7,
+          endDay: 13,
         },
         {
           title: "🎯 Week 3: Purpose & Progress",
           message:
-            "You're halfway there! Channel this momentum into things that matter to you.",
+            "Nov 30-Dec 6: You're making progress! Channel this momentum into things that matter to you.",
+          startDay: 14,
+          endDay: 20,
         },
         {
           title: "💫 Week 4: Gratitude & Homestretch",
           message:
-            "You're in the final stretch. Appreciate both where you are and where you're going.",
+            "Dec 7-13: You're over halfway there. Appreciate both where you are and where you're going.",
+          startDay: 21,
+          endDay: 27,
         },
         {
           title: "🏡 Week 5: Almost There!",
           message:
-            "The finish line is visible. Every moment now feels like it's counting down to something special.",
+            "Dec 14-20: The finish line is visible. Every moment counts towards your homecoming.",
+          startDay: 28,
+          endDay: 34,
         },
         {
           title: "🎉 Week 6: The Final Days",
           message:
-            "Home is calling. You've made it this far—these last days will fly by!",
+            "Dec 21-26: Home is calling! These last days will fly by—you've got this!",
+          startDay: 35,
+          endDay: 40,
         },
       ];
 
@@ -515,12 +534,13 @@
         const now = new Date().getTime();
         const elapsedTime = now - startDate;
         const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
-        const weekIndex = Math.floor(daysPassed / 5);
 
-        if (weekIndex >= weeklyMessages.length) {
-          return weeklyMessages[weeklyMessages.length - 1];
-        }
-        return weeklyMessages[weekIndex];
+        // Find which week based on actual days passed
+        const message = weeklyMessages.find(
+          (week) => daysPassed >= week.startDay && daysPassed <= week.endDay
+        );
+
+        return message || weeklyMessages[weeklyMessages.length - 1];
       }
 
       function updateCountdown() {
@@ -559,31 +579,39 @@
           seconds
         ).padStart(2, "0");
 
+        // Calculate progress percentage
         const elapsedTime = now - startDate;
-        const percentage = Math.floor((elapsedTime / totalDuration) * 100);
+        const percentage = Math.round((elapsedTime / totalDuration) * 100);
         document.getElementById("percentage").textContent = Math.min(
           percentage,
           100
         );
 
+        // Update progress bar
         const progressFill = document.getElementById("overallProgress");
         const progressPercent = Math.min(percentage, 100);
         progressFill.style.width = progressPercent + "%";
         document.getElementById("progressText").textContent =
           progressPercent + "%";
 
+        // Calculate days passed and remaining
         const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        const currentWeek = Math.floor(daysPassed / 7) + 1;
         const daysRemaining = days;
+        document.getElementById("weekProgress").textContent = `${Math.min(
+          currentWeek,
+          6
+        )}/6`;
         document.getElementById("daysPassed").textContent = daysPassed;
         document.getElementById("daysRemaining").textContent = daysRemaining;
 
+        // Update weekly message
         const weeklyMsg = getWeeklyMessage();
         document.getElementById("quoteTitle").textContent = weeklyMsg.title;
         document.getElementById("quote").textContent = weeklyMsg.message;
       }
 
       updateCountdown();
-
       setInterval(updateCountdown, 1000);
     </script>
   </body>
