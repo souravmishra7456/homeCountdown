@@ -18,7 +18,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px;
+        padding: 15px;
       }
 
       .container {
@@ -26,18 +26,18 @@
         width: 100%;
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        padding: 40px;
+        padding: 30px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(10px);
       }
 
       .header {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
       }
 
       .header h1 {
-        font-size: 2.5em;
+        font-size: clamp(1.8em, 5vw, 2.5em);
         color: #667eea;
         margin-bottom: 10px;
         animation: fadeIn 1s ease-in;
@@ -45,62 +45,61 @@
 
       .header p {
         color: #666;
-        font-size: 1.1em;
+        font-size: clamp(0.9em, 3vw, 1.1em);
       }
 
       .countdown-display {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border-radius: 15px;
-        padding: 30px;
-        margin-bottom: 30px;
+        padding: clamp(20px, 5vw, 30px);
+        margin-bottom: 25px;
         text-align: center;
       }
 
       .countdown-box {
-        display: flex;
-        justify-content: space-around;
-        gap: 15px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: clamp(10px, 3vw, 15px);
         margin-bottom: 20px;
       }
 
       .time-unit {
-        flex: 1;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
-        padding: 15px;
+        padding: clamp(12px, 2vw, 15px);
         backdrop-filter: blur(10px);
       }
 
       .time-value {
-        font-size: 2.5em;
+        font-size: clamp(1.8em, 5vw, 2.5em);
         font-weight: bold;
         line-height: 1;
         margin-bottom: 5px;
       }
 
       .time-label {
-        font-size: 0.9em;
+        font-size: clamp(0.7em, 2vw, 0.9em);
         opacity: 0.9;
         text-transform: uppercase;
         letter-spacing: 1px;
       }
 
       .percentage-text {
-        font-size: 1.2em;
+        font-size: clamp(1em, 3vw, 1.2em);
         opacity: 0.95;
         margin-top: 10px;
       }
 
       .progress-section {
-        margin-bottom: 35px;
+        margin-bottom: 25px;
       }
 
       .section-title {
         color: #333;
-        font-size: 1.1em;
+        font-size: clamp(0.95em, 3vw, 1.1em);
         font-weight: 600;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -108,7 +107,7 @@
 
       .progress-bar {
         width: 100%;
-        height: 25px;
+        height: 22px;
         background: #e0e0e0;
         border-radius: 12px;
         overflow: hidden;
@@ -123,8 +122,8 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        padding-right: 10px;
-        font-size: 0.8em;
+        padding-right: 8px;
+        font-size: clamp(0.65em, 2vw, 0.8em);
         font-weight: bold;
         color: white;
         min-width: 30px;
@@ -134,40 +133,35 @@
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
         border-radius: 15px;
-        padding: 20px;
+        padding: clamp(15px, 4vw, 20px);
         text-align: center;
-        margin-bottom: 25px;
-        min-height: 80px;
+        margin-bottom: 20px;
+        min-height: 70px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 1.05em;
+        font-size: clamp(0.9em, 3vw, 1.05em);
         line-height: 1.6;
         font-style: italic;
-      }
-
-      .milestones {
-        background: #f8f9fa;
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 25px;
       }
 
       .time-breakdown {
         background: #f8f9fa;
         border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 25px;
+        padding: clamp(15px, 4vw, 20px);
+        margin-bottom: 20px;
       }
 
       .breakdown-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 0;
+        padding: clamp(10px, 2vw, 12px) 0;
         border-bottom: 1px solid #e0e0e0;
-        font-size: 1.05em;
+        font-size: clamp(0.9em, 2.5vw, 1.05em);
+        flex-wrap: wrap;
+        gap: 10px;
       }
 
       .breakdown-item:last-child {
@@ -183,7 +177,7 @@
       .breakdown-value {
         color: #667eea;
         font-weight: bold;
-        font-size: 1.1em;
+        font-size: clamp(0.95em, 2.5vw, 1.1em);
       }
 
       @keyframes fadeIn {
@@ -197,19 +191,37 @@
         }
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+
         .container {
           padding: 20px;
           border-radius: 15px;
         }
-        .header h1 {
-          font-size: 2em;
+
+        .countdown-box {
+          grid-template-columns: repeat(2, 1fr);
         }
+
+        .breakdown-item {
+          padding: 10px 0;
+          font-size: 0.95em;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .countdown-box {
+          gap: 8px;
+        }
+
         .time-unit {
-          flex: 0 1 calc(50% - 4px);
+          padding: 10px;
         }
-        .time-value {
-          font-size: 1.8em;
+
+        .container {
+          padding: 15px;
         }
       }
     </style>
@@ -249,7 +261,11 @@
       <div class="motivational-quotes">
         <div
           id="quoteTitle"
-          style="font-weight: bold; font-size: 1.1em; margin-bottom: 8px"
+          style="
+            font-weight: bold;
+            font-size: clamp(0.95em, 3vw, 1.1em);
+            margin-bottom: 8px;
+          "
         >
           📍 Week 1: Embrace the Journey
         </div>
@@ -332,7 +348,7 @@
         {
           title: "🎉 Week 6: The Final Days",
           message:
-            "Dec 21-24: Home is calling! These last days will fly by—you’ve got this!",
+            "Dec 21-24: Home is calling! These last days will fly by—you've got this!",
           startDay: 35,
           endDay: 38,
         },
