@@ -186,42 +186,6 @@
         font-size: 1.1em;
       }
 
-      .button-group {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-      }
-
-      button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1em;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-
-      .btn-refresh {
-        background: #667eea;
-        color: white;
-      }
-
-      .btn-refresh:hover {
-        background: #5568d3;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-      }
-
-      .btn-reset {
-        background: #e0e0e0;
-        color: #333;
-      }
-
-      .btn-reset:hover {
-        background: #d0d0d0;
-      }
-
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -233,180 +197,24 @@
         }
       }
 
-      .motivation-icon {
-        font-size: 1.5em;
-        display: inline-block;
-      }
-
       @media (max-width: 768px) {
         .container {
           padding: 20px;
           border-radius: 15px;
         }
-
         .header h1 {
           font-size: 2em;
-          margin-bottom: 8px;
         }
-
-        .header p {
-          font-size: 0.95em;
-        }
-
-        .countdown-display {
-          padding: 20px;
-          margin-bottom: 20px;
-        }
-
-        .countdown-box {
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
         .time-unit {
           flex: 0 1 calc(50% - 4px);
-          padding: 12px;
         }
-
         .time-value {
           font-size: 1.8em;
-        }
-
-        .time-label {
-          font-size: 0.75em;
-        }
-
-        .percentage-text {
-          font-size: 1em;
-        }
-
-        .section-title {
-          font-size: 1em;
-        }
-
-        .progress-bar {
-          height: 22px;
-        }
-
-        .progress-fill {
-          font-size: 0.75em;
-          padding-right: 8px;
-        }
-
-        .motivational-quotes {
-          padding: 16px;
-          font-size: 0.95em;
-          min-height: 70px;
-        }
-
-        .breakdown-item {
-          padding: 10px 0;
-          font-size: 0.95em;
-        }
-
-        .time-breakdown {
-          padding: 16px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        body {
-          padding: 10px;
-        }
-
-        .container {
-          padding: 15px;
-          border-radius: 12px;
-        }
-
-        .header h1 {
-          font-size: 1.5em;
-        }
-
-        .header p {
-          font-size: 0.9em;
-        }
-
-        .countdown-display {
-          padding: 15px;
-          margin-bottom: 15px;
-        }
-
-        .countdown-box {
-          gap: 6px;
-        }
-
-        .time-unit {
-          flex: 0 1 calc(50% - 3px);
-          padding: 10px;
-          border-radius: 8px;
-        }
-
-        .time-value {
-          font-size: 1.5em;
-        }
-
-        .time-label {
-          font-size: 0.7em;
-          margin-top: 4px;
-        }
-
-        .percentage-text {
-          font-size: 0.9em;
-          margin-top: 8px;
-        }
-
-        .section-title {
-          font-size: 0.95em;
-          margin-bottom: 12px;
-        }
-
-        .progress-section {
-          margin-bottom: 20px;
-        }
-
-        .progress-bar {
-          height: 20px;
-          border-radius: 10px;
-        }
-
-        .progress-fill {
-          font-size: 0.7em;
-          padding-right: 6px;
-        }
-
-        .motivational-quotes {
-          padding: 12px;
-          font-size: 0.85em;
-          line-height: 1.4;
-          min-height: 65px;
-          margin-bottom: 20px;
-        }
-
-        .motivation-icon {
-          font-size: 1.2em;
-        }
-
-        .time-breakdown {
-          padding: 12px;
-          margin-bottom: 20px;
-        }
-
-        .breakdown-item {
-          padding: 8px 0;
-          font-size: 0.9em;
-        }
-
-        .breakdown-label {
-          font-size: 0.9em;
-        }
-
-        .breakdown-value {
-          font-size: 1em;
         }
       }
     </style>
   </head>
+
   <body>
     <div class="container">
       <div class="header">
@@ -478,13 +286,13 @@
     </div>
 
     <script>
-      // Start: Sunday, Nov 16, 2025 00:00:00
-      // End: Friday, Dec 26, 2025 00:00:00
-      const targetDate = new Date("2025-12-26T00:00:00").getTime();
+      // Start: Sunday, Nov 16, 2025
+      // New end date: Wednesday, Dec 24, 2025
+      const targetDate = new Date("2025-12-24T00:00:00").getTime();
       const startDate = new Date("2025-11-16T00:00:00").getTime();
       const totalDuration = targetDate - startDate;
 
-      // Weekly messages with correct date ranges
+      // Updated weekly messages (Week 6 now ends on Dec 24)
       const weeklyMessages = [
         {
           title: "📍 Week 1: Embrace the Journey",
@@ -524,9 +332,9 @@
         {
           title: "🎉 Week 6: The Final Days",
           message:
-            "Dec 21-26: Home is calling! These last days will fly by—you've got this!",
+            "Dec 21-24: Home is calling! These last days will fly by—you’ve got this!",
           startDay: 35,
-          endDay: 40,
+          endDay: 38,
         },
       ];
 
@@ -535,7 +343,6 @@
         const elapsedTime = now - startDate;
         const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
 
-        // Find which week based on actual days passed
         const message = weeklyMessages.find(
           (week) => daysPassed >= week.startDay && daysPassed <= week.endDay
         );
@@ -579,33 +386,26 @@
           seconds
         ).padStart(2, "0");
 
-        // Calculate progress percentage
         const elapsedTime = now - startDate;
         const percentage = Math.round((elapsedTime / totalDuration) * 100);
-        document.getElementById("percentage").textContent = Math.min(
-          percentage,
-          100
-        );
-
-        // Update progress bar
-        const progressFill = document.getElementById("overallProgress");
         const progressPercent = Math.min(percentage, 100);
-        progressFill.style.width = progressPercent + "%";
+
+        document.getElementById("percentage").textContent = progressPercent;
+        document.getElementById("overallProgress").style.width =
+          progressPercent + "%";
         document.getElementById("progressText").textContent =
           progressPercent + "%";
 
-        // Calculate days passed and remaining
         const daysPassed = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
         const currentWeek = Math.floor(daysPassed / 7) + 1;
-        const daysRemaining = days;
+
         document.getElementById("weekProgress").textContent = `${Math.min(
           currentWeek,
           6
         )}/6`;
         document.getElementById("daysPassed").textContent = daysPassed;
-        document.getElementById("daysRemaining").textContent = daysRemaining;
+        document.getElementById("daysRemaining").textContent = days;
 
-        // Update weekly message
         const weeklyMsg = getWeeklyMessage();
         document.getElementById("quoteTitle").textContent = weeklyMsg.title;
         document.getElementById("quote").textContent = weeklyMsg.message;
