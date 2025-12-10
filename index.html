@@ -19,6 +19,193 @@
         justify-content: center;
         align-items: center;
         padding: 15px;
+        transition: background 0.8s ease;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body.celebration-mode {
+        background: linear-gradient(
+          135deg,
+          #ff6b6b 0%,
+          #feca57 50%,
+          #48dbfb 100%
+        );
+        animation: celebrationGradient 4s ease infinite;
+      }
+
+      body.final-celebration {
+        background: linear-gradient(
+          135deg,
+          #ff1744 0%,
+          #f50057 25%,
+          #ffd600 50%,
+          #00e676 75%,
+          #00bcd4 100%
+        );
+        animation: rainbowShift 3s ease infinite;
+      }
+
+      @keyframes celebrationGradient {
+        0%,
+        100% {
+          background: linear-gradient(
+            135deg,
+            #ff6b6b 0%,
+            #feca57 50%,
+            #48dbfb 100%
+          );
+        }
+        50% {
+          background: linear-gradient(
+            135deg,
+            #feca57 0%,
+            #48dbfb 50%,
+            #ff6b6b 100%
+          );
+        }
+      }
+
+      @keyframes rainbowShift {
+        0% {
+          background: linear-gradient(
+            135deg,
+            #ff1744 0%,
+            #f50057 25%,
+            #ffd600 50%,
+            #00e676 75%,
+            #00bcd4 100%
+          );
+        }
+        25% {
+          background: linear-gradient(
+            135deg,
+            #f50057 0%,
+            #ffd600 25%,
+            #00e676 50%,
+            #00bcd4 75%,
+            #ff1744 100%
+          );
+        }
+        50% {
+          background: linear-gradient(
+            135deg,
+            #ffd600 0%,
+            #00e676 25%,
+            #00bcd4 50%,
+            #ff1744 75%,
+            #f50057 100%
+          );
+        }
+        75% {
+          background: linear-gradient(
+            135deg,
+            #00e676 0%,
+            #00bcd4 25%,
+            #ff1744 50%,
+            #f50057 75%,
+            #ffd600 100%
+          );
+        }
+        100% {
+          background: linear-gradient(
+            135deg,
+            #ff1744 0%,
+            #f50057 25%,
+            #ffd600 50%,
+            #00e676 75%,
+            #00bcd4 100%
+          );
+        }
+      }
+
+      .confetti {
+        position: fixed;
+        pointer-events: none;
+        width: 10px;
+        height: 10px;
+        background: var(--color);
+        animation: fall 3s linear forwards;
+        z-index: 10;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .celebration-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 50;
+        animation: fadeIn 0.8s ease;
+      }
+
+      .journey-complete {
+        text-align: center;
+        color: white;
+        padding: 20px;
+      }
+
+      .journey-complete h1 {
+        font-size: clamp(2em, 8vw, 4em);
+        font-weight: 900;
+        margin-bottom: 20px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .journey-complete p {
+        font-size: clamp(1.1em, 4vw, 1.8em);
+        margin-bottom: 30px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.8s ease 0.2s both;
+      }
+
+      .route-info {
+        font-size: clamp(1em, 3vw, 1.4em);
+        margin: 20px 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.8s ease 0.4s both;
+      }
+
+      .route-info .route-emoji {
+        font-size: clamp(1.5em, 5vw, 2.2em);
+        margin: 0 10px;
+        display: inline-block;
+      }
+
+      @keyframes popIn {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
 
       .container {
@@ -29,6 +216,15 @@
         padding: 30px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(10px);
+        transition: all 0.8s ease;
+        position: relative;
+        z-index: 1;
+      }
+
+      .container.hide-content {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.9);
       }
 
       .header {
@@ -43,9 +239,47 @@
         animation: fadeIn 1s ease-in;
       }
 
+      .header.day-header h1 {
+        animation: pulse 0.6s ease infinite;
+        color: #ff6b6b;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
       .header p {
         color: #666;
         font-size: clamp(0.9em, 3vw, 1.1em);
+      }
+
+      .day-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-weight: bold;
+        font-size: clamp(0.85em, 2.5vw, 1em);
+        margin-bottom: 10px;
+        animation: slideDown 0.6s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
 
       .countdown-display {
@@ -55,6 +289,12 @@
         padding: clamp(20px, 5vw, 30px);
         margin-bottom: 25px;
         text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .countdown-display.final-push {
+        background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+        animation: pulse 0.8s ease infinite;
       }
 
       .countdown-box {
@@ -69,6 +309,12 @@
         border-radius: 10px;
         padding: clamp(12px, 2vw, 15px);
         backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .countdown-display.final-push .time-unit {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
       }
 
       .time-value {
@@ -76,6 +322,7 @@
         font-weight: bold;
         line-height: 1;
         margin-bottom: 5px;
+        transition: color 0.3s ease;
       }
 
       .time-label {
@@ -129,6 +376,10 @@
         min-width: 30px;
       }
 
+      .progress-fill.final-push {
+        background: linear-gradient(90deg, #ff6b6b 0%, #feca57 100%);
+      }
+
       .motivational-quotes {
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
@@ -144,6 +395,28 @@
         font-size: clamp(0.9em, 3vw, 1.05em);
         line-height: 1.6;
         font-style: italic;
+        transition: all 0.3s ease;
+      }
+
+      .motivational-quotes.final-day {
+        background: linear-gradient(135deg, #ffd700 0%, #ff1744 100%);
+        animation: heartbeat 1s ease infinite;
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.02);
+        }
+        50% {
+          transform: scale(1.04);
+        }
+        75% {
+          transform: scale(1.02);
+        }
       }
 
       .time-breakdown {
@@ -305,6 +578,8 @@
         padding: clamp(20px, 4vw, 25px);
         background: linear-gradient(135deg, #f0f4ff 0%, #f9f7ff 100%);
         border-radius: 12px;
+        flex-wrap: wrap;
+        gap: 20px;
       }
 
       .ticket-detail-item {
@@ -336,6 +611,7 @@
         padding: clamp(18px, 4vw, 24px);
         background: #f8f9ff;
         border-top: 2px dashed #e0e0f0;
+        flex-wrap: wrap;
       }
 
       .ticket-reference {
@@ -411,19 +687,13 @@
           font-size: 0.95em;
         }
 
-        .ticket-content {
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-
-        .ticket-route {
+        .ticket-details {
           flex-direction: column;
-          gap: 10px;
+          gap: 15px;
         }
 
-        .route-arrow {
-          transform: rotate(90deg);
-          margin: 5px 0;
+        .ticket-footer {
+          justify-content: center;
         }
       }
 
@@ -565,13 +835,10 @@
     </div>
 
     <script>
-      // Start: Sunday, Nov 16, 2025
-      // New end date: Wednesday, Dec 24, 2025
-      const targetDate = new Date("2025-12-24T00:00:00").getTime();
+      const targetDate = new Date("2025-12-24T20:10:00").getTime();
       const startDate = new Date("2025-11-16T00:00:00").getTime();
       const totalDuration = targetDate - startDate;
 
-      // Updated weekly messages (Week 6 now ends on Dec 24)
       const weeklyMessages = [
         {
           title: "📍 Week 1: Embrace the Journey",
@@ -629,18 +896,67 @@
         return message || weeklyMessages[weeklyMessages.length - 1];
       }
 
+      function createConfetti() {
+        const colors = [
+          "#ff6b6b",
+          "#feca57",
+          "#48dbfb",
+          "#ff1744",
+          "#ffd600",
+          "#00e676",
+        ];
+        for (let i = 0; i < 30; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.setProperty(
+            "--color",
+            colors[Math.floor(Math.random() * colors.length)]
+          );
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.delay = Math.random() * 0.5 + "s";
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3500);
+        }
+      }
+
+      function showJourneyComplete() {
+        const container = document.querySelector(".container");
+        container.classList.add("hide-content");
+
+        const overlay = document.createElement("div");
+        overlay.className = "celebration-overlay";
+        overlay.innerHTML = `
+          <div class="journey-complete">
+            <h1>🎉 Your Journey Begins! 🎉</h1>
+            <p>The countdown is complete!</p>
+            <div class="route-info">
+              <span>🏙️ Ranchi</span>
+              <span class="route-emoji">✈️</span>
+              <span>🏖️ Bhubaneswar</span>
+            </div>
+            <p style="font-size: clamp(1em, 3vw, 1.3em); margin-top: 30px;">
+              Happy Journey! 🌟<br>
+              <span style="font-size: clamp(0.85em, 2.5vw, 1.05em);">Safe travels and wonderful memories await!</span>
+            </p>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => createConfetti(), i * 300);
+        }
+      }
+
       function updateCountdown() {
         const now = new Date().getTime();
         const timeRemaining = targetDate - now;
 
+        // Journey Complete
         if (timeRemaining < 0) {
-          document.getElementById("days").textContent = "0";
-          document.getElementById("hours").textContent = "0";
-          document.getElementById("minutes").textContent = "0";
-          document.getElementById("seconds").textContent = "0";
-          document.getElementById("percentage").textContent = "100";
-          document.getElementById("quote").textContent =
-            "🎉 Welcome Home! Your journey is complete!";
+          document.body.classList.add("final-celebration");
+          if (!document.querySelector(".celebration-overlay")) {
+            showJourneyComplete();
+          }
           return;
         }
 
@@ -667,7 +983,14 @@
 
         const elapsedTime = now - startDate;
         const percentage = Math.round((elapsedTime / totalDuration) * 100);
-        const progressPercent = Math.min(percentage, 100);
+        // Prevent 100% until countdown reaches zero
+        let progressPercent;
+
+        if (timeRemaining > 0) {
+          progressPercent = Math.min(percentage, 99); // cap at 99%
+        } else {
+          progressPercent = 100; // when countdown ends
+        }
 
         document.getElementById("percentage").textContent = progressPercent;
         document.getElementById("overallProgress").style.width =
@@ -688,6 +1011,47 @@
         const weeklyMsg = getWeeklyMessage();
         document.getElementById("quoteTitle").textContent = weeklyMsg.title;
         document.getElementById("quote").textContent = weeklyMsg.message;
+
+        // Update UI based on days remaining
+        const countdownDisplay = document.querySelector(".countdown-display");
+        const progressFill = document.querySelector(".progress-fill");
+        const header = document.querySelector(".header");
+        const quotes = document.querySelector(".motivational-quotes");
+        const body = document.body;
+
+        // Less than 10 days - Celebration mode
+        if (days < 10 && days > 0) {
+          body.classList.add("celebration-mode");
+          countdownDisplay.classList.add("final-push");
+          progressFill.classList.add("final-push");
+          header.classList.remove("day-header");
+        }
+        // The day itself
+        else if (days === 0) {
+          body.classList.add("celebration-mode");
+          countdownDisplay.classList.add("final-push");
+          progressFill.classList.add("final-push");
+          quotes.classList.add("final-day");
+          header.classList.add("day-header");
+
+          // Show day badge
+          if (!document.querySelector(".day-badge")) {
+            const badge = document.createElement("div");
+            badge.className = "day-badge";
+            badge.textContent = "🎊 TODAY IS THE DAY! 🎊";
+            header.insertBefore(badge, header.firstChild);
+          }
+        }
+        // Normal mode
+        else {
+          body.classList.remove("celebration-mode");
+          countdownDisplay.classList.remove("final-push");
+          progressFill.classList.remove("final-push");
+          header.classList.remove("day-header");
+          quotes.classList.remove("final-day");
+          const badge = document.querySelector(".day-badge");
+          if (badge) badge.remove();
+        }
       }
 
       updateCountdown();
