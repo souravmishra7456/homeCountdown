@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -27,8 +27,9 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Oxygen, Ubuntu, Cantarell, sans-serif;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
         background: var(--bg-primary);
         color: var(--text-primary);
         min-height: 100vh;
@@ -44,7 +45,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(
+        background:
+          radial-gradient(
             circle at 20% 50%,
             rgba(102, 126, 234, 0.1) 0%,
             transparent 50%
@@ -107,7 +109,9 @@
         text-align: center;
         color: white;
         box-shadow: var(--shadow);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
 
@@ -729,7 +733,7 @@
 
     <script>
       const targetDate = new Date("2026-02-27T20:10:00").getTime();
-      const startDate = new Date("2026-01-15T21:00:00").getTime();
+      const startDate = new Date("2026-01-15T00:00:00").getTime();
       const totalDuration = targetDate - startDate;
 
       const messages = [
@@ -828,29 +832,29 @@
 
         const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
-          (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
         const minutes = Math.floor(
-          (remaining % (1000 * 60 * 60)) / (1000 * 60)
+          (remaining % (1000 * 60 * 60)) / (1000 * 60),
         );
         const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
         document.getElementById("days").textContent = days;
         document.getElementById("hours").textContent = String(hours).padStart(
           2,
-          "0"
+          "0",
         );
         document.getElementById("minutes").textContent = String(
-          minutes
+          minutes,
         ).padStart(2, "0");
         document.getElementById("seconds").textContent = String(
-          seconds
+          seconds,
         ).padStart(2, "0");
 
         const elapsed = now - startDate;
         const percent = Math.min(
           Math.round((elapsed / totalDuration) * 100),
-          99
+          99,
         );
         document.getElementById("percentage").textContent = percent;
         document.getElementById("progressFill").style.width = percent + "%";
