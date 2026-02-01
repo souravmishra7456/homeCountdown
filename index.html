@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Countdown to Home</title>
+    <link rel="icon" type="image/svg+xml" href="home-color-icon.svg" />
     <style>
       * {
         margin: 0;
@@ -1012,10 +1013,10 @@
 
         const weeklyMsg = getWeeklyMessage();
         const currentWeek = weeklyMessages.indexOf(weeklyMsg) + 1;
-        document.getElementById("weekProgress").textContent = `${Math.min(
-          currentWeek,
-          6,
-        )}/6`;
+        const totalWeeks = weeklyMessages.length;
+        document.getElementById("weekProgress").textContent =
+          `${currentWeek}/${totalWeeks}`;
+
         document.getElementById("quoteTitle").textContent = weeklyMsg.title;
         document.getElementById("quote").textContent = weeklyMsg.message;
 
