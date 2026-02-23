@@ -1033,10 +1033,24 @@
         document.getElementById("daysRemaining").textContent = days;
 
         const weeklyMsg = getWeeklyMessage();
-        const currentWeek = weeklyMessages.indexOf(weeklyMsg) + 1;
-        const totalWeeks = weeklyMessages.length;
+
+        let currentWeek;
+
+        // Map final 4 days to Week 7
+        if (daysPassed >= 38) {
+          currentWeek = 7;
+        } else {
+          currentWeek = Math.min(
+            7,
+            weeklyMessages.findIndex(
+              (week) =>
+                daysPassed >= week.startDay && daysPassed <= week.endDay,
+            ) + 1,
+          );
+        }
+
         document.getElementById("weekProgress").textContent =
-          `${currentWeek}/${totalWeeks}`;
+          `${currentWeek}/7`;
 
         document.getElementById("quoteTitle").textContent = weeklyMsg.title;
         document.getElementById("quote").textContent = weeklyMsg.message;
