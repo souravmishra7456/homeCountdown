@@ -878,13 +878,12 @@
           <div class="hd-sep"></div>
           <span>9 Mar 2026</span>
         </div>
-        <div class="hd-clock" id="hd-clock">00:00:00</div>
       </header>
 
       <main>
         <div class="stage">
           <div class="stage-bg-num" id="bg-num">0</div>
-          <div class="eyebrow">Days Since Bhubaneswar</div>
+          <div class="eyebrow">Journey Log</div>
           <div class="big-count" id="big-days">0<sup>days</sup></div>
           <div class="count-label">away from home, building something real</div>
           <div class="hms-block">
@@ -1009,17 +1008,67 @@
 
       const LEFT_HOME = new Date("2026-03-09T00:00:00").getTime();
 
-      const QUOTES = [
-        "Distance from home is the price of ambition. Pay it proudly.",
-        "Every day in Ranchi is a day you're building something worth coming home to.",
-        "Home misses you. That feeling means you have something real to return to.",
-        "You're not just away — you're investing. Every hard day earns the next trip back.",
-        "The best part of leaving is knowing you'll return. Hold onto that.",
-        "Ranchi is where you work. Bhubaneswar is where you belong. Both are part of you.",
-        "Missing home isn't weakness — it means home is worth missing.",
-        "The sea is still there. Your people are still there. You'll be back.",
-        "Do the work. Then go home and let it all mean something.",
-        "Every sunrise away from home is one closer to going back.",
+      const DAILY_THOUGHTS = [
+        "Day 1 — The journey started. Leaving home is never easy, but it means you’re chasing something bigger.",
+        "Day 2 — New place, new rhythm. Every unfamiliar moment is part of the story.",
+        "Day 3 — The first few days are always the hardest. Keep steady.",
+        "Day 4 — Growth rarely happens inside comfort zones.",
+        "Day 5 — Every sunrise away from home is proof you’re still moving forward.",
+        "Day 6 — The grind feels real now. That’s where progress begins.",
+        "Day 7 — One week away. You’re stronger than the homesickness.",
+        "Day 8 — The road feels longer when you look back at home.",
+        "Day 9 — Keep building quietly. Results speak later.",
+        "Day 10 — Double digits. Ten days of commitment.",
+        "Day 11 — Some days feel heavy, but every day counts.",
+        "Day 12 — Being away teaches you what truly matters.",
+        "Day 13 — Routine forms slowly. Stay patient.",
+        "Day 14 — Two weeks away. Discipline is showing.",
+        "Day 15 — Hard work today becomes freedom tomorrow.",
+        "Day 16 — The days stack up faster than you think.",
+        "Day 17 — Distance teaches appreciation.",
+        "Day 18 — The grind continues. Stay focused.",
+        "Day 19 — Strength is built quietly, day by day.",
+        "Day 20 — Twenty days away from home. Respect the journey.",
+        "Day 21 — Three weeks strong. You're built for this.",
+        "Day 22 — You’re proving something to yourself.",
+        "Day 23 — Even slow progress is still progress.",
+        "Day 24 — The road forward is made of small steps.",
+        "Day 25 — Keep going. The effort matters.",
+        "Day 26 — Every day away sharpens your resilience.",
+        "Day 27 — The journey changes you before you notice.",
+        "Day 28 — Four weeks nearly done. Hold steady.",
+        "Day 29 — One more day to a full month away.",
+        "Day 30 — One month away. That takes real dedication.",
+        "Day 31 — The second month begins. Stay steady.",
+        "Day 32 — You're learning patience with every sunrise.",
+        "Day 33 — Not every day feels productive, but they still matter.",
+        "Day 34 — Keep showing up. That’s half the battle.",
+        "Day 35 — Progress hides in ordinary days.",
+        "Day 36 — Even small steps move you forward.",
+        "Day 37 — Distance from home builds perspective.",
+        "Day 38 — You're becoming tougher than you were before.",
+        "Day 39 — Keep doing the work others won’t.",
+        "Day 40 — Forty days away. That’s serious endurance.",
+        "Day 41 — The grind is shaping something real.",
+        "Day 42 — Stay patient. Long journeys take time.",
+        "Day 43 — Strength grows quietly.",
+        "Day 44 — The days away build the life ahead.",
+        "Day 45 — Three quarters of sixty. You're holding the line.",
+        "Day 46 — Keep your purpose close.",
+        "Day 47 — Home is still there, waiting.",
+        "Day 48 — The journey is making you stronger.",
+        "Day 49 — You're closer to the next chapter.",
+        "Day 50 — Fifty days away. Respect the discipline.",
+        "Day 51 — Every effort compounds.",
+        "Day 52 — Stay steady through the ordinary days.",
+        "Day 53 — You've come further than you realize.",
+        "Day 54 — The hardest journeys shape the strongest people.",
+        "Day 55 — Keep the vision clear.",
+        "Day 56 — You're almost at the sixty-day mark.",
+        "Day 57 — The finish line of this stretch is close.",
+        "Day 58 — Two more days to the milestone.",
+        "Day 59 — One day before sixty. Hold the line.",
+        "Day 60 — Sixty days away. Iron will. You did it.",
       ];
 
       const MILESTONES = [
@@ -1067,17 +1116,6 @@
         },
       ];
 
-      let qi = 0;
-      const qEl = document.getElementById("q-text");
-      qEl.textContent = QUOTES[qi++];
-      setInterval(() => {
-        qEl.classList.add("fade");
-        setTimeout(() => {
-          qEl.textContent = QUOTES[qi++ % QUOTES.length];
-          qEl.classList.remove("fade");
-        }, 500);
-      }, 9000);
-
       function buildMs(days) {
         const el = document.getElementById("ms-list");
         el.innerHTML = "";
@@ -1102,9 +1140,6 @@
       let lastSec = -1;
 
       function tick() {
-        const now = new Date();
-        document.getElementById("hd-clock").textContent =
-          `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
         const diff = Date.now() - LEFT_HOME;
         const ts = Math.floor(diff / 1000);
         const s = ts % 60;
@@ -1113,6 +1148,11 @@
         const m = Math.floor(ts / 60) % 60;
         const h = Math.floor(ts / 3600) % 24;
         const days = Math.floor(ts / 86400);
+
+        const thoughtIndex = Math.min(days, DAILY_THOUGHTS.length - 1);
+        document.getElementById("q-text").textContent =
+          DAILY_THOUGHTS[thoughtIndex];
+
         document.getElementById("big-days").innerHTML =
           `${days}<sup>days</sup>`;
         document.getElementById("bg-num").textContent = days;
