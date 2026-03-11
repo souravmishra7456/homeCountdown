@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Away · BBS→RNC</title>
+    <title>Homecoming · RNC→BBS</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -18,102 +18,118 @@
       }
 
       :root {
-        --ink: #0a0f1e;
-        --ink2: #0d1428;
-        --cream: #f5f0e8;
-        --cream2: #e8e0d0;
-        --cream3: #c8bfad;
-        --steel: #8090b0;
-        --steel2: #506080;
+        --bg: #06080f;
+        --bg2: #0b0e1a;
+        --bg3: #111526;
+        --paper: #f2ead8;
+        --paper2: #d9cdb8;
+        --paper3: #a89f8e;
+        --ember: #e8602a;
+        --ember2: #f5874a;
+        --teal: #2ec4b6;
+        --teal2: #5ee0d4;
         --gold: #c8963c;
-        --gold2: #f0b84a;
-        --red: #d94040;
-        --green: #3aaa6a;
-        --scan: rgba(255, 255, 255, 0.025);
+        --gold2: #f0c060;
+        --muted: rgba(242, 234, 216, 0.18);
+        --line: rgba(242, 234, 216, 0.07);
       }
 
       html,
       body {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--paper);
+        font-family: "DM Mono", monospace;
+        overflow-x: hidden;
       }
 
-      body {
-        background: var(--ink);
-        color: var(--cream);
-        font-family: "Space Mono", monospace;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-      }
-
+      /* ─── NOISE OVERLAY ─── */
       body::before {
         content: "";
         position: fixed;
         inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          var(--scan) 2px,
-          var(--scan) 4px
-        );
+        z-index: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        background-size: 200px;
         pointer-events: none;
-        z-index: 999;
+        opacity: 0.6;
       }
 
-      canvas#stars {
+      /* ─── AURORA BG ─── */
+      .aurora {
         position: fixed;
         inset: 0;
         z-index: 0;
         pointer-events: none;
-        opacity: 0.5;
+        overflow: hidden;
       }
-
-      .horizon {
-        position: fixed;
-        bottom: -200px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 140vw;
+      .aurora span {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.07;
+        animation: drift 18s ease-in-out infinite alternate;
+      }
+      .aurora span:nth-child(1) {
+        width: 800px;
         height: 500px;
-        background: radial-gradient(
-          ellipse at 50% 100%,
-          rgba(20, 40, 100, 0.7) 0%,
-          rgba(10, 15, 30, 0.4) 40%,
-          transparent 70%
-        );
-        pointer-events: none;
-        z-index: 1;
+        top: -100px;
+        left: -200px;
+        background: var(--teal);
+        animation-duration: 20s;
+      }
+      .aurora span:nth-child(2) {
+        width: 600px;
+        height: 600px;
+        bottom: -200px;
+        right: -100px;
+        background: var(--ember);
+        animation-duration: 25s;
+        animation-delay: -8s;
+      }
+      .aurora span:nth-child(3) {
+        width: 400px;
+        height: 400px;
+        top: 40%;
+        left: 30%;
+        background: var(--gold);
+        animation-duration: 30s;
+        animation-delay: -4s;
+        opacity: 0.04;
+      }
+      @keyframes drift {
+        from {
+          transform: translate(0, 0) scale(1);
+        }
+        to {
+          transform: translate(60px, 40px) scale(1.15);
+        }
       }
 
+      /* ─── LAYOUT ─── */
       .shell {
         position: relative;
         z-index: 10;
         display: grid;
         grid-template-rows: auto 1fr auto;
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
       }
 
-      /* HEADER */
+      /* ─── HEADER ─── */
       header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 18px 48px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        background: rgba(10, 15, 30, 0.6);
-        backdrop-filter: blur(12px);
-        animation: fadeDown 0.8s ease both;
-        flex-shrink: 0;
+        padding: 22px 52px;
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(20px);
+        background: rgba(6, 8, 15, 0.5);
+        animation: slideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
-      @keyframes fadeDown {
+      @keyframes slideDown {
         from {
           opacity: 0;
-          transform: translateY(-16px);
+          transform: translateY(-24px);
         }
         to {
           opacity: 1;
@@ -121,360 +137,525 @@
         }
       }
 
-      .hd-brand {
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .brand-name {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 1.35rem;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        color: var(--paper);
+      }
+      .brand-sub {
+        font-size: 0.45rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--paper3);
+      }
+
+      .hd-mid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .route-pill {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 10px;
+        padding: 7px 18px;
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.03);
       }
-      .hd-dot {
-        width: 8px;
-        height: 8px;
+      .rp-code {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .rp-code.from {
+        color: var(--ember2);
+      }
+      .rp-code.to {
+        color: var(--teal2);
+      }
+      .rp-arrow {
+        color: var(--paper3);
+        font-size: 0.8rem;
+        letter-spacing: -0.1em;
+      }
+      .hd-date {
+        font-size: 0.44rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--paper3);
+      }
+
+      .hd-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+      }
+      .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 0.44rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+      .live-dot {
+        width: 6px;
+        height: 6px;
         border-radius: 50%;
-        background: var(--red);
-        box-shadow: 0 0 10px var(--red);
-        animation: pulse 2s ease infinite;
+        background: var(--teal);
+        box-shadow: 0 0 8px var(--teal);
+        animation: throb 2s ease infinite;
       }
-      @keyframes pulse {
+      @keyframes throb {
         0%,
         100% {
-          box-shadow: 0 0 6px var(--red);
+          box-shadow: 0 0 6px var(--teal);
         }
         50% {
           box-shadow:
-            0 0 18px var(--red),
-            0 0 30px rgba(217, 64, 64, 0.4);
+            0 0 18px var(--teal),
+            0 0 32px rgba(46, 196, 182, 0.4);
         }
       }
-
-      .hd-title {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 1.3rem;
-        letter-spacing: 0.15em;
-        color: var(--cream);
-      }
-      .hd-sub {
-        font-size: 0.5rem;
-        color: var(--steel);
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        margin-top: 1px;
-      }
-      .hd-center {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.58rem;
-        letter-spacing: 0.18em;
-        color: var(--steel);
-        text-transform: uppercase;
-      }
-      .hd-sep {
-        width: 1px;
-        height: 16px;
-        background: rgba(255, 255, 255, 0.1);
-      }
       .hd-clock {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 1.4rem;
-        letter-spacing: 0.1em;
-        color: var(--gold2);
-        min-width: 90px;
-        text-align: right;
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--paper);
+        letter-spacing: 0.06em;
+        font-variant-numeric: tabular-nums;
       }
 
-      /* MAIN */
+      /* ─── MAIN ─── */
       main {
         display: grid;
-        grid-template-columns: 1fr 400px;
+        grid-template-columns: 1fr 380px;
         min-height: 0;
-        overflow: hidden;
       }
 
-      /* LEFT */
+      /* ─── STAGE (LEFT) ─── */
       .stage {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
-        padding: 0 64px;
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 52px 72px;
+        border-right: 1px solid var(--line);
         position: relative;
         overflow: hidden;
       }
 
-      .stage-bg-num {
+      /* big ghost text */
+      .ghost-text {
         position: absolute;
-        right: -40px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(24rem, 38vw, 44rem);
-        color: rgba(255, 255, 255, 0.016);
-        line-height: 1;
+        right: -60px;
+        bottom: -60px;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(16rem, 28vw, 30rem);
+        font-weight: 900;
+        font-style: italic;
+        line-height: 0.8;
+        color: rgba(242, 234, 216, 0.018);
         pointer-events: none;
         user-select: none;
         white-space: nowrap;
+        letter-spacing: -0.05em;
       }
 
       .eyebrow {
-        font-size: 0.55rem;
-        color: var(--gold);
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        animation: fadeUp 0.7s ease 0.1s both;
+        gap: 14px;
+        font-size: 0.5rem;
+        letter-spacing: 0.38em;
+        text-transform: uppercase;
+        color: var(--ember);
+        margin-bottom: 28px;
+        animation: riseUp 0.7s ease 0.1s both;
       }
-      .eyebrow::before {
-        content: "";
-        display: inline-block;
-        width: 32px;
+      .eyebrow-line {
+        width: 40px;
         height: 1px;
-        background: var(--gold);
+        background: var(--ember);
         opacity: 0.6;
       }
 
-      .big-count {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(10rem, 20vw, 19rem);
-        line-height: 0.85;
-        color: var(--cream);
-        letter-spacing: -0.02em;
-        animation: fadeUp 0.7s ease 0.15s both;
-        position: relative;
-      }
-      .big-count sup {
-        font-family: "Libre Baskerville", serif;
+      .hero-label {
+        font-family: "Cormorant Garamond", serif;
         font-style: italic;
-        font-size: 0.13em;
-        color: var(--steel);
-        vertical-align: super;
-        letter-spacing: 0.06em;
-        font-weight: 400;
-        margin-left: 6px;
-      }
-
-      .count-label {
-        font-family: "Libre Baskerville", serif;
-        font-style: italic;
-        font-size: clamp(0.85rem, 1.8vw, 1.2rem);
-        color: var(--steel);
-        margin-top: 10px;
+        font-size: clamp(1rem, 2.2vw, 1.4rem);
+        font-weight: 300;
+        color: var(--paper3);
+        margin-bottom: 10px;
+        animation: riseUp 0.7s ease 0.15s both;
         letter-spacing: 0.04em;
-        animation: fadeUp 0.7s ease 0.2s both;
       }
 
-      .hms-block {
+      /* ─── MAIN COUNTDOWN ─── */
+      .countdown-row {
         display: flex;
+        align-items: baseline;
         gap: 0;
-        margin-top: 40px;
-        animation: fadeUp 0.7s ease 0.25s both;
+        animation: riseUp 0.7s ease 0.2s both;
+        flex-wrap: wrap;
+        margin-bottom: 0;
       }
-      .hms-unit {
+      .cd-block {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0 24px;
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0 28px;
+        border-right: 1px solid var(--line);
       }
-      .hms-unit:first-child {
+      .cd-block:first-child {
         padding-left: 0;
       }
-      .hms-unit:last-child {
+      .cd-block:last-child {
         border-right: none;
       }
-      .hms-n {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: clamp(2.5rem, 4.5vw, 3.8rem);
+      .cd-num {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(5rem, 11vw, 10rem);
+        font-weight: 900;
         line-height: 1;
-        color: var(--gold2);
+        color: var(--paper);
         font-variant-numeric: tabular-nums;
-        letter-spacing: 0.05em;
+        letter-spacing: -0.02em;
+        transition: color 0.3s;
       }
-      .hms-l {
+      .cd-num.highlight {
+        color: var(--teal2);
+      }
+      .cd-label {
         font-size: 0.42rem;
-        color: var(--steel2);
-        letter-spacing: 0.25em;
+        letter-spacing: 0.3em;
         text-transform: uppercase;
-        margin-top: 4px;
+        color: var(--paper3);
+        margin-top: 6px;
       }
 
-      .prog-wrap {
+      .cd-block.secs .cd-num {
+        color: var(--ember2);
+      }
+
+      /* ─── MOBILE 2×2 GRID ─── */
+      @media (max-width: 640px) {
+        .countdown-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0;
+          width: 100%;
+          justify-items: center;
+        }
+        .cd-block {
+          width: 100%;
+          padding: 18px 0 14px;
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+          align-items: center;
+        }
+        /* top-right cell gets a left border */
+        .cd-block:nth-child(2) {
+          border-left: 1px solid var(--line);
+        }
+        /* bottom-right cell gets a left border */
+        .cd-block:nth-child(4) {
+          border-left: 1px solid var(--line);
+        }
+        /* bottom row: no bottom border */
+        .cd-block:nth-child(3),
+        .cd-block:nth-child(4) {
+          border-bottom: none;
+        }
+        /* top row: first child reset */
+        .cd-block:first-child {
+          padding-left: 0;
+        }
+        .cd-num {
+          font-size: clamp(3.8rem, 20vw, 5.5rem);
+        }
+      }
+
+      /* ─── PROGRESS STATS ─── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px;
         margin-top: 44px;
-        width: 100%;
-        max-width: 520px;
-        animation: fadeUp 0.7s ease 0.3s both;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        animation: riseUp 0.7s ease 0.3s both;
+        background: var(--line);
       }
-      .prog-meta {
+      .stat-box {
+        background: rgba(11, 14, 26, 0.8);
+        padding: 22px 24px;
         display: flex;
-        justify-content: space-between;
-        font-size: 0.5rem;
-        color: var(--steel2);
-        letter-spacing: 0.12em;
-        margin-bottom: 10px;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+        transition: background 0.3s;
+      }
+      .stat-box:hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .stat-box-label {
+        font-size: 0.42rem;
+        letter-spacing: 0.28em;
         text-transform: uppercase;
+        color: var(--paper3);
       }
-      .prog-pct {
-        color: var(--gold2);
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 0.95rem;
-        letter-spacing: 0.1em;
+      .stat-box-val {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--paper);
       }
-      .prog-track {
+      .stat-box-val span {
+        font-size: 0.9rem;
+        color: var(--paper3);
+        font-family: "DM Mono", monospace;
+        font-weight: 300;
+      }
+      .stat-box-sub {
+        font-size: 0.42rem;
+        color: var(--paper3);
+        letter-spacing: 0.05em;
+      }
+
+      /* Progress bar inside stat */
+      .mini-prog {
+        margin-top: 8px;
         height: 2px;
         background: rgba(255, 255, 255, 0.08);
         border-radius: 2px;
-        overflow: visible;
       }
-      .prog-fill {
+      .mini-prog-fill {
         height: 100%;
-        background: linear-gradient(
-          90deg,
-          rgba(200, 150, 60, 0.3),
-          var(--gold),
-          var(--gold2)
-        );
         border-radius: 2px;
-        transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-      }
-      .prog-fill::after {
-        content: "";
-        position: absolute;
-        right: -4px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 8px;
-        height: 8px;
-        background: var(--gold2);
-        border-radius: 50%;
-        box-shadow:
-          0 0 12px var(--gold),
-          0 0 24px rgba(200, 150, 60, 0.5);
+        transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* RIGHT */
+      /* ─── WEEK PROGRESS ─── */
+      .week-section {
+        margin-top: 36px;
+        animation: riseUp 0.7s ease 0.35s both;
+      }
+      .week-label {
+        font-size: 0.45rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--paper3);
+        margin-bottom: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .week-label span {
+        color: var(--gold2);
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .week-dots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .wd {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s;
+        cursor: default;
+        position: relative;
+      }
+      .wd.passed {
+        background: var(--ember);
+        border-color: var(--ember);
+        box-shadow: 0 0 8px rgba(232, 96, 42, 0.4);
+      }
+      .wd.current {
+        background: var(--teal);
+        border-color: var(--teal);
+        box-shadow: 0 0 12px rgba(46, 196, 182, 0.5);
+        animation: throb2 2s infinite;
+      }
+      @keyframes throb2 {
+        0%,
+        100% {
+          box-shadow: 0 0 8px rgba(46, 196, 182, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(46, 196, 182, 0.7);
+        }
+      }
+
+      @keyframes riseUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ─── SIDEBAR (RIGHT) ─── */
       .sidebar {
         display: flex;
         flex-direction: column;
+        background: var(--bg2);
         overflow: hidden;
-        background: var(--ink2);
       }
 
-      .route-card {
-        padding: 28px 28px 22px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      /* Destination card */
+      .dest-card {
+        padding: 32px 28px 26px;
+        border-bottom: 1px solid var(--line);
         background: linear-gradient(
           135deg,
-          rgba(20, 30, 60, 0.8),
-          rgba(10, 15, 30, 0.4)
+          rgba(46, 196, 182, 0.07),
+          rgba(6, 8, 15, 0.3)
         );
         flex-shrink: 0;
-        animation: fadeLeft 0.7s ease 0.2s both;
+        animation: slideLeft 0.7s ease 0.2s both;
+        position: relative;
+        overflow: hidden;
       }
-      .rc-label {
-        font-size: 0.48rem;
-        color: var(--steel2);
-        letter-spacing: 0.3em;
+      .dest-card::before {
+        content: "BBS";
+        position: absolute;
+        right: -20px;
+        bottom: -30px;
+        font-family: "Playfair Display", serif;
+        font-size: 8rem;
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(46, 196, 182, 0.04);
+        pointer-events: none;
+        user-select: none;
+        line-height: 1;
+      }
+      .dc-label {
+        font-size: 0.45rem;
+        letter-spacing: 0.32em;
         text-transform: uppercase;
-        margin-bottom: 16px;
+        color: var(--paper3);
+        margin-bottom: 18px;
       }
-      .rc-route {
+      .dc-city {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 900;
+        color: var(--teal2);
+        letter-spacing: 0.06em;
+        line-height: 1;
+      }
+      .dc-fullname {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.1rem;
+        color: var(--paper3);
+        margin-top: 4px;
+      }
+      .dc-date-row {
         display: flex;
         align-items: center;
         gap: 10px;
-      }
-      .rc-city {
-        flex: 1;
-      }
-      .rc-code {
-        font-family: "Bebas Neue", sans-serif;
-        font-size: 3rem;
-        line-height: 1;
-        letter-spacing: 0.04em;
-      }
-      .rc-code.from {
-        color: var(--green);
-      }
-      .rc-code.to {
-        color: var(--gold2);
-        text-align: right;
-      }
-      .rc-name {
-        font-size: 0.46rem;
-        color: var(--steel2);
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        font-size: 0.48rem;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        margin-top: 3px;
-      }
-      .rc-name.to {
-        text-align: right;
-      }
-      .rc-arrow {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        flex: 0 0 auto;
-        padding: 0 4px;
-      }
-      .rc-line {
-        width: 48px;
-        height: 1px;
-        background: linear-gradient(90deg, var(--green), var(--gold2));
-      }
-      .rc-chevron {
-        font-size: 0.8rem;
-        color: var(--gold);
-        letter-spacing: -0.2em;
-      }
-      .rc-date {
-        margin-top: 12px;
-        font-size: 0.5rem;
-        color: var(--steel);
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .status-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--red);
-        box-shadow: 0 0 8px var(--red);
-        animation: pulse 2s ease infinite;
-        flex-shrink: 0;
+        color: var(--teal);
       }
 
+      /* Quote section */
+      .quote-section {
+        padding: 24px 28px;
+        border-bottom: 1px solid var(--line);
+        flex-shrink: 0;
+        animation: slideLeft 0.7s ease 0.3s both;
+      }
+      .qs-label {
+        font-size: 0.45rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--paper3);
+        margin-bottom: 12px;
+      }
+      .qs-week-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border: 1px solid rgba(240, 192, 96, 0.3);
+        border-radius: 100px;
+        background: rgba(240, 192, 96, 0.06);
+        font-size: 0.42rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold2);
+        margin-bottom: 12px;
+      }
+      .qs-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--paper2);
+        line-height: 1.9;
+        letter-spacing: 0.01em;
+        transition: opacity 0.5s;
+      }
+      .qs-text.fade {
+        opacity: 0;
+      }
+
+      /* Milestones */
       .ms-section {
         flex: 1;
         padding: 22px 28px;
         overflow-y: auto;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        animation: fadeLeft 0.7s ease 0.3s both;
+        animation: slideLeft 0.7s ease 0.4s both;
       }
       .ms-section::-webkit-scrollbar {
         width: 2px;
       }
       .ms-section::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.08);
       }
-      .sec-label {
-        font-size: 0.48rem;
-        color: var(--steel2);
+      .ms-label {
+        font-size: 0.45rem;
         letter-spacing: 0.3em;
         text-transform: uppercase;
-        margin-bottom: 14px;
+        color: var(--paper3);
+        margin-bottom: 16px;
       }
+
       .ms-item {
         display: flex;
         align-items: center;
-        gap: 11px;
-        padding: 8px 0;
+        gap: 12px;
+        padding: 10px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         transition: all 0.3s;
       }
@@ -482,142 +663,66 @@
         border-bottom: none;
       }
       .ms-ic {
-        width: 28px;
-        height: 28px;
-        border-radius: 6px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.82rem;
+        font-size: 0.95rem;
         flex-shrink: 0;
         background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.07);
         transition: all 0.3s;
       }
-      .ms-item.done .ms-ic {
-        background: rgba(200, 150, 60, 0.1);
-        border-color: rgba(200, 150, 60, 0.3);
+      .ms-item.passed .ms-ic {
+        background: rgba(232, 96, 42, 0.12);
+        border-color: rgba(232, 96, 42, 0.3);
       }
-      .ms-item.next .ms-ic {
-        border-style: dashed;
-        border-color: rgba(255, 255, 255, 0.15);
+      .ms-item.current .ms-ic {
+        background: rgba(46, 196, 182, 0.12);
+        border-color: rgba(46, 196, 182, 0.4);
+        box-shadow: 0 0 12px rgba(46, 196, 182, 0.2);
       }
       .ms-body {
         flex: 1;
       }
       .ms-title {
         font-size: 0.6rem;
-        color: rgba(255, 255, 255, 0.3);
-        transition: color 0.3s;
         letter-spacing: 0.03em;
+        color: rgba(255, 255, 255, 0.25);
+        transition: color 0.3s;
       }
-      .ms-item.done .ms-title {
-        color: var(--cream2);
+      .ms-item.passed .ms-title {
+        color: var(--paper2);
       }
-      .ms-item.next .ms-title {
-        color: var(--steel);
+      .ms-item.current .ms-title {
+        color: var(--teal2);
       }
       .ms-sub {
-        font-size: 0.45rem;
-        color: rgba(255, 255, 255, 0.18);
+        font-size: 0.44rem;
+        color: rgba(255, 255, 255, 0.15);
         margin-top: 2px;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.02em;
       }
       .ms-tag {
-        font-size: 0.44rem;
-        letter-spacing: 0.1em;
-        color: rgba(255, 255, 255, 0.18);
+        font-size: 0.42rem;
         white-space: nowrap;
       }
-      .ms-item.done .ms-tag {
-        color: var(--gold);
-        opacity: 0.7;
+      .ms-item.passed .ms-tag {
+        color: var(--ember2);
+      }
+      .ms-item.current .ms-tag {
+        color: var(--teal);
+      }
+      .ms-tag:not(.ms-item .ms-tag) {
+        color: rgba(255, 255, 255, 0.15);
       }
 
-      .quote-section {
-        padding: 18px 28px 22px;
-        flex-shrink: 0;
-        animation: fadeLeft 0.7s ease 0.4s both;
-      }
-      .qs-label {
-        font-size: 0.48rem;
-        color: var(--steel2);
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-      }
-      .qs-text {
-        font-family: "Libre Baskerville", serif;
-        font-style: italic;
-        font-size: 0.78rem;
-        color: var(--steel);
-        line-height: 1.85;
-        transition: opacity 0.5s ease;
-        letter-spacing: 0.01em;
-      }
-      .qs-text.fade {
-        opacity: 0;
-      }
-
-      /* FOOTER */
-      footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 13px 48px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        background: rgba(10, 15, 30, 0.7);
-        backdrop-filter: blur(12px);
-        animation: fadeUp 0.8s ease 0.5s both;
-        flex-shrink: 0;
-      }
-      .ft-left {
-        font-family: "Libre Baskerville", serif;
-        font-style: italic;
-        font-size: 0.7rem;
-        color: var(--steel2);
-        letter-spacing: 0.03em;
-      }
-      .ft-left em {
-        color: var(--gold);
-        font-style: normal;
-      }
-      .ft-right {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-size: 0.48rem;
-        color: var(--steel2);
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-      }
-      .ft-badge {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(217, 64, 64, 0.08);
-        border: 1px solid rgba(217, 64, 64, 0.2);
-        border-radius: 4px;
-        padding: 5px 11px;
-        color: var(--red);
-        font-size: 0.46rem;
-        letter-spacing: 0.15em;
-      }
-
-      @keyframes fadeUp {
+      @keyframes slideLeft {
         from {
           opacity: 0;
-          transform: translateY(18px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeLeft {
-        from {
-          opacity: 0;
-          transform: translateX(16px);
+          transform: translateX(20px);
         }
         to {
           opacity: 1;
@@ -625,70 +730,79 @@
         }
       }
 
-      /* ── TABLET ── */
-      @media (max-width: 900px) {
-        html,
-        body {
-          overflow: auto;
-          height: auto;
+      /* ─── FOOTER ─── */
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 52px;
+        border-top: 1px solid var(--line);
+        backdrop-filter: blur(16px);
+        background: rgba(6, 8, 15, 0.6);
+        animation: slideUp 0.9s ease 0.5s both;
+        flex-shrink: 0;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
         }
-
-        .shell {
-          grid-template-rows: auto auto auto;
-          height: auto;
-          min-height: 100vh;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
+      .ft-left {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 0.82rem;
+        color: var(--paper3);
+        letter-spacing: 0.02em;
+      }
+      .ft-left em {
+        color: var(--teal2);
+        font-style: normal;
+      }
+      .ft-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 0.44rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--paper3);
+      }
+      .ft-dest {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 5px 14px;
+        border: 1px solid rgba(46, 196, 182, 0.25);
+        border-radius: 5px;
+        background: rgba(46, 196, 182, 0.06);
+        color: var(--teal2);
+        font-size: 0.44rem;
+        letter-spacing: 0.15em;
+      }
 
+      /* ─── RESPONSIVE ─── */
+      @media (max-width: 960px) {
         main {
           grid-template-columns: 1fr;
-          overflow: visible;
         }
-
         .stage {
-          padding: 36px 28px 32px;
+          padding: 40px 32px;
           border-right: none;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-          align-items: center;
-          text-align: center;
+          border-bottom: 1px solid var(--line);
         }
-
-        .eyebrow {
-          justify-content: center;
-        }
-        .stage-bg-num {
-          display: none;
-        }
-
-        .big-count {
-          font-size: clamp(7rem, 26vw, 11rem);
-        }
-
-        .hms-block {
-          justify-content: center;
-        }
-        .hms-unit:first-child {
-          padding-left: 24px;
-        }
-
-        .prog-wrap {
-          max-width: 100%;
-        }
-
         .sidebar {
           max-height: none;
-          border-top: none;
         }
-        .ms-section {
-          flex: none;
-          overflow-y: visible;
-          max-height: none;
+        header {
+          padding: 18px 24px;
         }
-
-        header,
         footer {
           padding: 14px 24px;
-        }
-        footer {
           flex-direction: column;
           gap: 10px;
           text-align: center;
@@ -697,475 +811,476 @@
           justify-content: center;
         }
       }
-
-      /* ── MOBILE ── */
-      @media (max-width: 600px) {
-        html,
-        body {
-          overflow: auto;
-          height: auto;
-        }
-
-        .shell {
-          height: auto;
-        }
-
+      @media (max-width: 640px) {
         header {
-          padding: 12px 16px;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 10px;
+          padding: 14px 16px;
         }
-        .hd-center {
+        .hd-mid {
           display: none;
         }
-        .hd-clock {
-          font-size: 1.1rem;
-          min-width: auto;
-        }
-        .hd-title {
-          font-size: 1.1rem;
-        }
-        .hd-sub {
-          font-size: 0.44rem;
-        }
-
-        main {
-          grid-template-columns: 1fr;
-        }
-
         .stage {
-          padding: 28px 20px 28px;
+          padding: 28px 20px;
           align-items: center;
           text-align: center;
         }
-
         .eyebrow {
-          font-size: 0.48rem;
-          letter-spacing: 0.22em;
-          justify-content: center;
-          margin-bottom: 14px;
-        }
-        .eyebrow::before {
-          width: 20px;
-        }
-
-        .big-count {
-          font-size: clamp(6.5rem, 36vw, 9rem);
-          line-height: 0.88;
-        }
-        .big-count sup {
-          font-size: 0.15em;
-        }
-
-        .count-label {
-          font-size: 0.82rem;
-          margin-top: 8px;
-        }
-
-        .hms-block {
-          margin-top: 28px;
           justify-content: center;
         }
-        .hms-unit {
-          padding: 0 12px;
-        }
-        .hms-unit:first-child {
-          padding-left: 12px;
-        }
-        .hms-n {
-          font-size: 2rem;
-        }
-        .hms-l {
-          font-size: 0.38rem;
-        }
-
-        .prog-wrap {
-          margin-top: 28px;
-          max-width: 100%;
-        }
-        .prog-meta {
-          font-size: 0.44rem;
-        }
-
-        /* sidebar stacks cleanly */
-        .sidebar {
-          background: var(--ink2);
-        }
-
-        .route-card {
-          padding: 20px 20px 18px;
-        }
-        .rc-label {
-          font-size: 0.44rem;
-          margin-bottom: 14px;
-        }
-        .rc-code {
-          font-size: 2.4rem;
-        }
-        .rc-name {
-          font-size: 0.42rem;
-        }
-        .rc-line {
-          width: 36px;
-        }
-        .rc-date {
-          font-size: 0.44rem;
-        }
-
-        .ms-section {
-          padding: 20px 20px;
-          overflow-y: visible;
-          max-height: none;
-        }
-        .sec-label {
-          font-size: 0.44rem;
-          margin-bottom: 12px;
-        }
-        .ms-title {
-          font-size: 0.58rem;
-        }
-        .ms-sub {
-          font-size: 0.42rem;
-        }
-        .ms-tag {
-          font-size: 0.4rem;
-        }
-
-        .quote-section {
-          padding: 16px 20px 20px;
-        }
-        .qs-label {
-          font-size: 0.44rem;
-        }
-        .qs-text {
-          font-size: 0.76rem;
-          line-height: 1.75;
-        }
-
-        footer {
-          padding: 14px 16px;
-          flex-direction: column;
-          gap: 10px;
+        .hero-label {
           text-align: center;
         }
-        .ft-left {
-          font-size: 0.64rem;
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
         }
-        .ft-right {
+        .stats-grid .stat-box:last-child {
+          grid-column: 1/-1;
+        }
+        .week-section {
+          width: 100%;
+        }
+        .week-dots {
           justify-content: center;
-          font-size: 0.44rem;
+        }
+        footer {
+          padding: 14px 16px;
+        }
+        .dest-card,
+        .ms-section,
+        .quote-section {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .prog-wrap {
+          max-width: 100%;
         }
       }
     </style>
   </head>
   <body>
-    <canvas id="stars"></canvas>
-    <div class="horizon"></div>
+    <div class="aurora"><span></span><span></span><span></span></div>
 
     <div class="shell">
+      <!-- HEADER -->
       <header>
-        <div class="hd-brand">
-          <div class="hd-dot"></div>
-          <div>
-            <div class="hd-title">Away From Home</div>
-            <div class="hd-sub">Personal · Live · Ranchi</div>
-          </div>
+        <div class="brand">
+          <div class="brand-name">Homecoming</div>
+          <div class="brand-sub">Personal · Live · Ranchi → Bhubaneswar</div>
         </div>
-        <div class="hd-center">
-          <span>BBS</span>
-          <div class="hd-sep"></div>
-          <span>Bhubaneswar</span>
-          <div class="hd-sep"></div>
-          <span>9 Mar 2026</span>
+        <div class="hd-mid">
+          <div class="route-pill">
+            <span class="rp-code from">RNC</span>
+            <span class="rp-arrow">——›</span>
+            <span class="rp-code to">BBS</span>
+          </div>
+          <div class="hd-date">22 May 2026 · Target Date</div>
+        </div>
+        <div class="hd-right">
+          <div class="live-badge">
+            <div class="live-dot"></div>
+            Live Countdown
+          </div>
+          <div class="hd-clock" id="hd-clock">00:00:00</div>
         </div>
       </header>
 
       <main>
+        <!-- STAGE LEFT -->
         <div class="stage">
-          <div class="stage-bg-num" id="bg-num">0</div>
-          <div class="eyebrow">Journey Log</div>
-          <div class="big-count" id="big-days">0<sup>days</sup></div>
-          <div class="count-label">away from home, building something real</div>
-          <div class="hms-block">
-            <div class="hms-unit">
-              <div class="hms-n" id="h-h">00</div>
-              <div class="hms-l">Hours</div>
+          <div class="ghost-text" id="ghost-days">72</div>
+
+          <div class="eyebrow">
+            <div class="eyebrow-line"></div>
+            Countdown to Home
+          </div>
+
+          <div class="hero-label">
+            Time remaining until you're back in Bhubaneswar
+          </div>
+
+          <!-- Main big countdown -->
+          <div class="countdown-row">
+            <div class="cd-block">
+              <div class="cd-num" id="cd-days">--</div>
+              <div class="cd-label">Days</div>
             </div>
-            <div class="hms-unit">
-              <div class="hms-n" id="h-m">00</div>
-              <div class="hms-l">Minutes</div>
+            <div class="cd-block">
+              <div class="cd-num" id="cd-hours">--</div>
+              <div class="cd-label">Hours</div>
             </div>
-            <div class="hms-unit">
-              <div class="hms-n" id="h-s">00</div>
-              <div class="hms-l">Seconds</div>
+            <div class="cd-block">
+              <div class="cd-num" id="cd-mins">--</div>
+              <div class="cd-label">Minutes</div>
+            </div>
+            <div class="cd-block secs">
+              <div class="cd-num" id="cd-secs">--</div>
+              <div class="cd-label">Seconds</div>
             </div>
           </div>
-          <div class="prog-wrap">
-            <div class="prog-meta">
-              <span>Progress to 60-day mark</span>
-              <span class="prog-pct" id="prog-pct">0%</span>
+
+          <!-- Stats row -->
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-box-label">Weeks Passed</div>
+              <div class="stat-box-val" id="stat-wks-passed">
+                -- <span>/ -- wks</span>
+              </div>
+              <div class="stat-box-sub" id="stat-wks-sub">of total journey</div>
+              <div class="mini-prog">
+                <div
+                  class="mini-prog-fill"
+                  id="wk-fill"
+                  style="width: 0%; background: var(--ember)"
+                ></div>
+              </div>
             </div>
-            <div class="prog-track">
-              <div class="prog-fill" id="prog-fill" style="width: 0%"></div>
+            <div class="stat-box">
+              <div class="stat-box-label">Days Passed</div>
+              <div class="stat-box-val" id="stat-days-passed">
+                -- <span>days</span>
+              </div>
+              <div class="stat-box-sub" id="stat-days-pct">
+                since 9 March 2026
+              </div>
+              <div class="mini-prog">
+                <div
+                  class="mini-prog-fill"
+                  id="day-fill"
+                  style="width: 0%; background: var(--gold)"
+                ></div>
+              </div>
             </div>
+            <div class="stat-box">
+              <div class="stat-box-label">Days Left</div>
+              <div class="stat-box-val" id="stat-days-left">
+                -- <span>days</span>
+              </div>
+              <div class="stat-box-sub">until 22 May 2026</div>
+              <div class="mini-prog">
+                <div
+                  class="mini-prog-fill"
+                  id="left-fill"
+                  style="width: 0%; background: var(--teal)"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week dots -->
+          <div class="week-section">
+            <div class="week-label">
+              <span
+                style="
+                  font-family: &quot;DM Mono&quot;;
+                  font-size: 0.42rem;
+                  letter-spacing: 0.28em;
+                  text-transform: uppercase;
+                  color: var(--paper3);
+                "
+                >Week-by-week · every square = 1 week</span
+              >
+              <span id="week-counter">W0</span>
+            </div>
+            <div class="week-dots" id="week-dots"></div>
           </div>
         </div>
+        <!-- /stage -->
 
+        <!-- SIDEBAR RIGHT -->
         <div class="sidebar">
-          <div class="route-card">
-            <div class="rc-label">Last Journey</div>
-            <div class="rc-route">
-              <div class="rc-city">
-                <div class="rc-code from">BBS</div>
-                <div class="rc-name">Bhubaneswar</div>
-              </div>
-              <div class="rc-arrow">
-                <div class="rc-line"></div>
-                <div class="rc-chevron">›</div>
-              </div>
-              <div class="rc-city" style="text-align: right">
-                <div class="rc-code to">RNC</div>
-                <div class="rc-name to">Ranchi</div>
-              </div>
+          <div class="dest-card">
+            <div class="dc-label">Destination · Home</div>
+            <div class="dc-city">BBS</div>
+            <div class="dc-fullname">Bhubaneswar, Odisha</div>
+            <div class="dc-date-row">
+              <div
+                class="live-dot"
+                style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
+              ></div>
+              Boarding · 22 May 2026
             </div>
-            <div class="rc-date">
-              <div class="status-dot"></div>
-              Away · departed 9 March 2026
-            </div>
-          </div>
-
-          <div class="ms-section">
-            <div class="sec-label">Milestones</div>
-            <div id="ms-list"></div>
           </div>
 
           <div class="quote-section">
-            <div class="qs-label">Tonight's Thought</div>
-            <div class="qs-text" id="q-text"></div>
+            <div class="qs-label">Weekly Thought</div>
+            <div class="qs-week-badge" id="q-week-badge">Week 0</div>
+            <div class="qs-text" id="q-text">Loading…</div>
+          </div>
+
+          <div class="ms-section">
+            <div class="ms-label">Milestone Tracker</div>
+            <div id="ms-list"></div>
           </div>
         </div>
+        <!-- /sidebar -->
       </main>
 
       <footer>
         <div class="ft-left">
-          You left home to build something. <em>That takes courage.</em> —
-          Bhubaneswar is waiting.
+          Every second ticking down is a second closer to <em>home.</em>
         </div>
         <div class="ft-right">
-          <div class="ft-badge">
-            <div class="status-dot" style="width: 5px; height: 5px"></div>
-            Live Tracker
+          <div class="ft-dest">
+            <div class="live-dot" style="width: 5px; height: 5px"></div>
+            BBS on 22 May
           </div>
-          <span>Work · Ranchi · 🏔️</span>
+          <span>Ranchi · Jharkhand</span>
         </div>
       </footer>
     </div>
+    <!-- /shell -->
 
     <script>
       (function () {
-        const c = document.getElementById("stars");
-        const ctx = c.getContext("2d");
-        let W,
-          H,
-          stars = [];
-        function resize() {
-          W = c.width = window.innerWidth;
-          H = c.height = window.innerHeight;
+        // ── CONFIG ──
+        const DEPARTED = new Date("2026-03-09T00:00:00").getTime();
+        const HOME_DATE = new Date("2026-05-22T00:00:00").getTime();
+        const TOTAL_DAYS = Math.round((HOME_DATE - DEPARTED) / 86400000); // ~74
+        const TOTAL_WEEKS = Math.ceil(TOTAL_DAYS / 7);
+
+        // ── WEEKLY QUOTES ──
+        const WEEKLY_QUOTES = [
+          // Week 0
+          "The hardest step is always the first one away from the door you love.",
+          // Week 1
+          "Seven days in. You traded comfort for purpose — that's not a small thing.",
+          // Week 2
+          "Two weeks of showing up quietly. The discipline you build now compounds for life.",
+          // Week 3
+          "Three weeks away teaches you what 'home' really means. Hold that feeling.",
+          // Week 4
+          "A full month away. You're proving something — not to anyone else, but to yourself.",
+          // Week 5
+          "Five weeks in. The grind is no longer new; it's simply who you are now.",
+          // Week 6
+          "Six weeks. The work you've done in silence will speak loudly someday.",
+          // Week 7
+          "Seven weeks of grit. The final stretch sharpens those who stay steady.",
+          // Week 8
+          "The last few days of this chapter. Home is nearly close enough to smell.",
+          // Week 9+
+          "You've crossed the finish line. Bhubaneswar is waiting with open arms.",
+        ];
+
+        // ── MILESTONES (days elapsed) ──
+        const MILESTONES = [
+          {
+            days: 1,
+            icon: "🚉",
+            label: "Day One Away",
+            sub: "The journey begins.",
+          },
+          {
+            days: 7,
+            icon: "📅",
+            label: "First Week Done",
+            sub: "Seven days of grit.",
+          },
+          {
+            days: 14,
+            icon: "💪",
+            label: "Two Weeks Strong",
+            sub: "Halfway through first month.",
+          },
+          {
+            days: 21,
+            icon: "🔥",
+            label: "Three Weeks",
+            sub: "Discipline is forming.",
+          },
+          {
+            days: 30,
+            icon: "🏅",
+            label: "One Full Month",
+            sub: "Real dedication.",
+          },
+          {
+            days: 45,
+            icon: "⚡",
+            label: "45 Days",
+            sub: "Nearly done. Stay sharp.",
+          },
+          {
+            days: TOTAL_DAYS,
+            icon: "🏠",
+            label: "Home — BBS",
+            sub: "22 May 2026. You made it.",
+          },
+        ];
+
+        function pad(n) {
+          return String(n).padStart(2, "0");
         }
-        function initStars() {
-          stars = [];
-          for (let i = 0; i < 200; i++) {
-            stars.push({
-              x: Math.random() * W,
-              y: Math.random() * H,
-              r: Math.random() * 1.1 + 0.2,
-              o: Math.random() * 0.6 + 0.1,
-              ph: Math.random() * Math.PI * 2,
-            });
+
+        // Clock
+        function updateClock() {
+          const d = new Date();
+          document.getElementById("hd-clock").textContent =
+            pad(d.getHours()) +
+            ":" +
+            pad(d.getMinutes()) +
+            ":" +
+            pad(d.getSeconds());
+        }
+
+        // ── CALENDAR WEEK (Sun-Sat) helpers ──
+        // Returns the Sunday that starts the week containing `date`
+        function startOfWeek(date) {
+          const d = new Date(date);
+          d.setHours(0, 0, 0, 0);
+          d.setDate(d.getDate() - d.getDay()); // rewind to Sunday
+          return d;
+        }
+        // Count how many full Sun-Sat weeks have elapsed since DEPARTED
+        function calWeeksPassed(now) {
+          const departedSunday = startOfWeek(new Date(DEPARTED));
+          const currentSunday = startOfWeek(new Date(now));
+          const msPerWeek = 7 * 86400000;
+          return Math.floor((currentSunday - departedSunday) / msPerWeek);
+        }
+        // Total calendar weeks from departure Sunday to home-date Sunday (inclusive)
+        function calTotalWeeks() {
+          const departedSunday = startOfWeek(new Date(DEPARTED));
+          const homeSunday = startOfWeek(new Date(HOME_DATE));
+          const msPerWeek = 7 * 86400000;
+          return Math.floor((homeSunday - departedSunday) / msPerWeek) + 1;
+        }
+
+        const CAL_TOTAL_WEEKS = calTotalWeeks();
+
+        // Build week dots
+        function buildWeekDots(weeksPassed) {
+          const el = document.getElementById("week-dots");
+          el.innerHTML = "";
+          for (let i = 0; i < CAL_TOTAL_WEEKS; i++) {
+            const d = document.createElement("div");
+            d.className = "wd";
+            if (i < weeksPassed) d.classList.add("passed");
+            else if (i === weeksPassed) d.classList.add("current");
+            d.title = "Week " + (i + 1);
+            el.appendChild(d);
           }
         }
-        let t = 0;
-        function draw() {
-          ctx.clearRect(0, 0, W, H);
-          t += 0.005;
-          stars.forEach((s) => {
-            const o = s.o + Math.sin(t + s.ph) * 0.15;
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(180,200,255,${o})`;
-            ctx.fill();
+
+        // Build milestones
+        function buildMilestones(daysPassed) {
+          const el = document.getElementById("ms-list");
+          el.innerHTML = "";
+          let foundCurrent = false;
+          MILESTONES.forEach((m) => {
+            const passed = daysPassed >= m.days;
+            const isCurrent = !passed && !foundCurrent;
+            if (isCurrent) foundCurrent = true;
+            const div = document.createElement("div");
+            div.className =
+              "ms-item" + (passed ? " passed" : isCurrent ? " current" : "");
+            const tagText = passed ? "✓ day " + m.days : "day " + m.days;
+            div.innerHTML = `
+            <div class="ms-ic">${passed || isCurrent ? m.icon : "·"}</div>
+            <div class="ms-body">
+              <div class="ms-title">${m.label}</div>
+              <div class="ms-sub">${m.sub}</div>
+            </div>
+            <div class="ms-tag">${tagText}</div>`;
+            el.appendChild(div);
           });
-          requestAnimationFrame(draw);
         }
-        window.addEventListener("resize", () => {
-          resize();
-          initStars();
-        });
-        resize();
-        initStars();
-        draw();
+
+        let lastSec = -1;
+
+        function tick() {
+          const now = Date.now();
+          const elapsed = now - DEPARTED;
+          const remain = HOME_DATE - now;
+
+          if (remain < 0) {
+            // Already home!
+            document.getElementById("cd-days").textContent = "00";
+            document.getElementById("cd-hours").textContent = "00";
+            document.getElementById("cd-mins").textContent = "00";
+            document.getElementById("cd-secs").textContent = "00";
+            return;
+          }
+
+          const totalSecs = Math.floor(remain / 1000);
+          const secs = totalSecs % 60;
+          if (secs === lastSec) return;
+          lastSec = secs;
+
+          const mins = Math.floor(totalSecs / 60) % 60;
+          const hours = Math.floor(totalSecs / 3600) % 24;
+          const days = Math.floor(totalSecs / 86400);
+
+          // Days elapsed
+          const daysPassed = Math.floor(elapsed / 86400000);
+          const weeksPassed = calWeeksPassed(now);
+          const daysLeft = days; // same as countdown days
+          const pctDone = Math.min(
+            Math.round((daysPassed / TOTAL_DAYS) * 100),
+            100,
+          );
+
+          // Countdown display
+          document.getElementById("cd-days").textContent = pad(days);
+          document.getElementById("cd-hours").textContent = pad(hours);
+          document.getElementById("cd-mins").textContent = pad(mins);
+          document.getElementById("cd-secs").textContent = pad(secs);
+
+          // Ghost big number
+          document.getElementById("ghost-days").textContent = days;
+
+          // Header clock
+          updateClock();
+
+          // Stats
+          document.getElementById("stat-wks-passed").innerHTML =
+            weeksPassed + " <span>/ " + CAL_TOTAL_WEEKS + " wks</span>";
+          document.getElementById("stat-wks-sub").textContent =
+            "week " + (weeksPassed + 1) + " in progress";
+          document.getElementById("stat-days-passed").innerHTML =
+            daysPassed + " <span>days</span>";
+          document.getElementById("stat-days-pct").textContent =
+            pctDone + "% of journey done";
+          document.getElementById("stat-days-left").innerHTML =
+            daysLeft + " <span>days</span>";
+
+          // Progress bars
+          document.getElementById("wk-fill").style.width =
+            Math.min((weeksPassed / CAL_TOTAL_WEEKS) * 100, 100) + "%";
+          document.getElementById("day-fill").style.width = pctDone + "%";
+          document.getElementById("left-fill").style.width =
+            Math.max(100 - pctDone, 0) + "%";
+
+          // Week counter
+          document.getElementById("week-counter").textContent =
+            "W" + (weeksPassed + 1);
+
+          // Week dots
+          buildWeekDots(weeksPassed);
+
+          // Quote
+          const qi = Math.min(weeksPassed, WEEKLY_QUOTES.length - 1);
+          const weekLabel =
+            weeksPassed === 0
+              ? "First Days"
+              : "Week " + weeksPassed + " Complete";
+          document.getElementById("q-week-badge").textContent = weekLabel;
+          document.getElementById("q-text").textContent = WEEKLY_QUOTES[qi];
+
+          // Milestones
+          buildMilestones(daysPassed);
+
+          // Highlight CD nums when low
+          document
+            .getElementById("cd-days")
+            .classList.toggle("highlight", days < 7);
+        }
+
+        tick();
+        setInterval(tick, 300);
+        setInterval(updateClock, 1000);
       })();
-
-      const LEFT_HOME = new Date("2026-03-09T00:00:00").getTime();
-
-      const DAILY_THOUGHTS = [
-        "Day 1 — The journey started. Leaving home is never easy, but it means you’re chasing something bigger.",
-        "Day 2 — New place, new rhythm. Every unfamiliar moment is part of the story.",
-        "Day 3 — The first few days are always the hardest. Keep steady.",
-        "Day 4 — Growth rarely happens inside comfort zones.",
-        "Day 5 — Every sunrise away from home is proof you’re still moving forward.",
-        "Day 6 — The grind feels real now. That’s where progress begins.",
-        "Day 7 — One week away. You’re stronger than the homesickness.",
-        "Day 8 — The road feels longer when you look back at home.",
-        "Day 9 — Keep building quietly. Results speak later.",
-        "Day 10 — Double digits. Ten days of commitment.",
-        "Day 11 — Some days feel heavy, but every day counts.",
-        "Day 12 — Being away teaches you what truly matters.",
-        "Day 13 — Routine forms slowly. Stay patient.",
-        "Day 14 — Two weeks away. Discipline is showing.",
-        "Day 15 — Hard work today becomes freedom tomorrow.",
-        "Day 16 — The days stack up faster than you think.",
-        "Day 17 — Distance teaches appreciation.",
-        "Day 18 — The grind continues. Stay focused.",
-        "Day 19 — Strength is built quietly, day by day.",
-        "Day 20 — Twenty days away from home. Respect the journey.",
-        "Day 21 — Three weeks strong. You're built for this.",
-        "Day 22 — You’re proving something to yourself.",
-        "Day 23 — Even slow progress is still progress.",
-        "Day 24 — The road forward is made of small steps.",
-        "Day 25 — Keep going. The effort matters.",
-        "Day 26 — Every day away sharpens your resilience.",
-        "Day 27 — The journey changes you before you notice.",
-        "Day 28 — Four weeks nearly done. Hold steady.",
-        "Day 29 — One more day to a full month away.",
-        "Day 30 — One month away. That takes real dedication.",
-        "Day 31 — The second month begins. Stay steady.",
-        "Day 32 — You're learning patience with every sunrise.",
-        "Day 33 — Not every day feels productive, but they still matter.",
-        "Day 34 — Keep showing up. That’s half the battle.",
-        "Day 35 — Progress hides in ordinary days.",
-        "Day 36 — Even small steps move you forward.",
-        "Day 37 — Distance from home builds perspective.",
-        "Day 38 — You're becoming tougher than you were before.",
-        "Day 39 — Keep doing the work others won’t.",
-        "Day 40 — Forty days away. That’s serious endurance.",
-        "Day 41 — The grind is shaping something real.",
-        "Day 42 — Stay patient. Long journeys take time.",
-        "Day 43 — Strength grows quietly.",
-        "Day 44 — The days away build the life ahead.",
-        "Day 45 — Three quarters of sixty. You're holding the line.",
-        "Day 46 — Keep your purpose close.",
-        "Day 47 — Home is still there, waiting.",
-        "Day 48 — The journey is making you stronger.",
-        "Day 49 — You're closer to the next chapter.",
-        "Day 50 — Fifty days away. Respect the discipline.",
-        "Day 51 — Every effort compounds.",
-        "Day 52 — Stay steady through the ordinary days.",
-        "Day 53 — You've come further than you realize.",
-        "Day 54 — The hardest journeys shape the strongest people.",
-        "Day 55 — Keep the vision clear.",
-        "Day 56 — You're almost at the sixty-day mark.",
-        "Day 57 — The finish line of this stretch is close.",
-        "Day 58 — Two more days to the milestone.",
-        "Day 59 — One day before sixty. Hold the line.",
-        "Day 60 — Sixty days away. Iron will. You did it.",
-      ];
-
-      const MILESTONES = [
-        {
-          days: 1,
-          icon: "🚉",
-          label: "First Day Back",
-          sub: "Settled in. The grind begins.",
-        },
-        {
-          days: 3,
-          icon: "⚙️",
-          label: "Back in Rhythm",
-          sub: "Three days strong.",
-        },
-        {
-          days: 7,
-          icon: "📅",
-          label: "One Week Away",
-          sub: "A full week since home.",
-        },
-        {
-          days: 14,
-          icon: "💪",
-          label: "Two Weeks Strong",
-          sub: "Halfway through a strong stretch.",
-        },
-        {
-          days: 21,
-          icon: "🔥",
-          label: "Three Weeks Away",
-          sub: "You're built for this.",
-        },
-        {
-          days: 30,
-          icon: "🏅",
-          label: "One Month",
-          sub: "A whole month. Respect.",
-        },
-        {
-          days: 60,
-          icon: "🏆",
-          label: "60 Days — Iron Will",
-          sub: "Start planning the trip home.",
-        },
-      ];
-
-      function buildMs(days) {
-        const el = document.getElementById("ms-list");
-        el.innerHTML = "";
-        let foundNext = false;
-        MILESTONES.forEach((m) => {
-          const done = days >= m.days;
-          const isNext = !done && !foundNext;
-          if (isNext) foundNext = true;
-          const d = document.createElement("div");
-          d.className =
-            "ms-item" + (done ? " done" : "") + (isNext ? " next" : "");
-          d.innerHTML = `<div class="ms-ic">${done ? m.icon : "·"}</div>
-      <div class="ms-body"><div class="ms-title">${m.label}</div><div class="ms-sub">${m.sub}</div></div>
-      <div class="ms-tag">${done ? "✓ d" + m.days : "day " + m.days}</div>`;
-          el.appendChild(d);
-        });
-      }
-
-      function pad(n) {
-        return String(n).padStart(2, "0");
-      }
-      let lastSec = -1;
-
-      function tick() {
-        const diff = Date.now() - LEFT_HOME;
-        const ts = Math.floor(diff / 1000);
-        const s = ts % 60;
-        if (s === lastSec) return;
-        lastSec = s;
-        const m = Math.floor(ts / 60) % 60;
-        const h = Math.floor(ts / 3600) % 24;
-        const days = Math.floor(ts / 86400);
-
-        const thoughtIndex = Math.min(days, DAILY_THOUGHTS.length - 1);
-        document.getElementById("q-text").textContent =
-          DAILY_THOUGHTS[thoughtIndex];
-
-        document.getElementById("big-days").innerHTML =
-          `${days}<sup>days</sup>`;
-        document.getElementById("bg-num").textContent = days;
-        document.getElementById("h-h").textContent = pad(h);
-        document.getElementById("h-m").textContent = pad(m);
-        document.getElementById("h-s").textContent = pad(s);
-        const pct = Math.min(Math.round((days / 60) * 100), 100);
-        document.getElementById("prog-fill").style.width = pct + "%";
-        document.getElementById("prog-pct").textContent = pct + "%";
-        buildMs(days);
-      }
-      tick();
-      setInterval(tick, 300);
     </script>
   </body>
 </html>
