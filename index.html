@@ -44,7 +44,6 @@
         overflow-x: hidden;
       }
 
-      /* ─── NOISE OVERLAY ─── */
       body::before {
         content: "";
         position: fixed;
@@ -56,7 +55,6 @@
         opacity: 0.6;
       }
 
-      /* ─── AURORA BG ─── */
       .aurora {
         position: fixed;
         inset: 0;
@@ -107,7 +105,6 @@
         }
       }
 
-      /* ─── LAYOUT ─── */
       .shell {
         position: relative;
         z-index: 10;
@@ -116,7 +113,6 @@
         min-height: 100vh;
       }
 
-      /* ─── HEADER ─── */
       header {
         display: flex;
         align-items: center;
@@ -240,14 +236,12 @@
         font-variant-numeric: tabular-nums;
       }
 
-      /* ─── MAIN ─── */
       main {
         display: grid;
         grid-template-columns: 1fr 380px;
         min-height: 0;
       }
 
-      /* ─── STAGE (LEFT) ─── */
       .stage {
         display: flex;
         flex-direction: column;
@@ -258,7 +252,6 @@
         overflow: hidden;
       }
 
-      /* big ghost text */
       .ghost-text {
         position: absolute;
         right: -60px;
@@ -304,7 +297,6 @@
         letter-spacing: 0.04em;
       }
 
-      /* ─── MAIN COUNTDOWN ─── */
       .countdown-row {
         display: flex;
         align-items: baseline;
@@ -346,12 +338,10 @@
         color: var(--paper3);
         margin-top: 6px;
       }
-
       .cd-block.secs .cd-num {
         color: var(--ember2);
       }
 
-      /* ─── MOBILE 2×2 GRID ─── */
       @media (max-width: 640px) {
         .countdown-row {
           display: grid;
@@ -385,7 +375,6 @@
         }
       }
 
-      /* ─── PROGRESS STATS ─── */
       .stats-grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -433,8 +422,6 @@
         color: var(--paper3);
         letter-spacing: 0.05em;
       }
-
-      /* Progress bar inside stat */
       .mini-prog {
         margin-top: 8px;
         height: 2px;
@@ -447,7 +434,6 @@
         transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* ─── WEEK PROGRESS ─── */
       .week-section {
         margin-top: 36px;
         animation: riseUp 0.7s ease 0.35s both;
@@ -515,7 +501,6 @@
         }
       }
 
-      /* ─── SIDEBAR (RIGHT) ─── */
       .sidebar {
         display: flex;
         flex-direction: column;
@@ -523,7 +508,6 @@
         overflow: hidden;
       }
 
-      /* Destination card */
       .dest-card {
         padding: 32px 28px 26px;
         border-bottom: 1px solid var(--line);
@@ -586,7 +570,6 @@
         color: var(--teal);
       }
 
-      /* Quote section */
       .quote-section {
         padding: 24px 28px;
         border-bottom: 1px solid var(--line);
@@ -627,7 +610,6 @@
         opacity: 0;
       }
 
-      /* Milestones */
       .ms-section {
         flex: 1;
         padding: 22px 28px;
@@ -712,9 +694,6 @@
       .ms-item.current .ms-tag {
         color: var(--teal);
       }
-      .ms-tag:not(.ms-item .ms-tag) {
-        color: rgba(255, 255, 255, 0.15);
-      }
 
       @keyframes slideLeft {
         from {
@@ -727,7 +706,6 @@
         }
       }
 
-      /* ─── FOOTER ─── */
       footer {
         display: flex;
         align-items: center;
@@ -851,47 +829,6 @@
         display: flex;
       }
 
-      /* Confetti canvas */
-      #confetti-canvas {
-        position: fixed;
-        inset: 0;
-        z-index: 5;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 1s;
-      }
-      body.state-celebratory #confetti-canvas,
-      body.state-journey #confetti-canvas,
-      body.state-arrived #confetti-canvas {
-        opacity: 1;
-      }
-
-      /* ─── STATE: JOURNEY DAY ─── */
-      body.state-journey .aurora span:nth-child(1) {
-        background: var(--teal);
-        opacity: 0.14;
-      }
-      body.state-journey .aurora span:nth-child(2) {
-        background: var(--gold);
-        opacity: 0.1;
-      }
-      body.state-journey .aurora span:nth-child(3) {
-        background: var(--teal2);
-        opacity: 0.08;
-      }
-      body.state-journey .eyebrow {
-        color: var(--teal2);
-      }
-      body.state-journey .eyebrow-line {
-        background: var(--teal2);
-      }
-      body.state-journey .cd-num {
-        color: var(--teal2) !important;
-      }
-      body.state-journey header {
-        border-bottom-color: rgba(94, 224, 212, 0.2);
-      }
-
       .journey-banner {
         display: none;
         flex-direction: column;
@@ -937,11 +874,44 @@
       body.state-journey .journey-banner {
         display: flex;
       }
+      body.state-journey .eyebrow {
+        color: var(--teal2);
+      }
+      body.state-journey .eyebrow-line {
+        background: var(--teal2);
+      }
+      body.state-journey .cd-num {
+        color: var(--teal2) !important;
+      }
+      body.state-journey header {
+        border-bottom-color: rgba(94, 224, 212, 0.2);
+      }
       body.state-journey .hero-label {
         color: var(--teal);
       }
+      body.state-journey .aurora span:nth-child(1) {
+        background: var(--teal);
+        opacity: 0.14;
+      }
+      body.state-journey .aurora span:nth-child(2) {
+        background: var(--gold);
+        opacity: 0.1;
+      }
 
-      /* ─── STATE: ARRIVED ─── */
+      #confetti-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s;
+      }
+      body.state-celebratory #confetti-canvas,
+      body.state-journey #confetti-canvas,
+      body.state-arrived #confetti-canvas {
+        opacity: 1;
+      }
+
       .arrived-overlay {
         display: none;
         position: fixed;
@@ -1024,7 +994,6 @@
         margin-top: 4px;
       }
 
-      /* ─── RESPONSIVE ─── */
       @media (max-width: 960px) {
         main {
           grid-template-columns: 1fr;
@@ -1091,9 +1060,6 @@
           padding-left: 20px;
           padding-right: 20px;
         }
-        .prog-wrap {
-          max-width: 100%;
-        }
       }
     </style>
   </head>
@@ -1114,7 +1080,7 @@
         <span class="arr">——›</span>
         <span class="to">BBS</span>
       </div>
-      <div class="ao-date">9 April 2026 · 9 PM IST · Journey Complete</div>
+      <div class="ao-date">22 May 2026 · 9 PM IST · Journey Complete</div>
     </div>
 
     <div class="shell">
@@ -1130,7 +1096,7 @@
             <span class="rp-arrow">——›</span>
             <span class="rp-code to">BBS</span>
           </div>
-          <div class="hd-date">09 Apr 2026, 9 PM IST · Target Date</div>
+          <div class="hd-date">22 May 2026, 9 PM IST · Target Date</div>
         </div>
         <div class="hd-right">
           <div class="live-badge">
@@ -1144,15 +1110,13 @@
       <main>
         <!-- STAGE LEFT -->
         <div class="stage">
-          <div class="ghost-text" id="ghost-days">31</div>
+          <div class="ghost-text" id="ghost-days">37</div>
 
-          <!-- Celebratory banner: shown when <10 days left -->
           <div class="celebratory-banner">
             <span class="cb-icon">🎉</span>
             <span id="celeb-text">Under 10 days — almost there!</span>
           </div>
 
-          <!-- Journey day banner: shown on Apr 9 before 9PM -->
           <div class="journey-banner">
             <div class="jb-top">Today is the day</div>
             <div class="jb-main">It's time to go home.</div>
@@ -1171,7 +1135,6 @@
             Time remaining until you're back in Bhubaneswar
           </div>
 
-          <!-- Main big countdown -->
           <div class="countdown-row">
             <div class="cd-block">
               <div class="cd-num" id="cd-days">--</div>
@@ -1191,7 +1154,6 @@
             </div>
           </div>
 
-          <!-- Stats row -->
           <div class="stats-grid">
             <div class="stat-box">
               <div class="stat-box-label">Weeks Passed</div>
@@ -1213,7 +1175,7 @@
                 -- <span>days</span>
               </div>
               <div class="stat-box-sub" id="stat-days-pct">
-                since 9 March 2026
+                since 15 April 2026
               </div>
               <div class="mini-prog">
                 <div
@@ -1228,7 +1190,7 @@
               <div class="stat-box-val" id="stat-days-left">
                 -- <span>days</span>
               </div>
-              <div class="stat-box-sub">until 9 Apr 2026, 9 PM</div>
+              <div class="stat-box-sub">until 22 May 2026, 9 PM</div>
               <div class="mini-prog">
                 <div
                   class="mini-prog-fill"
@@ -1239,7 +1201,6 @@
             </div>
           </div>
 
-          <!-- Week dots -->
           <div class="week-section">
             <div class="week-label">
               <span
@@ -1250,14 +1211,14 @@
                   text-transform: uppercase;
                   color: var(--paper3);
                 "
-                >Week-by-week · every square = 1 week</span
               >
+                Week-by-week · every square = 1 week
+              </span>
               <span id="week-counter">W0</span>
             </div>
             <div class="week-dots" id="week-dots"></div>
           </div>
         </div>
-        <!-- /stage -->
 
         <!-- SIDEBAR RIGHT -->
         <div class="sidebar">
@@ -1270,7 +1231,7 @@
                 class="live-dot"
                 style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
               ></div>
-              Boarding · 9 Apr 2026 · 9 PM IST
+              Boarding · 22 May 2026 · 9 PM IST
             </div>
           </div>
 
@@ -1285,7 +1246,6 @@
             <div id="ms-list"></div>
           </div>
         </div>
-        <!-- /sidebar -->
       </main>
 
       <footer>
@@ -1295,33 +1255,34 @@
         <div class="ft-right">
           <div class="ft-dest">
             <div class="live-dot" style="width: 5px; height: 5px"></div>
-            BBS on 9 Apr · 9 PM
+            BBS on 22 May · 9 PM
           </div>
           <span>Ranchi · Jharkhand</span>
         </div>
       </footer>
     </div>
-    <!-- /shell -->
 
     <script>
       (function () {
         // ── CONFIG ──
-        const DEPARTED = new Date("2026-03-09T00:00:00+05:30").getTime();
-        const HOME_DATE = new Date("2026-04-09T21:00:00+05:30").getTime();
+        // Start: 15 Apr 2026, 00:00 IST
+        const DEPARTED = new Date("2026-04-15T00:00:00+05:30").getTime();
+        // Target: 22 May 2026, 21:00 IST  (37 days total)
+        const HOME_DATE = new Date("2026-05-22T21:00:00+05:30").getTime();
         const TOTAL_MS = HOME_DATE - DEPARTED;
-        const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000);
+        const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 37
 
-        // ── WEEKLY QUOTES ──
+        // ── WEEKLY QUOTES (6 weeks of journey) ──
         const WEEKLY_QUOTES = [
           "The hardest step is always the first one away from the door you love. But you took it — that counts.",
           "One week in. You chose purpose over comfort, and that is never a small thing.",
           "Two weeks of showing up quietly. The discipline you're building right now compounds for life.",
-          "Three weeks away teaches you what 'home' truly means. Hold that feeling — you're nearly there.",
-          "A full month done. You proved it to yourself — the only audience that ever really mattered.",
+          "Three weeks away teaches you what 'home' truly means. Hold that feeling — it deepens.",
+          "Four weeks of grit. You have proven to yourself you can endure anything you set your mind to.",
           "The last stretch. Home is close enough to feel now. Stay steady till the final second.",
         ];
 
-        // ── MILESTONES ──
+        // ── MILESTONES (37-day journey: Apr 15 → May 22) ──
         const MILESTONES = [
           {
             days: 1,
@@ -1357,7 +1318,7 @@
             days: Math.round(TOTAL_DAYS),
             icon: "🏠",
             label: "Home — BBS",
-            sub: "9 Apr 2026, 9 PM. You made it.",
+            sub: "22 May 2026, 9 PM. You made it.",
           },
         ];
 
@@ -1489,14 +1450,13 @@
           setInterval(() => spawnConfetti(30, colors), 2000);
         }
 
-        // ── UI STATE MACHINE ──
-        // States: 'normal' | 'celebratory' | 'journey' | 'arrived'
+        // ── STATE MACHINE ──
         let currentState = null;
 
         function getState(now, days) {
           if (now >= HOME_DATE) return "arrived";
-          const d = new Date(now);
-          const h = new Date(HOME_DATE);
+          const d = new Date(now),
+            h = new Date(HOME_DATE);
           const sameDay =
             d.getFullYear() === h.getFullYear() &&
             d.getMonth() === h.getMonth() &&
@@ -1528,10 +1488,9 @@
               "#ffffff",
             ]);
           }
-
           if (state === "journey") {
             document.getElementById("eyebrow-text").textContent =
-              "Today's the Day · 9 Apr 2026";
+              "Today's the Day · 22 May 2026";
             document.querySelector(".hero-label").textContent =
               "Tonight at 9 PM — your train home departs. The wait is over.";
             startConfetti([
@@ -1542,9 +1501,8 @@
               "#f5874a",
             ]);
           }
-
           if (state === "arrived") {
-            confettiRunning = false; // restart with full blast
+            confettiRunning = false;
             confettiRunning = true;
             confettiPieces = [];
             spawnConfetti(300, [
@@ -1581,14 +1539,13 @@
 
           const state = getState(now, days);
           applyState(state, days);
-
-          if (state === "arrived") return; // overlay handles display
+          if (state === "arrived") return;
 
           if (secs === lastSec) return;
           lastSec = secs;
 
-          const daysPassed = Math.floor(elapsed / 86400000);
-          const weeksPassed = calWeeksPassed(now);
+          const daysPassed = Math.max(0, Math.floor(elapsed / 86400000));
+          const weeksPassed = Math.max(0, calWeeksPassed(now));
           const pctDone = Math.min(Math.round((elapsed / TOTAL_MS) * 100), 100);
 
           document.getElementById("cd-days").textContent = pad(days);
@@ -1631,7 +1588,6 @@
             .getElementById("cd-days")
             .classList.toggle("highlight", days < 7);
 
-          // update celebratory text live
           if (state === "celebratory") {
             document.getElementById("celeb-text").textContent =
               days === 1
