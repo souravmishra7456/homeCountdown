@@ -1080,7 +1080,7 @@
         <span class="arr">——›</span>
         <span class="to">BBS</span>
       </div>
-      <div class="ao-date">22 May 2026 · 9 PM IST · Journey Complete</div>
+      <div class="ao-date">21 May 2026 · 9 PM IST · Journey Complete</div>
     </div>
 
     <div class="shell">
@@ -1096,7 +1096,7 @@
             <span class="rp-arrow">——›</span>
             <span class="rp-code to">BBS</span>
           </div>
-          <div class="hd-date">22 May 2026, 9 PM IST · Target Date</div>
+          <div class="hd-date">21 May 2026, 9 PM IST · Target Date</div>
         </div>
         <div class="hd-right">
           <div class="live-badge">
@@ -1190,7 +1190,7 @@
               <div class="stat-box-val" id="stat-days-left">
                 -- <span>days</span>
               </div>
-              <div class="stat-box-sub">until 22 May 2026, 9 PM</div>
+              <div class="stat-box-sub">until 21 May 2026, 9 PM</div>
               <div class="mini-prog">
                 <div
                   class="mini-prog-fill"
@@ -1231,7 +1231,7 @@
                 class="live-dot"
                 style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
               ></div>
-              Boarding · 22 May 2026 · 9 PM IST
+              Boarding · 21 May 2026 · 9 PM IST
             </div>
           </div>
 
@@ -1255,7 +1255,7 @@
         <div class="ft-right">
           <div class="ft-dest">
             <div class="live-dot" style="width: 5px; height: 5px"></div>
-            BBS on 22 May · 9 PM
+            BBS on 21 May · 9 PM
           </div>
           <span>Ranchi · Jharkhand</span>
         </div>
@@ -1268,7 +1268,7 @@
         // Start: 15 Apr 2026, 00:00 IST
         const DEPARTED = new Date("2026-04-15T00:00:00+05:30").getTime();
         // Target: 22 May 2026, 21:00 IST  (37 days total)
-        const HOME_DATE = new Date("2026-05-22T21:00:00+05:30").getTime();
+        const HOME_DATE = new Date("2026-05-21T21:00:00+05:30").getTime();
         const TOTAL_MS = HOME_DATE - DEPARTED;
         const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 37
 
@@ -1318,7 +1318,7 @@
             days: Math.round(TOTAL_DAYS),
             icon: "🏠",
             label: "Home — BBS",
-            sub: "22 May 2026, 9 PM. You made it.",
+            sub: "21 May 2026, 9 PM. You made it.",
           },
         ];
 
@@ -1490,7 +1490,7 @@
           }
           if (state === "journey") {
             document.getElementById("eyebrow-text").textContent =
-              "Today's the Day · 22 May 2026";
+              "Today's the Day · 21 May 2026";
             document.querySelector(".hero-label").textContent =
               "Tonight at 9 PM — your train home departs. The wait is over.";
             startConfetti([
