@@ -1080,7 +1080,7 @@
         <span class="arr">——›</span>
         <span class="to">BBS</span>
       </div>
-      <div class="ao-date">22 May 2026 · 9 PM IST · Journey Complete</div>
+      <div class="ao-date">24 June 2026 · 9 PM IST · Journey Complete</div>
     </div>
 
     <div class="shell">
@@ -1096,7 +1096,7 @@
             <span class="rp-arrow">——›</span>
             <span class="rp-code to">BBS</span>
           </div>
-          <div class="hd-date">22 May 2026, 9 PM IST · Target Date</div>
+          <div class="hd-date">24 June 2026, 9 PM IST · Target Date</div>
         </div>
         <div class="hd-right">
           <div class="live-badge">
@@ -1110,7 +1110,7 @@
       <main>
         <!-- STAGE LEFT -->
         <div class="stage">
-          <div class="ghost-text" id="ghost-days">37</div>
+          <div class="ghost-text" id="ghost-days">23</div>
 
           <div class="celebratory-banner">
             <span class="cb-icon">🎉</span>
@@ -1175,7 +1175,7 @@
                 -- <span>days</span>
               </div>
               <div class="stat-box-sub" id="stat-days-pct">
-                since 15 April 2026
+                since 01 June 2026
               </div>
               <div class="mini-prog">
                 <div
@@ -1190,7 +1190,7 @@
               <div class="stat-box-val" id="stat-days-left">
                 -- <span>days</span>
               </div>
-              <div class="stat-box-sub">until 22 May 2026, 9 PM</div>
+              <div class="stat-box-sub">until 24 June 2026, 9 PM</div>
               <div class="mini-prog">
                 <div
                   class="mini-prog-fill"
@@ -1231,7 +1231,7 @@
                 class="live-dot"
                 style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
               ></div>
-              Boarding · 22 May 2026 · 9 PM IST
+              Boarding · 24 June 2026 · 9 PM IST
             </div>
           </div>
 
@@ -1255,7 +1255,7 @@
         <div class="ft-right">
           <div class="ft-dest">
             <div class="live-dot" style="width: 5px; height: 5px"></div>
-            BBS on 22 May · 9 PM
+            BBS on 24 June · 9 PM
           </div>
           <span>Ranchi · Jharkhand</span>
         </div>
@@ -1265,24 +1265,22 @@
     <script>
       (function () {
         // ── CONFIG ──
-        // Start: 15 Apr 2026, 00:00 IST
-        const DEPARTED = new Date("2026-04-15T00:00:00+05:30").getTime();
-        // Target: 22 May 2026, 21:00 IST  (37 days total)
-        const HOME_DATE = new Date("2026-05-22T21:00:00+05:30").getTime();
+        // Start: 01 Jun 2026, 00:00 IST
+        const DEPARTED = new Date("2026-06-01T00:00:00+05:30").getTime();
+        // Target: 24 Jun 2026, 21:00 IST  (23 days total)
+        const HOME_DATE = new Date("2026-06-24T21:00:00+05:30").getTime();
         const TOTAL_MS = HOME_DATE - DEPARTED;
-        const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 37
+        const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 23
 
-        // ── WEEKLY QUOTES (6 weeks of journey) ──
+        // ── WEEKLY QUOTES (4 weeks of journey) ──
         const WEEKLY_QUOTES = [
           "The hardest step is always the first one away from the door you love. But you took it — that counts.",
           "One week in. You chose purpose over comfort, and that is never a small thing.",
           "Two weeks of showing up quietly. The discipline you're building right now compounds for life.",
-          "Three weeks away teaches you what 'home' truly means. Hold that feeling — it deepens.",
-          "Four weeks of grit. You have proven to yourself you can endure anything you set your mind to.",
-          "The last stretch. Home is close enough to feel now. Stay steady till the final second.",
+          "Three weeks of grit. The finish line is in sight — stay steady till the final second.",
         ];
 
-        // ── MILESTONES (37-day journey: Apr 15 → May 22) ──
+        // ── MILESTONES (23-day journey: Jun 1 → Jun 24) ──
         const MILESTONES = [
           {
             days: 1,
@@ -1300,25 +1298,19 @@
             days: 14,
             icon: "💪",
             label: "Two Weeks Strong",
-            sub: "Halfway through the journey.",
+            sub: "Past the halfway mark.",
           },
           {
-            days: 21,
+            days: 19,
             icon: "🔥",
-            label: "Three Weeks",
-            sub: "Discipline is fully formed.",
-          },
-          {
-            days: 28,
-            icon: "🏅",
-            label: "Four Weeks",
-            sub: "Final countdown begins.",
+            label: "Final Stretch",
+            sub: "Under 5 days remaining.",
           },
           {
             days: Math.round(TOTAL_DAYS),
             icon: "🏠",
             label: "Home — BBS",
-            sub: "22 May 2026, 9 PM. You made it.",
+            sub: "24 Jun 2026, 9 PM. You made it.",
           },
         ];
 
@@ -1490,7 +1482,7 @@
           }
           if (state === "journey") {
             document.getElementById("eyebrow-text").textContent =
-              "Today's the Day · 22 May 2026";
+              "Today's the Day · 24 June 2026";
             document.querySelector(".hero-label").textContent =
               "Tonight at 9 PM — your train home departs. The wait is over.";
             startConfetti([
