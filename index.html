@@ -1080,7 +1080,7 @@
         <span class="arr">——›</span>
         <span class="to">BBS</span>
       </div>
-      <div class="ao-date">24 June 2026 · 9 PM IST · Journey Complete</div>
+      <div class="ao-date">24 June 2026 · 7:45 PM IST · Journey Complete</div>
     </div>
 
     <div class="shell">
@@ -1096,7 +1096,7 @@
             <span class="rp-arrow">——›</span>
             <span class="rp-code to">BBS</span>
           </div>
-          <div class="hd-date">24 June 2026, 9 PM IST · Target Date</div>
+          <div class="hd-date">24 June 2026, 7:45 PM IST · Target Date</div>
         </div>
         <div class="hd-right">
           <div class="live-badge">
@@ -1121,7 +1121,7 @@
             <div class="jb-top">Today is the day</div>
             <div class="jb-main">It's time to go home.</div>
             <div class="jb-sub">
-              Your journey to Bhubaneswar begins tonight at 9 PM. Pack your
+              Your journey to Bhubaneswar begins tonight at 7:45 PM. Pack your
               bags.
             </div>
           </div>
@@ -1190,7 +1190,7 @@
               <div class="stat-box-val" id="stat-days-left">
                 -- <span>days</span>
               </div>
-              <div class="stat-box-sub">until 24 June 2026, 9 PM</div>
+              <div class="stat-box-sub">until 24 June 2026, 7:45 PM</div>
               <div class="mini-prog">
                 <div
                   class="mini-prog-fill"
@@ -1231,7 +1231,7 @@
                 class="live-dot"
                 style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
               ></div>
-              Boarding · 24 June 2026 · 9 PM IST
+              Boarding · 24 June 2026 · 7:45 PM IST
             </div>
           </div>
 
@@ -1255,7 +1255,7 @@
         <div class="ft-right">
           <div class="ft-dest">
             <div class="live-dot" style="width: 5px; height: 5px"></div>
-            BBS on 24 June · 9 PM
+            BBS on 24 June · 7:45 PM
           </div>
           <span>Ranchi · Jharkhand</span>
         </div>
@@ -1268,7 +1268,7 @@
         // Start: 01 Jun 2026, 00:00 IST
         const DEPARTED = new Date("2026-06-01T00:00:00+05:30").getTime();
         // Target: 24 Jun 2026, 21:00 IST  (23 days total)
-        const HOME_DATE = new Date("2026-06-24T21:00:00+05:30").getTime();
+        const HOME_DATE = new Date("2026-06-24T19:45:00+05:30").getTime();
         const TOTAL_MS = HOME_DATE - DEPARTED;
         const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 23
 
@@ -1310,7 +1310,7 @@
             days: Math.round(TOTAL_DAYS),
             icon: "🏠",
             label: "Home — BBS",
-            sub: "24 Jun 2026, 9 PM. You made it.",
+            sub: "24 Jun 2026, 7:45 PM. You made it.",
           },
         ];
 
@@ -1484,7 +1484,7 @@
             document.getElementById("eyebrow-text").textContent =
               "Today's the Day · 24 June 2026";
             document.querySelector(".hero-label").textContent =
-              "Tonight at 9 PM — your train home departs. The wait is over.";
+              "Tonight at 7:45 PM — your train home departs. The wait is over.";
             startConfetti([
               "#5ee0d4",
               "#2ec4b6",
