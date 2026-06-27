@@ -1,1597 +1,594 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homecoming · RNC→BBS</title>
-    <link rel="icon" type="image/svg+xml" href="home-color-icon.svg" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Homecoming · RNC→BBS</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080a10;--bg2:#0d1020;
+  --ink:#eae8e0;--ink2:#b0ad9f;--ink3:#5a5855;
+  --accent:#00c9a7;--accent2:#00ffe0;
+  --warm:#ff6b35;--warm2:#ff9a6c;
+  --gold:#e8b84b;--gold2:#ffd166;
+  --line:rgba(234,232,224,0.06);--line2:rgba(234,232,224,0.11);
+}
 
-      :root {
-        --bg: #06080f;
-        --bg2: #0b0e1a;
-        --bg3: #111526;
-        --paper: #f2ead8;
-        --paper2: #d9cdb8;
-        --paper3: #a89f8e;
-        --ember: #e8602a;
-        --ember2: #f5874a;
-        --teal: #2ec4b6;
-        --teal2: #5ee0d4;
-        --gold: #c8963c;
-        --gold2: #f0c060;
-        --muted: rgba(242, 234, 216, 0.18);
-        --line: rgba(242, 234, 216, 0.07);
-      }
+html,body{min-height:100%;background:var(--bg);color:var(--ink);font-family:"DM Mono",monospace;overflow-x:hidden}
 
-      html,
-      body {
-        min-height: 100%;
-        background: var(--bg);
-        color: var(--paper);
-        font-family: "DM Mono", monospace;
-        overflow-x: hidden;
-      }
+/* BG LAYERS */
+body::before{content:"";position:fixed;inset:0;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size:180px;pointer-events:none;opacity:.5}
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-        background-size: 200px;
-        pointer-events: none;
-        opacity: 0.6;
-      }
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orbs span{position:absolute;border-radius:50%;filter:blur(90px);opacity:.07;animation:drift 20s ease-in-out infinite alternate}
+.orbs span:nth-child(1){width:min(700px,120vw);height:400px;top:-150px;left:-100px;background:var(--accent);animation-duration:22s}
+.orbs span:nth-child(2){width:min(500px,100vw);height:400px;bottom:-150px;right:-50px;background:var(--warm);animation-duration:28s;animation-delay:-10s}
+.orbs span:nth-child(3){width:250px;height:250px;top:50%;left:40%;background:var(--gold);opacity:.04;animation-duration:35s;animation-delay:-5s}
+@keyframes drift{from{transform:translate(0,0)scale(1)}to{transform:translate(40px,25px)scale(1.1)}}
 
-      .aurora {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
-      .aurora span {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(120px);
-        opacity: 0.07;
-        animation: drift 18s ease-in-out infinite alternate;
-      }
-      .aurora span:nth-child(1) {
-        width: 800px;
-        height: 500px;
-        top: -100px;
-        left: -200px;
-        background: var(--teal);
-        animation-duration: 20s;
-      }
-      .aurora span:nth-child(2) {
-        width: 600px;
-        height: 600px;
-        bottom: -200px;
-        right: -100px;
-        background: var(--ember);
-        animation-duration: 25s;
-        animation-delay: -8s;
-      }
-      .aurora span:nth-child(3) {
-        width: 400px;
-        height: 400px;
-        top: 40%;
-        left: 30%;
-        background: var(--gold);
-        animation-duration: 30s;
-        animation-delay: -4s;
-        opacity: 0.04;
-      }
-      @keyframes drift {
-        from {
-          transform: translate(0, 0) scale(1);
-        }
-        to {
-          transform: translate(60px, 40px) scale(1.15);
-        }
-      }
+#confetti{position:fixed;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1s}
+body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti{opacity:1}
 
-      .shell {
-        position: relative;
-        z-index: 10;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        min-height: 100vh;
-      }
+.pulse-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pdot 2s ease infinite}
+@keyframes pdot{0%,100%{box-shadow:0 0 5px var(--accent)}50%{box-shadow:0 0 14px var(--accent),0 0 28px rgba(0,201,167,.3)}}
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 22px 52px;
-        border-bottom: 1px solid var(--line);
-        backdrop-filter: blur(20px);
-        background: rgba(6, 8, 15, 0.5);
-        animation: slideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-      }
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+/* ── SHELL ── */
+.shell{position:relative;z-index:10;display:flex;flex-direction:column;min-height:100vh}
 
-      .brand {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-      }
-      .brand-name {
-        font-family: "Playfair Display", serif;
-        font-style: italic;
-        font-size: 1.35rem;
-        font-weight: 400;
-        letter-spacing: 0.04em;
-        color: var(--paper);
-      }
-      .brand-sub {
-        font-size: 0.45rem;
-        letter-spacing: 0.4em;
-        text-transform: uppercase;
-        color: var(--paper3);
-      }
+/* ── HEADER ── */
+header{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 20px;
+  border-bottom:1px solid var(--line2);
+  background:rgba(8,10,16,.8);backdrop-filter:blur(24px);
+  flex-shrink:0;position:sticky;top:0;z-index:50;
+  animation:slideDown .7s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
 
-      .hd-mid {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-      }
-      .route-pill {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 7px 18px;
-        border: 1px solid var(--line);
-        border-radius: 100px;
-        background: rgba(255, 255, 255, 0.03);
-      }
-      .rp-code {
-        font-family: "Playfair Display", serif;
-        font-size: 1.1rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-      }
-      .rp-code.from {
-        color: var(--ember2);
-      }
-      .rp-code.to {
-        color: var(--teal2);
-      }
-      .rp-arrow {
-        color: var(--paper3);
-        font-size: 0.8rem;
-        letter-spacing: -0.1em;
-      }
-      .hd-date {
-        font-size: 0.44rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--paper3);
-      }
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:0}
+.brand-mark{width:32px;height:32px;border-radius:7px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-weight:800;font-size:11px;letter-spacing:.04em;color:var(--bg);flex-shrink:0}
+.brand-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.brand-name{font-family:"Syne",sans-serif;font-weight:700;font-size:15px;letter-spacing:.05em;color:var(--ink);white-space:nowrap}
+.brand-sub{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-      .hd-right {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 4px;
-      }
-      .live-badge {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        font-size: 0.44rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--teal);
-      }
-      .live-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--teal);
-        box-shadow: 0 0 8px var(--teal);
-        animation: throb 2s ease infinite;
-      }
-      @keyframes throb {
-        0%,
-        100% {
-          box-shadow: 0 0 6px var(--teal);
-        }
-        50% {
-          box-shadow:
-            0 0 18px var(--teal),
-            0 0 32px rgba(46, 196, 182, 0.4);
-        }
-      }
-      .hd-clock {
-        font-family: "Playfair Display", serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--paper);
-        letter-spacing: 0.06em;
-        font-variant-numeric: tabular-nums;
-      }
+.hd-center{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.route-chip{display:flex;align-items:center;gap:9px;padding:5px 15px;border:1px solid var(--line2);border-radius:100px;background:rgba(255,255,255,.02);font-family:"Syne",sans-serif;font-weight:700;font-size:16px;letter-spacing:.1em}
+.rc-from{color:var(--warm2)}.rc-sep{color:var(--ink3);font-size:11px;font-family:"DM Mono"}.rc-to{color:var(--accent)}
+.hd-tagline{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);white-space:nowrap}
 
-      main {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        min-height: 0;
-      }
+.hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.pulse-badge{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.hd-clock{font-family:"Syne",sans-serif;font-weight:800;font-size:22px;color:var(--ink);letter-spacing:.05em;font-variant-numeric:tabular-nums}
 
-      .stage {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 52px 72px;
-        border-right: 1px solid var(--line);
-        position: relative;
-        overflow: hidden;
-      }
+/* ── MAIN GRID ── */
+.main-body{display:grid;grid-template-columns:minmax(0,1fr) 340px;flex:1;min-height:0}
 
-      .ghost-text {
-        position: absolute;
-        right: -60px;
-        bottom: -60px;
-        font-family: "Playfair Display", serif;
-        font-size: clamp(16rem, 28vw, 30rem);
-        font-weight: 900;
-        font-style: italic;
-        line-height: 0.8;
-        color: rgba(242, 234, 216, 0.018);
-        pointer-events: none;
-        user-select: none;
-        white-space: nowrap;
-        letter-spacing: -0.05em;
-      }
+/* ── STAGE ── */
+.stage{display:flex;flex-direction:column;justify-content:center;padding:48px 56px;border-right:1px solid var(--line);position:relative;overflow:hidden;min-width:0}
 
-      .eyebrow {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 0.5rem;
-        letter-spacing: 0.38em;
-        text-transform: uppercase;
-        color: var(--ember);
-        margin-bottom: 28px;
-        animation: riseUp 0.7s ease 0.1s both;
-      }
-      .eyebrow-line {
-        width: 40px;
-        height: 1px;
-        background: var(--ember);
-        opacity: 0.6;
-      }
+.bg-num{position:absolute;right:-40px;bottom:-80px;font-family:"Syne",sans-serif;font-weight:800;font-size:28vw;line-height:.85;color:rgba(234,232,224,.013);pointer-events:none;user-select:none;white-space:nowrap;letter-spacing:-.04em}
 
-      .hero-label {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: clamp(1rem, 2.2vw, 1.4rem);
-        font-weight: 300;
-        color: var(--paper3);
-        margin-bottom: 10px;
-        animation: riseUp 0.7s ease 0.15s both;
-        letter-spacing: 0.04em;
-      }
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:18px;font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:var(--warm);animation:riseUp .6s ease .1s both}
+.eyebrow-rule{width:28px;height:1px;background:currentColor;opacity:.6;flex-shrink:0}
 
-      .countdown-row {
-        display: flex;
-        align-items: baseline;
-        gap: 0;
-        animation: riseUp 0.7s ease 0.2s both;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-      }
-      .cd-block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 28px;
-        border-right: 1px solid var(--line);
-      }
-      .cd-block:first-child {
-        padding-left: 0;
-      }
-      .cd-block:last-child {
-        border-right: none;
-      }
-      .cd-num {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(5rem, 11vw, 10rem);
-        font-weight: 900;
-        line-height: 1;
-        color: var(--paper);
-        font-variant-numeric: tabular-nums;
-        letter-spacing: -0.02em;
-        transition: color 0.3s;
-      }
-      .cd-num.highlight {
-        color: var(--teal2);
-      }
-      .cd-label {
-        font-size: 0.42rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-top: 6px;
-      }
-      .cd-block.secs .cd-num {
-        color: var(--ember2);
-      }
+.hero-sub{font-family:"DM Serif Display",serif;font-style:italic;font-size:18px;color:var(--ink2);margin-bottom:14px;animation:riseUp .6s ease .15s both}
 
-      @media (max-width: 640px) {
-        .countdown-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0;
-          width: 100%;
-          justify-items: center;
-        }
-        .cd-block {
-          width: 100%;
-          padding: 18px 0 14px;
-          border-right: none;
-          border-bottom: 1px solid var(--line);
-          align-items: center;
-        }
-        .cd-block:nth-child(2) {
-          border-left: 1px solid var(--line);
-        }
-        .cd-block:nth-child(4) {
-          border-left: 1px solid var(--line);
-        }
-        .cd-block:nth-child(3),
-        .cd-block:nth-child(4) {
-          border-bottom: none;
-        }
-        .cd-block:first-child {
-          padding-left: 0;
-        }
-        .cd-num {
-          font-size: clamp(3.8rem, 20vw, 5.5rem);
-        }
-      }
+@keyframes riseUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-      .stats-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 1px;
-        margin-top: 44px;
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        overflow: hidden;
-        animation: riseUp 0.7s ease 0.3s both;
-        background: var(--line);
-      }
-      .stat-box {
-        background: rgba(11, 14, 26, 0.8);
-        padding: 22px 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        position: relative;
-        transition: background 0.3s;
-      }
-      .stat-box:hover {
-        background: rgba(255, 255, 255, 0.03);
-      }
-      .stat-box-label {
-        font-size: 0.42rem;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: var(--paper3);
-      }
-      .stat-box-val {
-        font-family: "Playfair Display", serif;
-        font-size: 2rem;
-        font-weight: 700;
-        line-height: 1;
-        color: var(--paper);
-      }
-      .stat-box-val span {
-        font-size: 0.9rem;
-        color: var(--paper3);
-        font-family: "DM Mono", monospace;
-        font-weight: 300;
-      }
-      .stat-box-sub {
-        font-size: 0.42rem;
-        color: var(--paper3);
-        letter-spacing: 0.05em;
-      }
-      .mini-prog {
-        margin-top: 8px;
-        height: 2px;
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 2px;
-      }
-      .mini-prog-fill {
-        height: 100%;
-        border-radius: 2px;
-        transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+/* BANNERS */
+.banner-close{display:none;align-items:center;gap:10px;padding:10px 16px;margin-bottom:18px;border:1px solid rgba(232,184,75,.3);border-radius:10px;background:rgba(232,184,75,.06);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);animation:riseUp .5s both}
+.banner-close .b-icon{font-size:18px;animation:sway 1.5s ease infinite}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.banner-day{display:none;flex-direction:column;gap:5px;padding:14px 18px;margin-bottom:20px;border:1px solid rgba(0,201,167,.3);border-radius:12px;background:rgba(0,201,167,.06);animation:riseUp .5s both}
+.bd-label{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.bd-head{font-family:"DM Serif Display",serif;font-style:italic;font-size:22px;color:var(--accent2);line-height:1.2}
+.bd-sub{font-family:"DM Serif Display",serif;font-style:italic;font-size:13px;color:var(--ink2)}
 
-      .week-section {
-        margin-top: 36px;
-        animation: riseUp 0.7s ease 0.35s both;
-      }
-      .week-label {
-        font-size: 0.45rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-bottom: 14px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .week-label span {
-        color: var(--gold2);
-        font-family: "Playfair Display", serif;
-        font-size: 1rem;
-        font-weight: 700;
-      }
-      .week-dots {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .wd {
-        width: 18px;
-        height: 18px;
-        border-radius: 4px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.02);
-        transition: all 0.3s;
-        cursor: default;
-        position: relative;
-      }
-      .wd.passed {
-        background: var(--ember);
-        border-color: var(--ember);
-        box-shadow: 0 0 8px rgba(232, 96, 42, 0.4);
-      }
-      .wd.current {
-        background: var(--teal);
-        border-color: var(--teal);
-        box-shadow: 0 0 12px rgba(46, 196, 182, 0.5);
-        animation: throb2 2s infinite;
-      }
-      @keyframes throb2 {
-        0%,
-        100% {
-          box-shadow: 0 0 8px rgba(46, 196, 182, 0.4);
-        }
-        50% {
-          box-shadow: 0 0 20px rgba(46, 196, 182, 0.7);
-        }
-      }
+body.state-close .banner-close{display:flex}
+body.state-close .eyebrow{color:var(--gold2)}
+body.state-close .eyebrow-rule{background:var(--gold2)}
+body.state-day .banner-day{display:flex}
+body.state-day .cd-num{color:var(--accent)!important}
 
-      @keyframes riseUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+/* ── COUNTDOWN ── */
+.cd-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));animation:riseUp .6s ease .2s both;margin-bottom:4px;width:100%}
+.cd-unit{display:flex;flex-direction:column;align-items:center;padding:0 16px;border-right:1px solid var(--line2);min-width:0}
+.cd-unit:first-child{padding-left:0;align-items:flex-start}
+.cd-unit:last-child{border-right:none}
+.cd-num{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(2.5rem,5.5vw,7rem);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em;transition:color .4s;white-space:nowrap}
+.cd-unit:first-child .cd-num{color:var(--accent)}
+.cd-unit.secs .cd-num{color:var(--warm2)}
+.cd-lbl{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink3);margin-top:4px}
 
-      .sidebar {
-        display: flex;
-        flex-direction: column;
-        background: var(--bg2);
-        overflow: hidden;
-      }
+/* ── STAT CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:32px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:var(--line2);animation:riseUp .6s ease .28s both}
+.card{background:var(--bg2);padding:16px 18px;display:flex;flex-direction:column;gap:4px;transition:background .25s;min-width:0}
+.card:hover{background:rgba(255,255,255,.022)}
+.card-lbl{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink3)}
+.card-val{font-family:"Syne",sans-serif;font-weight:800;font-size:26px;line-height:1;color:var(--ink)}
+.card-val span{font-family:"DM Mono";font-size:12px;font-weight:300;color:var(--ink3)}
+.card-note{font-size:9px;color:var(--ink3);letter-spacing:.04em}
+.prog{margin-top:7px;height:2px;background:rgba(255,255,255,.06);border-radius:2px}
+.prog-fill{height:100%;border-radius:2px;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
 
-      .dest-card {
-        padding: 32px 28px 26px;
-        border-bottom: 1px solid var(--line);
-        background: linear-gradient(
-          135deg,
-          rgba(46, 196, 182, 0.07),
-          rgba(6, 8, 15, 0.3)
-        );
-        flex-shrink: 0;
-        animation: slideLeft 0.7s ease 0.2s both;
-        position: relative;
-        overflow: hidden;
-      }
-      .dest-card::before {
-        content: "BBS";
-        position: absolute;
-        right: -20px;
-        bottom: -30px;
-        font-family: "Playfair Display", serif;
-        font-size: 8rem;
-        font-weight: 900;
-        font-style: italic;
-        color: rgba(46, 196, 182, 0.04);
-        pointer-events: none;
-        user-select: none;
-        line-height: 1;
-      }
-      .dc-label {
-        font-size: 0.45rem;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-bottom: 18px;
-      }
-      .dc-city {
-        font-family: "Playfair Display", serif;
-        font-size: 3rem;
-        font-weight: 900;
-        color: var(--teal2);
-        letter-spacing: 0.06em;
-        line-height: 1;
-      }
-      .dc-fullname {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: 1.1rem;
-        color: var(--paper3);
-        margin-top: 4px;
-      }
-      .dc-date-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 18px;
-        padding-top: 18px;
-        border-top: 1px solid var(--line);
-        font-size: 0.48rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--teal);
-      }
+/* ── WEEK DOTS ── */
+.week-section{margin-top:24px;animation:riseUp .6s ease .34s both}
+.week-meta{display:flex;justify-content:space-between;align-items:center;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.week-meta-badge{font-family:"Syne",sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:var(--gold2)}
+.week-dots{display:flex;flex-wrap:wrap;gap:5px}
+.wd{width:20px;height:20px;border-radius:4px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.015);transition:all .3s;cursor:default;flex-shrink:0}
+.wd.past{background:var(--warm);border-color:var(--warm);box-shadow:0 0 6px rgba(255,107,53,.3)}
+.wd.now{background:var(--accent);border-color:var(--accent);animation:glow 2s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 6px rgba(0,201,167,.4)}50%{box-shadow:0 0 16px rgba(0,201,167,.65)}}
 
-      .quote-section {
-        padding: 24px 28px;
-        border-bottom: 1px solid var(--line);
-        flex-shrink: 0;
-        animation: slideLeft 0.7s ease 0.3s both;
-      }
-      .qs-label {
-        font-size: 0.45rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-bottom: 12px;
-      }
-      .qs-week-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        border: 1px solid rgba(240, 192, 96, 0.3);
-        border-radius: 100px;
-        background: rgba(240, 192, 96, 0.06);
-        font-size: 0.42rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--gold2);
-        margin-bottom: 12px;
-      }
-      .qs-text {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: 1rem;
-        color: var(--paper2);
-        line-height: 1.9;
-        letter-spacing: 0.01em;
-        transition: opacity 0.5s;
-      }
-      .qs-text.fade {
-        opacity: 0;
-      }
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;background:var(--bg2);overflow:hidden}
+.dest-card{padding:24px 22px 20px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(0,201,167,.07),rgba(8,10,16,.3));flex-shrink:0;position:relative;overflow:hidden;animation:slideLeft .7s ease .2s both}
+.dest-card::before{content:"BBS";position:absolute;right:-14px;bottom:-26px;font-family:"Syne",sans-serif;font-weight:800;font-size:100px;color:rgba(0,201,167,.04);pointer-events:none;user-select:none;line-height:1;letter-spacing:-.02em}
+.dc-eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px}
+.dc-city{font-family:"Syne",sans-serif;font-weight:800;font-size:42px;color:var(--accent);letter-spacing:.06em;line-height:1}
+.dc-name{font-family:"DM Serif Display",serif;font-style:italic;font-size:15px;color:var(--ink2);margin-top:3px}
+.dc-row{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
 
-      .ms-section {
-        flex: 1;
-        padding: 22px 28px;
-        overflow-y: auto;
-        animation: slideLeft 0.7s ease 0.4s both;
-      }
-      .ms-section::-webkit-scrollbar {
-        width: 2px;
-      }
-      .ms-section::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.08);
-      }
-      .ms-label {
-        font-size: 0.45rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-bottom: 16px;
-      }
+.quote-wrap{padding:18px 22px;border-bottom:1px solid var(--line);flex-shrink:0;animation:slideLeft .7s ease .28s both}
+.qw-eyebrow{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px}
+.qw-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border:1px solid rgba(232,184,75,.28);border-radius:100px;background:rgba(232,184,75,.06);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:9px}
+.qw-text{font-family:"DM Serif Display",serif;font-style:italic;font-size:14px;color:var(--ink2);line-height:1.85;transition:opacity .5s}
 
-      .ms-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        transition: all 0.3s;
-      }
-      .ms-item:last-child {
-        border-bottom: none;
-      }
-      .ms-ic {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.95rem;
-        flex-shrink: 0;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-        transition: all 0.3s;
-      }
-      .ms-item.passed .ms-ic {
-        background: rgba(232, 96, 42, 0.12);
-        border-color: rgba(232, 96, 42, 0.3);
-      }
-      .ms-item.current .ms-ic {
-        background: rgba(46, 196, 182, 0.12);
-        border-color: rgba(46, 196, 182, 0.4);
-        box-shadow: 0 0 12px rgba(46, 196, 182, 0.2);
-      }
-      .ms-body {
-        flex: 1;
-      }
-      .ms-title {
-        font-size: 0.6rem;
-        letter-spacing: 0.03em;
-        color: rgba(255, 255, 255, 0.25);
-        transition: color 0.3s;
-      }
-      .ms-item.passed .ms-title {
-        color: var(--paper2);
-      }
-      .ms-item.current .ms-title {
-        color: var(--teal2);
-      }
-      .ms-sub {
-        font-size: 0.44rem;
-        color: rgba(255, 255, 255, 0.15);
-        margin-top: 2px;
-        letter-spacing: 0.02em;
-      }
-      .ms-tag {
-        font-size: 0.42rem;
-        white-space: nowrap;
-      }
-      .ms-item.passed .ms-tag {
-        color: var(--ember2);
-      }
-      .ms-item.current .ms-tag {
-        color: var(--teal);
-      }
+.ms-wrap{flex:1;padding:16px 22px;overflow-y:auto;animation:slideLeft .7s ease .36s both}
+.ms-wrap::-webkit-scrollbar{width:2px}
+.ms-wrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07)}
+.ms-eyebrow{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px}
+.ms-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);transition:all .25s}
+.ms-item:last-child{border-bottom:none}
+.ms-ic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);transition:all .25s}
+.ms-item.past .ms-ic{background:rgba(255,107,53,.1);border-color:rgba(255,107,53,.3)}
+.ms-item.now .ms-ic{background:rgba(0,201,167,.1);border-color:rgba(0,201,167,.4);box-shadow:0 0 10px rgba(0,201,167,.18)}
+.ms-body{flex:1;min-width:0}
+.ms-title{font-size:12px;letter-spacing:.02em;color:rgba(255,255,255,.18);transition:color .25s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-item.past .ms-title{color:var(--ink2)}
+.ms-item.now .ms-title{color:var(--accent)}
+.ms-note{font-size:10px;color:rgba(255,255,255,.11);margin-top:2px}
+.ms-tag{font-size:10px;white-space:nowrap;flex-shrink:0}
+.ms-item.past .ms-tag{color:var(--warm2)}
+.ms-item.now .ms-tag{color:var(--accent)}
 
-      @keyframes slideLeft {
-        from {
-          opacity: 0;
-          transform: translateX(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
+@keyframes slideLeft{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
 
-      footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 52px;
-        border-top: 1px solid var(--line);
-        backdrop-filter: blur(16px);
-        background: rgba(6, 8, 15, 0.6);
-        animation: slideUp 0.9s ease 0.5s both;
-        flex-shrink: 0;
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .ft-left {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: 0.82rem;
-        color: var(--paper3);
-        letter-spacing: 0.02em;
-      }
-      .ft-left em {
-        color: var(--teal2);
-        font-style: normal;
-      }
-      .ft-right {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-size: 0.44rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--paper3);
-      }
-      .ft-dest {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        padding: 5px 14px;
-        border: 1px solid rgba(46, 196, 182, 0.25);
-        border-radius: 5px;
-        background: rgba(46, 196, 182, 0.06);
-        color: var(--teal2);
-        font-size: 0.44rem;
-        letter-spacing: 0.15em;
-      }
+/* ── MOBILE TABS ── */
+.mob-tabs{display:none;border-top:1px solid var(--line2);background:var(--bg2);flex-shrink:0}
+.mob-tab-nav{display:flex;border-bottom:1px solid var(--line)}
+.mob-tab-btn{flex:1;padding:13px 0;font-family:"DM Mono";font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.mob-tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.mob-tab-panel{display:none;padding:20px 20px 28px}
+.mob-tab-panel.active{display:block}
 
-      /* ─── STATE: CELEBRATORY (<10 days) ─── */
-      body.state-celebratory .aurora span:nth-child(1) {
-        background: var(--gold);
-        opacity: 0.1;
-      }
-      body.state-celebratory .aurora span:nth-child(2) {
-        background: var(--ember);
-        opacity: 0.1;
-      }
-      body.state-celebratory .aurora span:nth-child(3) {
-        background: var(--gold2);
-        opacity: 0.08;
-      }
-      body.state-celebratory .eyebrow {
-        color: var(--gold2);
-      }
-      body.state-celebratory .eyebrow-line {
-        background: var(--gold2);
-      }
-      body.state-celebratory .cd-block.secs .cd-num {
-        color: var(--gold2);
-      }
-      body.state-celebratory .live-badge {
-        color: var(--gold2);
-      }
-      body.state-celebratory .live-dot {
-        background: var(--gold2);
-        box-shadow: 0 0 8px var(--gold2);
-      }
-      body.state-celebratory header {
-        border-bottom-color: rgba(240, 192, 96, 0.15);
-      }
-      body.state-celebratory .route-pill {
-        border-color: rgba(240, 192, 96, 0.25);
-        background: rgba(240, 192, 96, 0.05);
-      }
+.mob-dest-row{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.mob-city{font-family:"Syne",sans-serif;font-weight:800;font-size:40px;color:var(--accent);letter-spacing:.06em;line-height:1}
+.mob-city-sub{font-family:"DM Serif Display",serif;font-style:italic;font-size:14px;color:var(--ink2)}
+.mob-dest-date{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 
-      .celebratory-banner {
-        display: none;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 20px;
-        margin-bottom: 24px;
-        border: 1px solid rgba(240, 192, 96, 0.35);
-        border-radius: 10px;
-        background: rgba(240, 192, 96, 0.07);
-        font-size: 0.52rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--gold2);
-        animation: riseUp 0.5s ease both;
-      }
-      .celebratory-banner .cb-icon {
-        font-size: 1.1rem;
-        animation: wobble 1.5s ease infinite;
-      }
-      @keyframes wobble {
-        0%,
-        100% {
-          transform: rotate(-8deg);
-        }
-        50% {
-          transform: rotate(8deg);
-        }
-      }
-      body.state-celebratory .celebratory-banner {
-        display: flex;
-      }
+/* ── FOOTER ── */
+footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;border-top:1px solid var(--line);background:rgba(8,10,16,.7);backdrop-filter:blur(18px);flex-shrink:0;animation:slideUp .8s ease .5s both}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ft-left{font-family:"DM Serif Display",serif;font-style:italic;font-size:13px;color:var(--ink3)}
+.ft-left em{color:var(--accent);font-style:normal}
+.ft-right{display:flex;align-items:center;gap:14px;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);flex-shrink:0}
+.ft-chip{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(0,201,167,.22);border-radius:5px;background:rgba(0,201,167,.05);color:var(--accent);font-size:9px;letter-spacing:.13em;white-space:nowrap}
 
-      .journey-banner {
-        display: none;
-        flex-direction: column;
-        gap: 6px;
-        padding: 16px 22px;
-        margin-bottom: 28px;
-        border: 1px solid rgba(94, 224, 212, 0.35);
-        border-radius: 12px;
-        background: rgba(94, 224, 212, 0.07);
-        animation: riseUp 0.5s ease both;
-        position: relative;
-        overflow: hidden;
-      }
-      .journey-banner::before {
-        content: "✈";
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 3rem;
-        opacity: 0.08;
-      }
-      .jb-top {
-        font-size: 0.5rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--teal);
-      }
-      .jb-main {
-        font-family: "Playfair Display", serif;
-        font-style: italic;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--teal2);
-        line-height: 1.2;
-      }
-      .jb-sub {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: 0.85rem;
-        color: var(--paper3);
-      }
-      body.state-journey .journey-banner {
-        display: flex;
-      }
-      body.state-journey .eyebrow {
-        color: var(--teal2);
-      }
-      body.state-journey .eyebrow-line {
-        background: var(--teal2);
-      }
-      body.state-journey .cd-num {
-        color: var(--teal2) !important;
-      }
-      body.state-journey header {
-        border-bottom-color: rgba(94, 224, 212, 0.2);
-      }
-      body.state-journey .hero-label {
-        color: var(--teal);
-      }
-      body.state-journey .aurora span:nth-child(1) {
-        background: var(--teal);
-        opacity: 0.14;
-      }
-      body.state-journey .aurora span:nth-child(2) {
-        background: var(--gold);
-        opacity: 0.1;
-      }
+/* ── ARRIVED OVERLAY ── */
+.arrived{display:none;position:fixed;inset:0;z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:32px 24px;background:rgba(8,10,16,.97);animation:fadeIn 1.5s both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+body.state-arrived .arrived{display:flex}
+.arr-icon{font-size:64px;animation:bounce 1s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+.arr-title{font-family:"Syne",sans-serif;font-weight:800;font-size:clamp(36px,10vw,80px);color:var(--accent);letter-spacing:-.02em;line-height:1}
+.arr-sub{font-family:"DM Serif Display",serif;font-style:italic;font-size:clamp(15px,3vw,20px);color:var(--ink2);max-width:460px;line-height:1.8}
+.arr-route{display:flex;align-items:center;gap:14px;font-family:"Syne",sans-serif;font-weight:700;font-size:clamp(20px,5vw,28px);letter-spacing:.1em;margin-top:6px}
+.arr-from{color:var(--warm2)}.arr-to{color:var(--accent)}.arr-sep{color:var(--ink3);font-size:14px}
+.arr-date{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);margin-top:2px}
 
-      #confetti-canvas {
-        position: fixed;
-        inset: 0;
-        z-index: 5;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 1s;
-      }
-      body.state-celebratory #confetti-canvas,
-      body.state-journey #confetti-canvas,
-      body.state-arrived #confetti-canvas {
-        opacity: 1;
-      }
+/* ════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+════════════════════════════════════ */
 
-      .arrived-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        background: rgba(6, 8, 15, 0.96);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        text-align: center;
-        padding: 40px;
-        animation: fadeIn 1.5s ease both;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      body.state-arrived .arrived-overlay {
-        display: flex;
-      }
-      .ao-emoji {
-        font-size: 5rem;
-        animation: bounce 1s ease infinite alternate;
-      }
-      @keyframes bounce {
-        from {
-          transform: translateY(0);
-        }
-        to {
-          transform: translateY(-18px);
-        }
-      }
-      .ao-title {
-        font-family: "Playfair Display", serif;
-        font-style: italic;
-        font-size: clamp(3rem, 8vw, 6rem);
-        font-weight: 900;
-        color: var(--teal2);
-        text-shadow: 0 0 60px rgba(94, 224, 212, 0.4);
-        line-height: 1.1;
-      }
-      .ao-sub {
-        font-family: "Cormorant Garamond", serif;
-        font-style: italic;
-        font-size: clamp(1.1rem, 3vw, 1.6rem);
-        color: var(--paper2);
-        max-width: 500px;
-        line-height: 1.7;
-      }
-      .ao-route {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-family: "Playfair Display", serif;
-        font-size: 1.6rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        margin-top: 10px;
-      }
-      .ao-route .from {
-        color: var(--ember2);
-      }
-      .ao-route .to {
-        color: var(--teal2);
-      }
-      .ao-route .arr {
-        color: var(--paper3);
-        font-size: 1.1rem;
-      }
-      .ao-date {
-        font-size: 0.5rem;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        color: var(--paper3);
-        margin-top: 4px;
-      }
+/* Large desktop: more padding */
+@media(min-width:1200px){
+  header{padding:18px 48px}
+  .stage{padding:56px 72px}
+  footer{padding:14px 48px}
+  .cd-num{font-size:clamp(4rem,6vw,8rem)}
+}
 
-      @media (max-width: 960px) {
-        main {
-          grid-template-columns: 1fr;
-        }
-        .stage {
-          padding: 40px 32px;
-          border-right: none;
-          border-bottom: 1px solid var(--line);
-        }
-        .sidebar {
-          max-height: none;
-        }
-        header {
-          padding: 18px 24px;
-        }
-        footer {
-          padding: 14px 24px;
-          flex-direction: column;
-          gap: 10px;
-          text-align: center;
-        }
-        .ft-right {
-          justify-content: center;
-        }
-      }
-      @media (max-width: 640px) {
-        header {
-          flex-wrap: wrap;
-          gap: 10px;
-          padding: 14px 16px;
-        }
-        .hd-mid {
-          display: none;
-        }
-        .stage {
-          padding: 28px 20px;
-          align-items: center;
-          text-align: center;
-        }
-        .eyebrow {
-          justify-content: center;
-        }
-        .hero-label {
-          text-align: center;
-        }
-        .stats-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-        .stats-grid .stat-box:last-child {
-          grid-column: 1/-1;
-        }
-        .week-section {
-          width: 100%;
-        }
-        .week-dots {
-          justify-content: center;
-        }
-        footer {
-          padding: 14px 16px;
-        }
-        .dest-card,
-        .ms-section,
-        .quote-section {
-          padding-left: 20px;
-          padding-right: 20px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="aurora"><span></span><span></span><span></span></div>
-    <canvas id="confetti-canvas"></canvas>
+/* Tablet: sidebar squeezes countdown */
+@media(max-width:1100px) and (min-width:769px){
+  .stage{padding:36px 32px}
+  .cd-unit{padding:0 10px}
+  .cd-unit:first-child{padding-left:0}
+  .cd-num{font-size:clamp(2.4rem,5vw,5.5rem)}
+  .main-body{grid-template-columns:minmax(0,1fr) 300px}
+}
 
-    <!-- ARRIVED OVERLAY -->
-    <div class="arrived-overlay">
-      <div class="ao-emoji">🏠</div>
-      <div class="ao-title">Welcome Home.</div>
-      <div class="ao-sub">
-        You did it. Every single day away, every moment of grit — it all led
-        back here. Bhubaneswar is waiting with open arms.
+/* Mobile: single column, tabs replace sidebar */
+@media(max-width:768px){
+  .main-body{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .mob-tabs{display:block}
+  .bg-num{display:none}
+
+  .stage{
+    border-right:none;
+    border-bottom:1px solid var(--line);
+    padding:28px 20px 24px;
+    justify-content:flex-start;
+  }
+
+  /* Countdown: 2×2 grid on mobile */
+  .cd-row{grid-template-columns:1fr 1fr}
+  .cd-unit{
+    padding:16px 12px 12px;
+    border-right:none;
+    border-bottom:1px solid var(--line2);
+    align-items:center;
+  }
+  .cd-unit:first-child{padding-left:12px;align-items:center}
+  .cd-unit:last-child{border-right:none}
+  .cd-unit:nth-child(odd){border-right:1px solid var(--line2)}
+  .cd-unit:nth-child(3),.cd-unit:nth-child(4){border-bottom:none}
+  .cd-num{font-size:clamp(3rem,14vw,5rem)}
+
+  /* Cards: 2 col, third full width */
+  .cards{grid-template-columns:1fr 1fr;margin-top:20px}
+  .cards .card:last-child{grid-column:1/-1}
+  .card-val{font-size:22px}
+
+  /* Week dots */
+  .week-section{margin-top:20px}
+  .wd{width:18px;height:18px}
+
+  /* Footer stacks */
+  footer{flex-direction:column;gap:8px;text-align:center;padding:12px 20px}
+  .ft-right{justify-content:center}
+
+  /* Header */
+  .hd-center{display:none}
+  .hd-clock{font-size:18px}
+}
+
+/* Small phones */
+@media(max-width:400px){
+  header{padding:12px 16px;gap:8px}
+  .brand-name{font-size:13px}
+  .brand-sub{display:none}
+  .hd-clock{font-size:16px}
+
+  .stage{padding:22px 16px 20px}
+  .cd-num{font-size:clamp(2.4rem,12vw,4rem)}
+  .cd-unit{padding:14px 8px 10px}
+
+  .cards{grid-template-columns:1fr}
+  .cards .card:last-child{grid-column:auto}
+  .card-val{font-size:20px}
+
+  .mob-tab-panel{padding:16px 16px 24px}
+  .mob-city{font-size:36px}
+
+  footer{padding:10px 16px}
+  .ft-left{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="orbs"><span></span><span></span><span></span></div>
+<canvas id="confetti"></canvas>
+
+<div class="arrived">
+  <div class="arr-icon">🏠</div>
+  <div class="arr-title">Welcome Home.</div>
+  <div class="arr-sub">Every day away, every moment of grit — it all led back here. Bhubaneswar was always waiting.</div>
+  <div class="arr-route"><span class="arr-from">RNC</span><span class="arr-sep">——›</span><span class="arr-to">BBS</span></div>
+  <div class="arr-date">21 August 2026 · Journey Complete</div>
+</div>
+
+<div class="shell">
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="brand-mark">HC</div>
+      <div class="brand-text">
+        <div class="brand-name">Homecoming</div>
+        <div class="brand-sub">Live · Ranchi → Bhubaneswar</div>
       </div>
-      <div class="ao-route">
-        <span class="from">RNC</span>
-        <span class="arr">——›</span>
-        <span class="to">BBS</span>
+    </div>
+    <div class="hd-center">
+      <div class="route-chip">
+        <span class="rc-from">RNC</span><span class="rc-sep">————›</span><span class="rc-to">BBS</span>
       </div>
-      <div class="ao-date">24 June 2026 · 7:45 PM IST · Journey Complete</div>
+      <div class="hd-tagline">21 August 2026 · Target Return</div>
+    </div>
+    <div class="hd-right">
+      <div class="pulse-badge"><div class="pulse-dot"></div>Live</div>
+      <div class="hd-clock" id="hd-clock">00:00:00</div>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <div class="main-body">
+
+    <!-- STAGE -->
+    <div class="stage">
+      <div class="bg-num" id="bg-num">51</div>
+
+      <div class="banner-close">
+        <span class="b-icon">🎉</span><span id="close-text">Almost there!</span>
+      </div>
+      <div class="banner-day">
+        <div class="bd-label">Today is the day</div>
+        <div class="bd-head">Time to go home.</div>
+        <div class="bd-sub">Your journey back to Bhubaneswar begins today. Pack everything.</div>
+      </div>
+
+      <div class="eyebrow">
+        <div class="eyebrow-rule"></div><span id="eyebrow-text">Counting Down to Home</span>
+      </div>
+      <div class="hero-sub">Days until you're back in Bhubaneswar</div>
+
+      <div class="cd-row">
+        <div class="cd-unit"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
+        <div class="cd-unit"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
+        <div class="cd-unit"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">Mins</div></div>
+        <div class="cd-unit secs"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">Secs</div></div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-lbl">Weeks passed</div>
+          <div class="card-val" id="s-wks">-- <span>/ 8 wks</span></div>
+          <div class="card-note" id="s-wks-note">of total journey</div>
+          <div class="prog"><div class="prog-fill" id="pf-wk" style="width:0%;background:var(--warm)"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-lbl">Days passed</div>
+          <div class="card-val" id="s-dpast">-- <span>days</span></div>
+          <div class="card-note" id="s-dpast-note">since 01 Jul 2026</div>
+          <div class="prog"><div class="prog-fill" id="pf-day" style="width:0%;background:var(--gold)"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-lbl">Days left</div>
+          <div class="card-val" id="s-dleft">-- <span>days</span></div>
+          <div class="card-note">until 21 Aug 2026</div>
+          <div class="prog"><div class="prog-fill" id="pf-left" style="width:0%;background:var(--accent)"></div></div>
+        </div>
+      </div>
+
+      <div class="week-section">
+        <div class="week-meta">
+          <span>Week-by-week · each square = 1 calendar week</span>
+          <span class="week-meta-badge" id="week-badge">W1</span>
+        </div>
+        <div class="week-dots" id="week-dots-desktop"></div>
+      </div>
     </div>
 
-    <div class="shell">
-      <!-- HEADER -->
-      <header>
-        <div class="brand">
-          <div class="brand-name">Homecoming</div>
-          <div class="brand-sub">Personal · Live · Ranchi → Bhubaneswar</div>
-        </div>
-        <div class="hd-mid">
-          <div class="route-pill">
-            <span class="rp-code from">RNC</span>
-            <span class="rp-arrow">——›</span>
-            <span class="rp-code to">BBS</span>
-          </div>
-          <div class="hd-date">24 June 2026, 7:45 PM IST · Target Date</div>
-        </div>
-        <div class="hd-right">
-          <div class="live-badge">
-            <div class="live-dot"></div>
-            Live Countdown
-          </div>
-          <div class="hd-clock" id="hd-clock">00:00:00</div>
-        </div>
-      </header>
+    <!-- SIDEBAR (desktop only) -->
+    <div class="sidebar">
+      <div class="dest-card">
+        <div class="dc-eyebrow">Destination · Home</div>
+        <div class="dc-city">BBS</div>
+        <div class="dc-name">Bhubaneswar, Odisha</div>
+        <div class="dc-row"><div class="pulse-dot"></div>Return · 21 August 2026</div>
+      </div>
+      <div class="quote-wrap">
+        <div class="qw-eyebrow">Weekly Thought</div>
+        <div class="qw-badge" id="q-badge">Week 0</div>
+        <div class="qw-text" id="q-text">Loading…</div>
+      </div>
+      <div class="ms-wrap">
+        <div class="ms-eyebrow">Milestone Tracker</div>
+        <div id="ms-list-desktop"></div>
+      </div>
+    </div>
+  </div>
 
-      <main>
-        <!-- STAGE LEFT -->
-        <div class="stage">
-          <div class="ghost-text" id="ghost-days">23</div>
-
-          <div class="celebratory-banner">
-            <span class="cb-icon">🎉</span>
-            <span id="celeb-text">Under 10 days — almost there!</span>
-          </div>
-
-          <div class="journey-banner">
-            <div class="jb-top">Today is the day</div>
-            <div class="jb-main">It's time to go home.</div>
-            <div class="jb-sub">
-              Your journey to Bhubaneswar begins tonight at 7:45 PM. Pack your
-              bags.
-            </div>
-          </div>
-
-          <div class="eyebrow">
-            <div class="eyebrow-line"></div>
-            <span id="eyebrow-text">Countdown to Home</span>
-          </div>
-
-          <div class="hero-label">
-            Time remaining until you're back in Bhubaneswar
-          </div>
-
-          <div class="countdown-row">
-            <div class="cd-block">
-              <div class="cd-num" id="cd-days">--</div>
-              <div class="cd-label">Days</div>
-            </div>
-            <div class="cd-block">
-              <div class="cd-num" id="cd-hours">--</div>
-              <div class="cd-label">Hours</div>
-            </div>
-            <div class="cd-block">
-              <div class="cd-num" id="cd-mins">--</div>
-              <div class="cd-label">Minutes</div>
-            </div>
-            <div class="cd-block secs">
-              <div class="cd-num" id="cd-secs">--</div>
-              <div class="cd-label">Seconds</div>
-            </div>
-          </div>
-
-          <div class="stats-grid">
-            <div class="stat-box">
-              <div class="stat-box-label">Weeks Passed</div>
-              <div class="stat-box-val" id="stat-wks-passed">
-                -- <span>/ -- wks</span>
-              </div>
-              <div class="stat-box-sub" id="stat-wks-sub">of total journey</div>
-              <div class="mini-prog">
-                <div
-                  class="mini-prog-fill"
-                  id="wk-fill"
-                  style="width: 0%; background: var(--ember)"
-                ></div>
-              </div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-box-label">Days Passed</div>
-              <div class="stat-box-val" id="stat-days-passed">
-                -- <span>days</span>
-              </div>
-              <div class="stat-box-sub" id="stat-days-pct">
-                since 01 June 2026
-              </div>
-              <div class="mini-prog">
-                <div
-                  class="mini-prog-fill"
-                  id="day-fill"
-                  style="width: 0%; background: var(--gold)"
-                ></div>
-              </div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-box-label">Days Left</div>
-              <div class="stat-box-val" id="stat-days-left">
-                -- <span>days</span>
-              </div>
-              <div class="stat-box-sub">until 24 June 2026, 7:45 PM</div>
-              <div class="mini-prog">
-                <div
-                  class="mini-prog-fill"
-                  id="left-fill"
-                  style="width: 0%; background: var(--teal)"
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="week-section">
-            <div class="week-label">
-              <span
-                style="
-                  font-family: &quot;DM Mono&quot;;
-                  font-size: 0.42rem;
-                  letter-spacing: 0.28em;
-                  text-transform: uppercase;
-                  color: var(--paper3);
-                "
-              >
-                Week-by-week · every square = 1 week
-              </span>
-              <span id="week-counter">W0</span>
-            </div>
-            <div class="week-dots" id="week-dots"></div>
-          </div>
-        </div>
-
-        <!-- SIDEBAR RIGHT -->
-        <div class="sidebar">
-          <div class="dest-card">
-            <div class="dc-label">Destination · Home</div>
-            <div class="dc-city">BBS</div>
-            <div class="dc-fullname">Bhubaneswar, Odisha</div>
-            <div class="dc-date-row">
-              <div
-                class="live-dot"
-                style="background: var(--teal); box-shadow: 0 0 8px var(--teal)"
-              ></div>
-              Boarding · 24 June 2026 · 7:45 PM IST
-            </div>
-          </div>
-
-          <div class="quote-section">
-            <div class="qs-label">Weekly Thought</div>
-            <div class="qs-week-badge" id="q-week-badge">Week 0</div>
-            <div class="qs-text" id="q-text">Loading…</div>
-          </div>
-
-          <div class="ms-section">
-            <div class="ms-label">Milestone Tracker</div>
-            <div id="ms-list"></div>
-          </div>
-        </div>
-      </main>
-
-      <footer>
-        <div class="ft-left">
-          Every second ticking down is a second closer to <em>home.</em>
-        </div>
-        <div class="ft-right">
-          <div class="ft-dest">
-            <div class="live-dot" style="width: 5px; height: 5px"></div>
-            BBS on 24 June · 7:45 PM
-          </div>
-          <span>Ranchi · Jharkhand</span>
-        </div>
-      </footer>
+  <!-- MOBILE TABS (≤768px) -->
+  <div class="mob-tabs">
+    <div class="mob-tab-nav">
+      <button class="mob-tab-btn active" onclick="mobTab(this,'mob-dest')">Destination</button>
+      <button class="mob-tab-btn" onclick="mobTab(this,'mob-quote')">This Week</button>
+      <button class="mob-tab-btn" onclick="mobTab(this,'mob-ms')">Milestones</button>
     </div>
 
-    <script>
-      (function () {
-        // ── CONFIG ──
-        // Start: 01 Jun 2026, 00:00 IST
-        const DEPARTED = new Date("2026-06-01T00:00:00+05:30").getTime();
-        // Target: 24 Jun 2026, 21:00 IST  (23 days total)
-        const HOME_DATE = new Date("2026-06-24T19:45:00+05:30").getTime();
-        const TOTAL_MS = HOME_DATE - DEPARTED;
-        const TOTAL_DAYS = Math.round(TOTAL_MS / 86400000); // 23
+    <div class="mob-tab-panel active" id="mob-dest">
+      <div class="mob-dest-row">
+        <div>
+          <div class="mob-city">BBS</div>
+          <div class="mob-city-sub">Bhubaneswar, Odisha</div>
+        </div>
+        <div style="flex:1"></div>
+        <div>
+          <div class="dc-eyebrow" style="margin-bottom:4px">Destination</div>
+          <div class="mob-dest-date"><div class="pulse-dot"></div>21 Aug 2026</div>
+        </div>
+      </div>
+      <div class="week-meta" style="margin-top:4px">
+        <span>Week-by-week</span><span class="week-meta-badge" id="week-badge-mob">W1</span>
+      </div>
+      <div class="week-dots" id="week-dots-mob" style="justify-content:flex-start"></div>
+    </div>
 
-        // ── WEEKLY QUOTES (4 weeks of journey) ──
-        const WEEKLY_QUOTES = [
-          "The hardest step is always the first one away from the door you love. But you took it — that counts.",
-          "One week in. You chose purpose over comfort, and that is never a small thing.",
-          "Two weeks of showing up quietly. The discipline you're building right now compounds for life.",
-          "Three weeks of grit. The finish line is in sight — stay steady till the final second.",
-        ];
+    <div class="mob-tab-panel" id="mob-quote">
+      <div class="qw-badge" id="q-badge-mob" style="margin-bottom:10px">Week 0</div>
+      <div class="qw-text" id="q-text-mob" style="font-size:.95rem">Loading…</div>
+    </div>
 
-        // ── MILESTONES (23-day journey: Jun 1 → Jun 24) ──
-        const MILESTONES = [
-          {
-            days: 1,
-            icon: "🚉",
-            label: "Day One Away",
-            sub: "The journey begins from Ranchi.",
-          },
-          {
-            days: 7,
-            icon: "📅",
-            label: "First Week Done",
-            sub: "Seven solid days of grit.",
-          },
-          {
-            days: 14,
-            icon: "💪",
-            label: "Two Weeks Strong",
-            sub: "Past the halfway mark.",
-          },
-          {
-            days: 19,
-            icon: "🔥",
-            label: "Final Stretch",
-            sub: "Under 5 days remaining.",
-          },
-          {
-            days: Math.round(TOTAL_DAYS),
-            icon: "🏠",
-            label: "Home — BBS",
-            sub: "24 Jun 2026, 7:45 PM. You made it.",
-          },
-        ];
+    <div class="mob-tab-panel" id="mob-ms">
+      <div id="ms-list-mob"></div>
+    </div>
+  </div>
 
-        function pad(n) {
-          return String(n).padStart(2, "0");
-        }
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft-left">Every second is a step closer to <em>home.</em></div>
+    <div class="ft-right">
+      <div class="ft-chip"><div class="pulse-dot" style="width:5px;height:5px"></div>BBS · 21 Aug 2026</div>
+      <span>Ranchi · Jharkhand</span>
+    </div>
+  </footer>
+</div>
 
-        function updateClock() {
-          const d = new Date();
-          document.getElementById("hd-clock").textContent =
-            pad(d.getHours()) +
-            ":" +
-            pad(d.getMinutes()) +
-            ":" +
-            pad(d.getSeconds());
-        }
+<script>
+function mobTab(btn, id) {
+  document.querySelectorAll('.mob-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mob-tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
 
-        function startOfWeek(date) {
-          const d = new Date(date);
-          d.setHours(0, 0, 0, 0);
-          d.setDate(d.getDate() - d.getDay());
-          return d;
-        }
-        function calWeeksPassed(now) {
-          const dep = startOfWeek(new Date(DEPARTED));
-          const cur = startOfWeek(new Date(now));
-          return Math.floor((cur - dep) / (7 * 86400000));
-        }
-        function calTotalWeeks() {
-          const dep = startOfWeek(new Date(DEPARTED));
-          const home = startOfWeek(new Date(HOME_DATE));
-          return Math.floor((home - dep) / (7 * 86400000)) + 1;
-        }
-        const CAL_TOTAL_WEEKS = calTotalWeeks();
+(function(){
+  const DEPARTED = new Date("2026-07-01T00:00:00+05:30").getTime();
+  const HOME     = new Date("2026-08-21T00:00:00+05:30").getTime();
+  const TOTAL_MS = HOME - DEPARTED;
+  const CAL_WEEKS = 8;
 
-        function buildWeekDots(weeksPassed) {
-          const el = document.getElementById("week-dots");
-          el.innerHTML = "";
-          for (let i = 0; i < CAL_TOTAL_WEEKS; i++) {
-            const d = document.createElement("div");
-            d.className = "wd";
-            if (i < weeksPassed) d.classList.add("passed");
-            else if (i === weeksPassed) d.classList.add("current");
-            d.title = "Week " + (i + 1);
-            el.appendChild(d);
-          }
-        }
+  const QUOTES = [
+    "The hardest step is the first one away. You took it — and that already counts for everything.",
+    "One week in. You chose purpose over comfort. That kind of discipline compounds quietly.",
+    "Two weeks done. The grit you're building right now is the kind that outlasts any single journey.",
+    "Three weeks strong. Halfway mark crossed. The discipline is becoming part of you.",
+    "Four weeks. More than half the journey behind you. Bhubaneswar is getting closer every hour.",
+    "Five weeks in. The final stretch feels different — lighter, sharper. Keep the rhythm.",
+    "Six weeks. The countdown is audible now. Every day a deliberate step toward what matters most.",
+    "Seven weeks. You're almost there. The finish line isn't just visible — it's within reach.",
+  ];
 
-        function buildMilestones(daysPassed) {
-          const el = document.getElementById("ms-list");
-          el.innerHTML = "";
-          let foundCurrent = false;
-          MILESTONES.forEach((m) => {
-            const passed = daysPassed >= m.days;
-            const isCurrent = !passed && !foundCurrent;
-            if (isCurrent) foundCurrent = true;
-            const div = document.createElement("div");
-            div.className =
-              "ms-item" + (passed ? " passed" : isCurrent ? " current" : "");
-            div.innerHTML = `
-              <div class="ms-ic">${passed || isCurrent ? m.icon : "·"}</div>
-              <div class="ms-body">
-                <div class="ms-title">${m.label}</div>
-                <div class="ms-sub">${m.sub}</div>
-              </div>
-              <div class="ms-tag">${passed ? "✓ day " + m.days : "day " + m.days}</div>`;
-            el.appendChild(div);
-          });
-        }
+  const MILESTONES = [
+    {days:1,  icon:"🚉", label:"Day one away",    note:"Journey begins from Ranchi."},
+    {days:7,  icon:"📅", label:"First week done", note:"Seven solid days of grit."},
+    {days:14, icon:"💪", label:"Two weeks strong", note:"Crossed the quarter mark."},
+    {days:21, icon:"🔥", label:"Three weeks done", note:"Past the halfway point."},
+    {days:35, icon:"⚡", label:"Five weeks in",    note:"Final stretch begins."},
+    {days:46, icon:"🎯", label:"Five days left",   note:"Almost home."},
+    {days:51, icon:"🏠", label:"Home — BBS",       note:"21 Aug 2026. You made it."},
+  ];
 
-        // ── CONFETTI ──
-        const canvas = document.getElementById("confetti-canvas");
-        const ctx = canvas.getContext("2d");
-        let confettiPieces = [];
-        let confettiRunning = false;
+  function pad(n){return String(n).padStart(2,"0")}
 
-        function resizeCanvas() {
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        }
-        window.addEventListener("resize", resizeCanvas);
-        resizeCanvas();
+  function sowSun(ms){
+    const d=new Date(ms);d.setHours(0,0,0,0);d.setDate(d.getDate()-d.getDay());return d.getTime();
+  }
+  function calWP(now){return Math.max(0,Math.floor((sowSun(now)-sowSun(DEPARTED))/(7*86400000)))}
 
-        function spawnConfetti(count, colors) {
-          for (let i = 0; i < count; i++) {
-            confettiPieces.push({
-              x: Math.random() * canvas.width,
-              y: Math.random() * canvas.height - canvas.height,
-              w: Math.random() * 10 + 5,
-              h: Math.random() * 5 + 3,
-              color: colors[Math.floor(Math.random() * colors.length)],
-              rot: Math.random() * Math.PI * 2,
-              vx: (Math.random() - 0.5) * 2,
-              vy: Math.random() * 2 + 1,
-              vr: (Math.random() - 0.5) * 0.15,
-              alpha: 1,
-            });
-          }
-        }
+  function buildDots(id, wp){
+    const el=document.getElementById(id); if(!el) return; el.innerHTML="";
+    for(let i=0;i<CAL_WEEKS;i++){
+      const d=document.createElement("div");
+      d.className="wd"+(i<wp?" past":i===wp?" now":"");
+      d.title="Week "+(i+1); el.appendChild(d);
+    }
+  }
 
-        function runConfetti() {
-          if (!confettiRunning) return;
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          confettiPieces = confettiPieces.filter((p) => p.alpha > 0.05);
-          confettiPieces.forEach((p) => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.rot += p.vr;
-            if (p.y > canvas.height) {
-              p.y = -10;
-              p.alpha = 1;
-            }
-            ctx.save();
-            ctx.globalAlpha = p.alpha;
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.rot);
-            ctx.fillStyle = p.color;
-            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-            ctx.restore();
-          });
-          requestAnimationFrame(runConfetti);
-        }
+  function buildMS(id, dp){
+    const el=document.getElementById(id); if(!el) return; el.innerHTML="";
+    let foundNow=false;
+    MILESTONES.forEach(m=>{
+      const past=dp>=m.days, now=!past&&!foundNow; if(now) foundNow=true;
+      const div=document.createElement("div");
+      div.className="ms-item"+(past?" past":now?" now":"");
+      div.innerHTML=`<div class="ms-ic">${past||now?m.icon:"·"}</div>
+        <div class="ms-body"><div class="ms-title">${m.label}</div><div class="ms-note">${m.note}</div></div>
+        <div class="ms-tag">${past?"✓ d"+m.days:"d"+m.days}</div>`;
+      el.appendChild(div);
+    });
+  }
 
-        function startConfetti(colors) {
-          if (confettiRunning) return;
-          confettiRunning = true;
-          spawnConfetti(120, colors);
-          runConfetti();
-          setInterval(() => spawnConfetti(30, colors), 2000);
-        }
+  // CONFETTI
+  const cvs=document.getElementById("confetti"),ctx=cvs.getContext("2d");
+  let pcs=[],running=false;
+  function resize(){cvs.width=innerWidth;cvs.height=innerHeight}
+  addEventListener("resize",resize);resize();
+  function spawn(n,cols){for(let i=0;i<n;i++)pcs.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height-cvs.height,w:Math.random()*10+5,h:Math.random()*5+3,color:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*Math.PI*2,vx:(Math.random()-.5)*2,vy:Math.random()*2+1,vr:(Math.random()-.5)*.15,alpha:1})}
+  function loop(){if(!running)return;ctx.clearRect(0,0,cvs.width,cvs.height);pcs=pcs.filter(p=>p.alpha>.05);pcs.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;if(p.y>cvs.height){p.y=-10;p.alpha=1}ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});requestAnimationFrame(loop)}
+  function startConfetti(cols){if(running)return;running=true;spawn(100,cols);loop();setInterval(()=>spawn(25,cols),2000)}
 
-        // ── STATE MACHINE ──
-        let currentState = null;
+  let curState=null;
+  function getState(now,days){
+    if(now>=HOME)return"arrived";
+    const n=new Date(now),h=new Date(HOME);
+    if(n.getFullYear()===h.getFullYear()&&n.getMonth()===h.getMonth()&&n.getDate()===h.getDate())return"day";
+    if(days<10)return"close";return"normal";
+  }
+  function applyState(state,days){
+    if(state===curState)return;curState=state;
+    document.body.className="state-"+state;
+    if(state==="close"){
+      document.getElementById("eyebrow-text").textContent="Final Countdown — Almost Home!";
+      document.getElementById("close-text").textContent=days===1?"Tomorrow you go home!":days+" days left — the finish line is right there!";
+      startConfetti(["#e8b84b","#ff6b35","#ff9a6c","#ffd166","#ffffff"]);
+    }
+    if(state==="day"){document.getElementById("eyebrow-text").textContent="Today's the Day · 21 Aug 2026";startConfetti(["#00c9a7","#00ffe0","#e8b84b","#ffffff","#ff9a6c"])}
+    if(state==="arrived"){running=false;pcs=[];running=true;spawn(300,["#00c9a7","#00ffe0","#e8b84b","#ff9a6c","#ffffff"]);loop();setInterval(()=>spawn(60,["#00c9a7","#e8b84b","#ff9a6c","#ffffff"]),1500)}
+  }
 
-        function getState(now, days) {
-          if (now >= HOME_DATE) return "arrived";
-          const d = new Date(now),
-            h = new Date(HOME_DATE);
-          const sameDay =
-            d.getFullYear() === h.getFullYear() &&
-            d.getMonth() === h.getMonth() &&
-            d.getDate() === h.getDate();
-          if (sameDay) return "journey";
-          if (days < 10) return "celebratory";
-          return "normal";
-        }
+  let lastSec=-1;
+  function tick(){
+    const now=Date.now(),elapsed=now-DEPARTED,remain=Math.max(0,HOME-now);
+    const total=Math.floor(remain/1000),secs=total%60,mins=Math.floor(total/60)%60,hours=Math.floor(total/3600)%24,days=Math.floor(total/86400);
 
-        function applyState(state, days) {
-          if (state === currentState) return;
-          currentState = state;
-          document.body.className = "state-" + state;
+    const d=new Date();
+    document.getElementById("hd-clock").textContent=pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());
 
-          if (state === "celebratory") {
-            document.getElementById("eyebrow-text").textContent =
-              "Almost There — Final Countdown!";
-            document.getElementById("celeb-text").textContent =
-              days === 1
-                ? "Tomorrow you go home!"
-                : days + " days left — the finish line is right there!";
-            document.querySelector(".hero-label").textContent =
-              "The home stretch. Bhubaneswar is almost in reach.";
-            startConfetti([
-              "#f0c060",
-              "#e8602a",
-              "#f5874a",
-              "#c8963c",
-              "#ffffff",
-            ]);
-          }
-          if (state === "journey") {
-            document.getElementById("eyebrow-text").textContent =
-              "Today's the Day · 24 June 2026";
-            document.querySelector(".hero-label").textContent =
-              "Tonight at 7:45 PM — your train home departs. The wait is over.";
-            startConfetti([
-              "#5ee0d4",
-              "#2ec4b6",
-              "#f0c060",
-              "#ffffff",
-              "#f5874a",
-            ]);
-          }
-          if (state === "arrived") {
-            confettiRunning = false;
-            confettiRunning = true;
-            confettiPieces = [];
-            spawnConfetti(300, [
-              "#5ee0d4",
-              "#f0c060",
-              "#f5874a",
-              "#ffffff",
-              "#c8963c",
-              "#2ec4b6",
-            ]);
-            runConfetti();
-            setInterval(
-              () =>
-                spawnConfetti(60, ["#5ee0d4", "#f0c060", "#f5874a", "#ffffff"]),
-              1500,
-            );
-          }
-        }
+    const state=getState(now,days);applyState(state,days);
+    if(state==="arrived")return;
+    if(secs===lastSec)return;lastSec=secs;
 
-        let lastSec = -1;
+    const dp=Math.max(0,Math.floor(elapsed/86400000));
+    const wp=calWP(now);
+    const pct=Math.min(Math.round((elapsed/TOTAL_MS)*100),100);
 
-        function tick() {
-          const now = Date.now();
-          const elapsed = now - DEPARTED;
-          const remain = HOME_DATE - now;
+    document.getElementById("cd-days").textContent=pad(days);
+    document.getElementById("cd-hours").textContent=pad(hours);
+    document.getElementById("cd-mins").textContent=pad(mins);
+    document.getElementById("cd-secs").textContent=pad(secs);
+    document.getElementById("bg-num").textContent=days;
 
-          const totalSecs = Math.max(0, Math.floor(remain / 1000));
-          const secs = totalSecs % 60;
-          const mins = Math.floor(totalSecs / 60) % 60;
-          const hours = Math.floor(totalSecs / 3600) % 24;
-          const days = Math.floor(totalSecs / 86400);
+    document.getElementById("s-wks").innerHTML=wp+` <span>/ ${CAL_WEEKS} wks</span>`;
+    document.getElementById("s-wks-note").textContent="week "+(wp+1)+" in progress";
+    document.getElementById("s-dpast").innerHTML=dp+` <span>days</span>`;
+    document.getElementById("s-dpast-note").textContent=pct+"% of journey done";
+    document.getElementById("s-dleft").innerHTML=days+` <span>days</span>`;
 
-          updateClock();
+    document.getElementById("pf-wk").style.width=Math.min((wp/CAL_WEEKS)*100,100)+"%";
+    document.getElementById("pf-day").style.width=pct+"%";
+    document.getElementById("pf-left").style.width=Math.max(100-pct,0)+"%";
 
-          const state = getState(now, days);
-          applyState(state, days);
-          if (state === "arrived") return;
+    const wbLabel="W"+(wp+1);
+    document.getElementById("week-badge").textContent=wbLabel;
+    document.getElementById("week-badge-mob").textContent=wbLabel;
+    buildDots("week-dots-desktop",wp);buildDots("week-dots-mob",wp);
 
-          if (secs === lastSec) return;
-          lastSec = secs;
+    const qi=Math.min(wp,QUOTES.length-1);
+    const qBadge=wp===0?"First days":"Week "+wp+" complete";
+    const qText=QUOTES[qi];
+    document.getElementById("q-badge").textContent=qBadge;
+    document.getElementById("q-text").textContent=qText;
+    document.getElementById("q-badge-mob").textContent=qBadge;
+    document.getElementById("q-text-mob").textContent=qText;
 
-          const daysPassed = Math.max(0, Math.floor(elapsed / 86400000));
-          const weeksPassed = Math.max(0, calWeeksPassed(now));
-          const pctDone = Math.min(Math.round((elapsed / TOTAL_MS) * 100), 100);
+    buildMS("ms-list-desktop",dp);buildMS("ms-list-mob",dp);
 
-          document.getElementById("cd-days").textContent = pad(days);
-          document.getElementById("cd-hours").textContent = pad(hours);
-          document.getElementById("cd-mins").textContent = pad(mins);
-          document.getElementById("cd-secs").textContent = pad(secs);
-          document.getElementById("ghost-days").textContent = days;
+    if(state==="close") document.getElementById("close-text").textContent=days===1?"Tomorrow you go home!":days+" days left — the finish line is right there!";
+  }
 
-          document.getElementById("stat-wks-passed").innerHTML =
-            weeksPassed + " <span>/ " + CAL_TOTAL_WEEKS + " wks</span>";
-          document.getElementById("stat-wks-sub").textContent =
-            "week " + (weeksPassed + 1) + " in progress";
-          document.getElementById("stat-days-passed").innerHTML =
-            daysPassed + " <span>days</span>";
-          document.getElementById("stat-days-pct").textContent =
-            pctDone + "% of journey done";
-          document.getElementById("stat-days-left").innerHTML =
-            days + " <span>days</span>";
-
-          document.getElementById("wk-fill").style.width =
-            Math.min((weeksPassed / CAL_TOTAL_WEEKS) * 100, 100) + "%";
-          document.getElementById("day-fill").style.width = pctDone + "%";
-          document.getElementById("left-fill").style.width =
-            Math.max(100 - pctDone, 0) + "%";
-
-          document.getElementById("week-counter").textContent =
-            "W" + (weeksPassed + 1);
-          buildWeekDots(weeksPassed);
-
-          const qi = Math.min(weeksPassed, WEEKLY_QUOTES.length - 1);
-          document.getElementById("q-week-badge").textContent =
-            weeksPassed === 0
-              ? "First Days"
-              : "Week " + weeksPassed + " Complete";
-          document.getElementById("q-text").textContent = WEEKLY_QUOTES[qi];
-
-          buildMilestones(daysPassed);
-
-          document
-            .getElementById("cd-days")
-            .classList.toggle("highlight", days < 7);
-
-          if (state === "celebratory") {
-            document.getElementById("celeb-text").textContent =
-              days === 1
-                ? "Tomorrow you go home!"
-                : days + " days left — the finish line is right there!";
-          }
-        }
-
-        tick();
-        setInterval(tick, 300);
-        setInterval(updateClock, 1000);
-      })();
-    </script>
-  </body>
+  tick();setInterval(tick,300);
+})();
+</script>
+</body>
 </html>
