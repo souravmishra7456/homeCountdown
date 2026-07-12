@@ -40,11 +40,12 @@ body::after{
 
 /* ══ HEADER ══ */
 header{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
   padding:16px 32px;
   border-bottom:2px solid var(--ink);
   background:var(--paper);
   flex-shrink:0;position:sticky;top:0;z-index:50;
+  flex-wrap:wrap;row-gap:10px;
 }
 
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -64,6 +65,20 @@ header{
 }
 .hd-from{color:var(--ink2)}.hd-arrow{color:var(--amber);font-size:14px}.hd-to{color:var(--amber)}
 .hd-date{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-top:2px}
+
+.hd-toggle{display:flex;flex-direction:column;gap:4px;align-items:flex-start;flex-shrink:0}
+.hd-toggle-label{font-family:"Space Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+.hd-toggle select{
+  font-family:"Space Mono",monospace;font-size:11px;font-weight:700;
+  padding:6px 26px 6px 10px;border:1.5px solid var(--ink);border-radius:4px;
+  background-color:var(--paper);color:var(--ink);letter-spacing:.03em;
+  cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);
+  background-position:calc(100% - 14px) calc(50% - 2px),calc(100% - 9px) calc(50% - 2px);
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  transition:border-color .2s,color .2s;
+}
+.hd-toggle select:hover,.hd-toggle select:focus{border-color:var(--amber);color:var(--amber);outline:none}
 
 .hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0}
 .live-badge{display:flex;align-items:center;gap:6px;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber)}
@@ -369,6 +384,9 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
   header{padding:12px 16px}
   .hd-route{display:none}
 
+  .hd-toggle-label{font-size:8px}
+  .hd-toggle select{font-size:10px;padding:5px 22px 5px 8px}
+
   .stage{
     padding:24px 18px 20px;
     border-right:none;border-bottom:1px solid var(--rule);
@@ -423,7 +441,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
 <canvas id="confetti"></canvas>
 
 <div class="arrived">
-  <div class="arr-tag">Journey Complete · 10 September 2026</div>
+  <div class="arr-tag" id="arr-tag-date">Journey Complete · 10 September 2026</div>
   <div class="arr-title">Welcome<br><em>Home.</em></div>
   <div class="arr-sub">Every disciplined day, every hour of distance — it brought you back to where you belong.</div>
   <div class="arr-route">
@@ -449,7 +467,14 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
         <span class="hd-arrow">————›</span>
         <span class="hd-to">BBS</span>
       </div>
-      <div class="hd-date">10 September 2026 · 21:00 hrs</div>
+      <div class="hd-date" id="hd-date-text">10 September 2026 · 21:00 hrs</div>
+    </div>
+    <div class="hd-toggle">
+      <span class="hd-toggle-label">Home Date</span>
+      <select id="date-select" onchange="setEndpoint(this.value)">
+        <option value="sep10">10 Sep 2026 · 9PM</option>
+        <option value="aug25">25 Aug 2026 · 9PM</option>
+      </select>
     </div>
     <div class="hd-right">
       <div class="live-badge"><div class="live-dot"></div>Live</div>
@@ -473,7 +498,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
 
       <div class="ticket-eyebrow">
         <div class="te-left"><div class="te-dot"></div><span id="eyebrow-text">Counting Down to Home · BBS</span></div>
-        <span>01 Jul → 10 Sep 2026</span>
+        <span id="te-range">01 Jul → 10 Sep 2026</span>
       </div>
 
       <div class="hero-label" id="hero-label">Days until you're back in Bhubaneswar</div>
@@ -516,11 +541,11 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
         </div>
         <div class="as-cell">
           <div class="as-lbl">Arriving</div>
-          <div class="as-val amber">10 Sep · 21:00</div>
+          <div class="as-val amber" id="as-arriving">10 Sep · 21:00</div>
         </div>
         <div class="as-cell">
           <div class="as-lbl">Journey</div>
-          <div class="as-val">71 days</div>
+          <div class="as-val" id="as-journey-days">71 days</div>
         </div>
         <div class="as-cell">
           <div class="as-lbl">Progress</div>
@@ -554,7 +579,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
         <div class="stat-cell">
           <div class="sc-lbl">Days ahead</div>
           <div class="sc-val" id="s-dleft">–<span class="sc-unit">d</span></div>
-          <div class="sc-sub">until 10 Sep 2026</div>
+          <div class="sc-sub" id="s-dleft-sub">until 10 Sep 2026</div>
           <div class="sc-bar"><div class="sc-bar-fill" id="pf-left" style="width:0%;background:var(--amber)"></div></div>
         </div>
       </div>
@@ -575,7 +600,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
         <div class="dc-city">BBS</div>
         <div class="dc-name">Bhubaneswar, Odisha</div>
         <div class="dc-row">
-          <div class="live-dot"></div>Return · 10 September 2026
+          <div class="live-dot"></div><span id="dc-return-date">Return · 10 September 2026</span>
         </div>
       </div>
       <div class="quote-block">
@@ -606,7 +631,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
         <div style="flex:1"></div>
         <div>
           <div class="dc-eyebrow" style="font-family:'Space Mono';font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px">Destination</div>
-          <div class="mob-dest-date"><div class="live-dot"></div>10 Sep 2026</div>
+          <div class="mob-dest-date"><div class="live-dot"></div><span id="mob-dest-date-text">10 Sep 2026</span></div>
         </div>
       </div>
       <div class="ws-header" style="margin-bottom:10px">
@@ -628,7 +653,7 @@ body.state-close #confetti,body.state-day #confetti,body.state-arrived #confetti
   <footer>
     <div class="ft-left">Every second is a step closer to <em>home.</em></div>
     <div class="ft-right">
-      <div class="ft-chip"><div class="live-dot"></div>BBS · 10 Sep 2026</div>
+      <div class="ft-chip"><div class="live-dot"></div><span id="footer-date-text">BBS · 10 Sep 2026</span></div>
       <span>Ranchi, Jharkhand</span>
     </div>
   </footer>
@@ -643,11 +668,15 @@ function mobTab(btn, id){
 }
 
 (function(){
-  // Sept 10, 2026 at 21:00 IST = UTC+5:30
+  // Departure is fixed. Home ("arrival") date is toggleable.
   const DEPARTED = new Date("2026-07-01T00:00:00+05:30").getTime();
-  const HOME     = new Date("2026-09-10T21:00:00+05:30").getTime();
-  const TOTAL_MS = HOME - DEPARTED;
-  const CAL_WEEKS = 10;
+  const ENDPOINTS = {
+    sep10: { ts: new Date("2026-09-10T21:00:00+05:30").getTime(), short:"10 Sep 2026", full:"10 September 2026" },
+    aug25: { ts: new Date("2026-08-25T21:00:00+05:30").getTime(), short:"25 Aug 2026", full:"25 August 2026" }
+  };
+
+  let currentKey = "sep10";
+  let HOME, TOTAL_MS, JOURNEY_DAYS, CAL_WEEKS, MILESTONES;
 
   const QUOTES = [
     "The hardest step is the first one away. You took it — and that already counts for everything.",
@@ -662,15 +691,16 @@ function mobTab(btn, id){
     "Nine weeks. Almost there. The distance has made the homecoming worth every single second.",
   ];
 
-  const MILESTONES = [
-    {days:1,  icon:"🚉", label:"Day one away",     note:"Journey begins from Ranchi."},
-    {days:7,  icon:"📅", label:"First week done",  note:"Seven solid days of grit."},
-    {days:14, icon:"💪", label:"Two weeks strong",  note:"A rhythm established."},
-    {days:21, icon:"🔥", label:"Three weeks done",  note:"Past the quarter mark."},
-    {days:35, icon:"⚡", label:"Five weeks in",     note:"Halfway milestone."},
-    {days:50, icon:"🎯", label:"Seven weeks in",    note:"Final stretch begins."},
-    {days:65, icon:"🏁", label:"Six days left",     note:"Almost home."},
-    {days:71, icon:"🏠", label:"Home — BBS",        note:"10 Sep 2026 · 21:00 hrs"},
+  // Milestone template as fractions of the total journey (based on the original 71-day plan),
+  // rescaled to whatever journey length the selected end date produces.
+  const MS_TEMPLATE = [
+    {frac:1/71,  icon:"🚉", label:"Day one away",       note:"Journey begins from Ranchi."},
+    {frac:7/71,  icon:"📅", label:"First week done",    note:"Seven solid days of grit."},
+    {frac:14/71, icon:"💪", label:"Building momentum",  note:"A rhythm established."},
+    {frac:21/71, icon:"🔥", label:"Quarter behind you",  note:"Past the quarter mark."},
+    {frac:35/71, icon:"⚡", label:"Halfway there",       note:"Halfway milestone."},
+    {frac:50/71, icon:"🎯", label:"Final stretch begins", note:"Final stretch begins."},
+    {frac:65/71, icon:"🏁", label:"Almost home",         note:"Almost home."},
   ];
 
   function pad(n){return String(n).padStart(2,"0")}
@@ -711,12 +741,16 @@ function mobTab(btn, id){
 
   // CONFETTI
   const cvs=document.getElementById("confetti"),ctx=cvs.getContext("2d");
-  let pcs=[],running=false;
+  let pcs=[],running=false,confettiInterval=null;
   function resize(){cvs.width=innerWidth;cvs.height=innerHeight}
   addEventListener("resize",resize);resize();
   function spawn(n,cols){for(let i=0;i<n;i++)pcs.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height-cvs.height,w:8+Math.random()*8,h:4+Math.random()*4,color:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*Math.PI*2,vx:(Math.random()-.5)*1.6,vy:1.2+Math.random()*2,vr:(Math.random()-.5)*.12,alpha:1})}
   function confettiLoop(){if(!running)return;ctx.clearRect(0,0,cvs.width,cvs.height);pcs=pcs.filter(p=>p.alpha>.05);pcs.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;if(p.y>cvs.height){p.y=-10;p.alpha=1}ctx.save();ctx.globalAlpha=p.alpha;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()});requestAnimationFrame(confettiLoop)}
-  function startConfetti(cols){if(running)return;running=true;spawn(80,cols);confettiLoop();setInterval(()=>spawn(20,cols),2200)}
+  function startConfetti(cols){
+    if(confettiInterval){clearInterval(confettiInterval);confettiInterval=null}
+    running=true; pcs=[]; spawn(80,cols); confettiLoop();
+    confettiInterval=setInterval(()=>spawn(20,cols),2200);
+  }
 
   let curState=null;
   function getState(now,days){
@@ -734,15 +768,62 @@ function mobTab(btn, id){
       document.getElementById("close-text").textContent=days===1?"Tomorrow you go home!":days+" days left — the finish line is right there!";
       startConfetti(["#c8640a","#e07c1c","#f5a23c","#1a1410","#f5efe4"]);
     }
-    if(state==="day"){document.getElementById("eyebrow-text").textContent="Today's the Day · 10 Sep 2026";startConfetti(["#c8640a","#f5a23c","#1a1410","#f5efe4","#e07c1c"])}
-    if(state==="arrived"){running=false;pcs=[];running=true;spawn(250,["#c8640a","#f5a23c","#e07c1c","#f5efe4","#1a1410"]);confettiLoop();setInterval(()=>spawn(50,["#c8640a","#f5a23c","#e07c1c","#f5efe4"]),1500)}
+    if(state==="day"){document.getElementById("eyebrow-text").textContent="Today's the Day · "+ENDPOINTS[currentKey].short;startConfetti(["#c8640a","#f5a23c","#1a1410","#f5efe4","#e07c1c"])}
+    if(state==="arrived"){
+      if(confettiInterval){clearInterval(confettiInterval);confettiInterval=null}
+      running=false;pcs=[];running=true;spawn(250,["#c8640a","#f5a23c","#e07c1c","#f5efe4","#1a1410"]);confettiLoop();
+      confettiInterval=setInterval(()=>spawn(50,["#c8640a","#f5a23c","#e07c1c","#f5efe4"]),1500);
+    }
   }
+
+  // Recompute every date-dependent value & static label when the selected endpoint changes.
+  function recompute(){
+    const ep = ENDPOINTS[currentKey];
+    HOME = ep.ts;
+    TOTAL_MS = HOME - DEPARTED;
+    JOURNEY_DAYS = Math.max(1, Math.round(TOTAL_MS/86400000));
+    CAL_WEEKS = Math.max(1, Math.ceil(JOURNEY_DAYS/7));
+
+    const seen = new Set();
+    MILESTONES = MS_TEMPLATE
+      .map(m=>({days:Math.max(1,Math.round(m.frac*JOURNEY_DAYS)), icon:m.icon, label:m.label, note:m.note}))
+      .filter(m=>{ if(seen.has(m.days)||m.days>=JOURNEY_DAYS) return false; seen.add(m.days); return true; });
+    MILESTONES.push({days:JOURNEY_DAYS, icon:"🏠", label:"Home — BBS", note:ep.full+" · 21:00 hrs"});
+
+    // static labels around the page
+    document.getElementById("hd-date-text").textContent = ep.full+" · 21:00 hrs";
+    document.getElementById("te-range").textContent = "01 Jul → "+ep.short;
+    document.getElementById("as-arriving").textContent = ep.short+" · 21:00";
+    document.getElementById("as-journey-days").textContent = JOURNEY_DAYS+" days";
+    document.getElementById("s-dleft-sub").textContent = "until "+ep.short;
+    document.getElementById("s-wks-sub").textContent = "week 1 of "+CAL_WEEKS;
+    document.getElementById("dc-return-date").textContent = "Return · "+ep.full;
+    document.getElementById("mob-dest-date-text").textContent = ep.short;
+    document.getElementById("footer-date-text").textContent = "BBS · "+ep.short;
+    document.getElementById("arr-tag-date").textContent = "Journey Complete · "+ep.full;
+
+    // reset state so tick() re-applies banners / confetti freshly for the new endpoint
+    curState = null;
+    lastSec = -1;
+    document.body.className = "";
+    running = false; pcs = [];
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    if(confettiInterval){ clearInterval(confettiInterval); confettiInterval=null; }
+  }
+
+  window.setEndpoint = function(key){
+    if(!ENDPOINTS[key] || key===currentKey && HOME) { if(!ENDPOINTS[key]) return; }
+    currentKey = key;
+    recompute();
+    tick();
+  };
 
   let lastSec=-1;
   function tick(){
-    const now=Date.now(),elapsed=now-DEPARTED,remain=Math.max(0,HOME-now);
+    const now=Date.now(),remain=Math.max(0,HOME-now);
     const total=Math.floor(remain/1000);
     const secs=total%60,mins=Math.floor(total/60)%60,hours=Math.floor(total/3600)%24,days=Math.floor(total/86400);
+    const elapsed=now-DEPARTED;
 
     const dn=new Date();
     document.getElementById("hd-clock").textContent=pad(dn.getHours())+":"+pad(dn.getMinutes())+":"+pad(dn.getSeconds());
@@ -802,6 +883,7 @@ function mobTab(btn, id){
     }
   }
 
+  recompute();
   tick(); setInterval(tick,300);
 })();
 </script>
