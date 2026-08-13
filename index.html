@@ -1261,7 +1261,7 @@
             10 September 2026 · 21:00 hrs
           </div>
         </div>
-        <div class="hd-toggle">
+        <div class="hd-toggle" id="hd-toggle-wrap">
           <span class="hd-toggle-label">Home Date</span>
           <select id="date-select" onchange="setEndpoint(this.value)">
             <option value="sep10">10 Sep 2026 · 9PM</option>
@@ -1529,7 +1529,10 @@
       }
 
       (function () {
-        // Departure is fixed. Home ("arrival") date is toggleable.
+        // Departure is fixed. Home ("arrival") date is toggleable
+        // only until 25 Aug 2026 9PM has passed — after that the
+        // aug25 option is no longer a real choice, so we lock to sep10
+        // and hide the dropdown entirely.
         const DEPARTED = new Date("2026-07-01T00:00:00+05:30").getTime();
         const ENDPOINTS = {
           sep10: {
@@ -1545,6 +1548,17 @@
         };
 
         let currentKey = "sep10";
+
+        // Once 25 Aug 2026 9PM is in the past, remove the toggle:
+        // aug25 can no longer be selected, so showing a dropdown with
+        // a single live option is pointless. Force sep10.
+        const AUG25_PASSED = Date.now() > ENDPOINTS.aug25.ts;
+        if (AUG25_PASSED) {
+          currentKey = "sep10";
+          const toggleWrap = document.getElementById("hd-toggle-wrap");
+          if (toggleWrap) toggleWrap.style.display = "none";
+        }
+
         let HOME, TOTAL_MS, JOURNEY_DAYS, CAL_WEEKS, MILESTONES;
 
         const QUOTES = [
@@ -1847,6 +1861,9 @@
         }
 
         window.setEndpoint = function (key) {
+          // aug25 is no longer selectable once its date has passed —
+          // even if something calls this directly, ignore it.
+          if (AUG25_PASSED && key === "aug25") return;
           if (!ENDPOINTS[key] || (key === currentKey && HOME)) {
             if (!ENDPOINTS[key]) return;
           }
