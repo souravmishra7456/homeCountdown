@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>HC 910 · IXR → BBI · Homecoming</title>
+    <title>HC 910 · Homecoming Countdown · BBI → IXR → BBI</title>
     <meta
       name="description"
-      content="Live countdown: Ranchi to Bhubaneswar, departing 31 Aug 2026 00:00 IST, touching down 11 Sep 2026 21:00 IST."
+      content="Homecoming countdown: left Bhubaneswar on 31 Aug 2026 00:00 IST and return home from Ranchi to Bhubaneswar on 11 Sep 2026 21:00 IST."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -61,6 +61,159 @@
         font-family: var(--font-body);
         -webkit-font-smoothing: antialiased;
       }
+
+      /* ---- homecoming stages + effects ---- */
+      body.stage-tomorrow .board,
+      body.stage-tomorrow .announce {
+        box-shadow:
+          0 0 0 1px rgba(255, 179, 71, 0.18),
+          0 0 45px rgba(255, 179, 71, 0.1);
+      }
+
+      body.stage-tomorrow .flap {
+        animation: tomorrowPulse 2.8s ease-in-out infinite;
+      }
+
+      body.stage-today .board {
+        box-shadow:
+          0 0 0 1px rgba(95, 216, 220, 0.2),
+          0 0 55px rgba(95, 216, 220, 0.12);
+      }
+
+      body.stage-today .announce {
+        border-color: rgba(95, 216, 220, 0.22);
+      }
+
+      body.stage-home {
+        background:
+          radial-gradient(
+            900px 500px at 50% 15%,
+            rgba(95, 224, 160, 0.13),
+            transparent 65%
+          ),
+          radial-gradient(
+            900px 700px at 100% 10%,
+            rgba(255, 179, 71, 0.1),
+            transparent 60%
+          ),
+          linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 100%);
+      }
+
+      body.stage-home .board {
+        border-color: rgba(95, 224, 160, 0.3);
+        box-shadow:
+          0 0 0 1px rgba(95, 224, 160, 0.12),
+          0 0 70px rgba(95, 224, 160, 0.12);
+      }
+
+      body.stage-home .announce {
+        border-color: rgba(95, 224, 160, 0.3);
+        box-shadow: 0 0 45px rgba(95, 224, 160, 0.08);
+      }
+
+      body.stage-home .announce .eyebrow {
+        color: var(--green);
+      }
+
+      .stage-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 7px;
+        padding: 5px 9px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        background: rgba(255, 255, 255, 0.015);
+      }
+
+      .stage-badge::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--ink-faint);
+      }
+
+      body.stage-tomorrow .stage-badge {
+        color: var(--amber);
+        border-color: rgba(255, 179, 71, 0.25);
+      }
+
+      body.stage-tomorrow .stage-badge::before {
+        background: var(--amber);
+        box-shadow: 0 0 8px rgba(255, 179, 71, 0.65);
+      }
+
+      body.stage-today .stage-badge {
+        color: var(--cyan);
+        border-color: rgba(95, 216, 220, 0.25);
+      }
+
+      body.stage-today .stage-badge::before {
+        background: var(--cyan);
+        box-shadow: 0 0 8px rgba(95, 216, 220, 0.65);
+      }
+
+      body.stage-home .stage-badge {
+        color: var(--green);
+        border-color: rgba(95, 224, 160, 0.28);
+      }
+
+      body.stage-home .stage-badge::before {
+        background: var(--green);
+        box-shadow: 0 0 9px rgba(95, 224, 160, 0.7);
+      }
+
+      @keyframes tomorrowPulse {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-2px);
+        }
+      }
+
+      .celebration {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 100;
+      }
+
+      .confetti {
+        position: absolute;
+        top: -24px;
+        width: 8px;
+        height: 13px;
+        border-radius: 2px;
+        opacity: 0;
+        animation: confettiFall var(--fall, 4.5s) linear var(--delay, 0s)
+          forwards;
+        background: var(--confetti-bg, var(--amber));
+        transform: translate3d(0, -30px, 0) rotate(0deg);
+      }
+
+      @keyframes confettiFall {
+        0% {
+          opacity: 0;
+          transform: translate3d(0, -30px, 0) rotate(0deg);
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate3d(var(--drift, 0px), 110vh, 0) rotate(720deg);
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         * {
           animation-duration: 0.001ms !important;
@@ -286,7 +439,7 @@
       /* ---- status + info row ---- */
       .row {
         display: grid;
-        grid-template-columns: 1.3fr 1fr 1fr;
+        grid-template-columns: 1.3fr 1fr 1fr 1fr;
         gap: 12px;
       }
       .card {
@@ -316,6 +469,34 @@
       }
       .status-card .v {
         color: var(--amber);
+      }
+
+      .time-away-card .v {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        color: var(--cyan);
+      }
+
+      .time-away-card .v .separator {
+        color: var(--ink-faint);
+        font-size: 15px;
+      }
+
+      .time-away-card .away-progress {
+        height: 4px;
+        margin-top: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--line-strong);
+      }
+
+      .time-away-card .away-progress-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--cyan), var(--amber));
+        transition: width 1s linear;
       }
 
       /* ---- boarding sequence ---- */
@@ -502,9 +683,15 @@
     </style>
   </head>
   <body>
+    <div class="celebration" id="celebration" aria-hidden="true"></div>
     <main>
       <div class="stripe">
-        <div class="flightno">FLIGHT <b>HC 910</b> · RANCHI → BHUBANESWAR</div>
+        <div class="flightno">
+          HOMEBOUND <b>HC 910</b> · AWAY FROM HOME
+          <div class="stage-badge" id="stage-badge">
+            The countdown continues
+          </div>
+        </div>
         <div class="liveclock">
           <span class="dot"></span><span>IST</span
           ><span id="clock">--:--:--</span>
@@ -515,17 +702,17 @@
         <div class="route">
           <div class="city">
             <div class="code">IXR</div>
-            <div class="name">Ranchi · departs 31 Aug</div>
+            <div class="name">Left home · 31 Aug 00:00</div>
           </div>
           <div class="city dest">
             <div class="code">BBI</div>
-            <div class="name">Bhubaneswar · arrives 11 Sep</div>
+            <div class="name">Home · 11 Sep 21:00</div>
           </div>
         </div>
         <div class="progress-track">
           <div class="progress-meta">
-            <span class="miles">Route progress</span>
-            <span class="miles" id="pct-label">0% flown</span>
+            <span class="miles">Journey progress</span>
+            <span class="miles" id="pct-label">0% complete</span>
           </div>
           <div class="flightline">
             <div class="fill" id="fill"></div>
@@ -542,7 +729,7 @@
 
       <div class="board">
         <div class="board-head">
-          <div class="board-label">Time to touchdown</div>
+          <div class="board-label">Time until home</div>
           <div class="weeks-label" id="weeks-label">0 weeks, 0 days to go</div>
         </div>
         <div class="flaps">
@@ -572,33 +759,46 @@
           <div class="sub" id="status-sub">Not yet departed</div>
         </div>
         <div class="card">
-          <div class="k">Departure</div>
+          <div class="k">Left home</div>
           <div class="v">31 Aug</div>
-          <div class="sub">00:00 IST</div>
+          <div class="sub">00:00 IST · Bhubaneswar</div>
         </div>
         <div class="card">
-          <div class="k">Arrival</div>
+          <div class="k">Homecoming</div>
           <div class="v">11 Sep</div>
-          <div class="sub">21:00 IST</div>
+          <div class="sub">21:00 IST · Bhubaneswar</div>
+        </div>
+
+        <div class="card time-away-card">
+          <div class="k">Time away</div>
+          <div class="v">
+            <span id="days-passed">0</span>
+            <span class="separator">/</span>
+            <span id="total-days">0</span>
+          </div>
+          <div class="sub">days passed</div>
+          <div class="away-progress">
+            <div class="away-progress-fill" id="away-progress-fill"></div>
+          </div>
         </div>
       </div>
 
       <div class="panel">
-        <h2>Boarding sequence</h2>
-        <div class="desc">The steps between here and home.</div>
+        <h2>The way back home</h2>
+        <div class="desc">
+          The countdown from leaving home to coming back home.
+        </div>
         <div id="ms-list"></div>
       </div>
 
       <div class="announce">
-        <div class="eyebrow">Cabin announcement</div>
-        <p id="quote">
-          Every flight home begins long before the engines start.
-        </p>
+        <div class="eyebrow">Homecoming note</div>
+        <p id="quote">Home is waiting at the end of this countdown.</p>
       </div>
 
       <footer>
-        <span>HC 910 · IXR → BBI · Non-stop</span>
-        <span class="hl">Touchdown 11 Sep 2026 · 21:00 IST</span>
+        <span>HC 910 · IXR → BBI · Return home</span>
+        <span class="hl">Back home · 11 Sep 2026 · 21:00 IST</span>
       </footer>
     </main>
 
@@ -608,19 +808,31 @@
       const TOTAL_MS = ARR - DEP;
 
       const milestones = [
-        { label: "Gates open", note: "Journey window opens", at: DEP },
-        { label: "Wheels up", note: "Departed Ranchi", at: DEP },
         {
-          label: "Cruising",
-          note: "Midway across the route",
+          label: "Left home",
+          note: "Bhubaneswar · 31 Aug · 00:00 IST",
+          at: DEP,
+        },
+        {
+          label: "Away in Ranchi",
+          note: "The days away from home begin",
+          at: DEP,
+        },
+        {
+          label: "Halfway home",
+          note: "50% of the wait is complete",
           at: new Date(DEP.getTime() + TOTAL_MS / 2),
         },
         {
-          label: "Final descent",
-          note: "Approach into Bhubaneswar",
+          label: "Final stretch",
+          note: "Homecoming is getting close",
           at: new Date(ARR.getTime() - 3 * 60 * 60 * 1000),
         },
-        { label: "Touchdown", note: "Arrived Bhubaneswar", at: ARR },
+        {
+          label: "Back home",
+          note: "Bhubaneswar · 11 Sep · 21:00 IST",
+          at: ARR,
+        },
       ];
 
       function pad(n) {
@@ -662,29 +874,144 @@
         msList.appendChild(div);
       });
 
+      const dailyMessages = {
+        11: ["Away from home", "Home feels a little farther away today."],
+        10: ["Counting down", "Ten days between you and home."],
+        9: ["Counting down", "Another day of the wait is behind you."],
+        8: [
+          "Getting closer",
+          "The distance is still there. The wait is shrinking.",
+        ],
+        7: ["One week left", "One week until Bhubaneswar."],
+        6: ["Getting closer", "Another day done. Home is closer now."],
+        5: ["Getting closer", "Five days. The countdown is becoming real."],
+        4: ["Final stretch", "Four more days between you and home."],
+        3: ["Final stretch", "Three days. The end of the wait is in sight."],
+        2: ["Almost there", "Two days. Almost home."],
+      };
+
+      const lastAwayDay = Math.max(0, Math.ceil((ARR - DEP) / 86400000) - 1);
+
+      let celebrationShown = false;
+
+      function createConfetti() {
+        const layer = document.getElementById("celebration");
+        layer.innerHTML = "";
+
+        const pieces = 90;
+        for (let i = 0; i < pieces; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti";
+          piece.style.left = Math.random() * 100 + "%";
+          piece.style.setProperty(
+            "--delay",
+            (Math.random() * 1.5).toFixed(2) + "s",
+          );
+          piece.style.setProperty(
+            "--fall",
+            (3.8 + Math.random() * 2.5).toFixed(2) + "s",
+          );
+          piece.style.setProperty(
+            "--drift",
+            ((Math.random() - 0.5) * 260).toFixed(0) + "px",
+          );
+          piece.style.setProperty(
+            "--confetti-bg",
+            ["var(--amber)", "var(--cyan)", "var(--green)", "var(--ink)"][
+              i % 4
+            ],
+          );
+          piece.style.width = (5 + Math.random() * 5).toFixed(0) + "px";
+          piece.style.height = (9 + Math.random() * 8).toFixed(0) + "px";
+          layer.appendChild(piece);
+        }
+
+        setTimeout(() => {
+          layer.innerHTML = "";
+        }, 7500);
+      }
+
+      function getStage(now) {
+        if (now >= ARR) return "home";
+        if (now >= new Date("2026-09-11T00:00:00+05:30")) return "today";
+        if (ARR - now <= 86400000) return "tomorrow";
+        return "countdown";
+      }
+
+      function setStage(stage) {
+        document.body.classList.remove(
+          "stage-tomorrow",
+          "stage-today",
+          "stage-home",
+        );
+
+        const badge = document.getElementById("stage-badge");
+
+        if (stage === "tomorrow") {
+          document.body.classList.add("stage-tomorrow");
+          badge.textContent = "Tomorrow";
+        } else if (stage === "today") {
+          document.body.classList.add("stage-today");
+          badge.textContent = "Today";
+        } else if (stage === "home") {
+          document.body.classList.add("stage-home");
+          badge.textContent = "Home";
+        } else {
+          badge.textContent = "The countdown continues";
+        }
+      }
+
       function tick() {
         const now = new Date();
+
         document.getElementById("clock").textContent = now.toLocaleTimeString(
           "en-IN",
           { hour12: false, timeZone: "Asia/Kolkata" },
         );
 
+        const stage = getStage(now);
+        setStage(stage);
+
         let remaining = ARR - now;
-        let statusText, statusSub;
-        if (now < DEP) {
-          remaining = ARR - now;
-          statusText = "Scheduled";
-          statusSub = "Not yet departed";
-        } else if (now < ARR) {
-          statusText = "In transit";
-          statusSub = "En route to BBI";
-        } else {
-          statusText = "Landed";
-          statusSub = "Welcome home";
+        let statusText, statusSub, quoteText;
+
+        if (stage === "home") {
           remaining = 0;
+          statusText = "HOME";
+          statusSub = "Welcome back";
+          quoteText = "You made it home. ❤️";
+        } else if (stage === "today") {
+          statusText = "TODAY";
+          statusSub = "Homecoming day · 21:00 IST";
+          quoteText = "Today is the day. The wait ends at home.";
+        } else if (stage === "tomorrow") {
+          statusText = "TOMORROW";
+          statusSub = "One day until home";
+          quoteText = "Tomorrow, you go home.";
+        } else {
+          const remainingDays = Math.ceil(remaining / 86400000);
+          const message = dailyMessages[remainingDays];
+
+          if (message) {
+            statusText = message[0];
+            quoteText = message[1];
+          } else if (remainingDays > 11) {
+            statusText = "Away from home";
+            quoteText = "The countdown to home has begun.";
+          } else {
+            statusText = "Counting down";
+            quoteText = "Every day brings home a little closer.";
+          }
+
+          statusSub =
+            remainingDays === 1
+              ? "1 day until home"
+              : `${remainingDays} days until home`;
         }
+
         document.getElementById("status-text").textContent = statusText;
         document.getElementById("status-sub").textContent = statusSub;
+        document.getElementById("quote").textContent = quoteText;
 
         const clamped = Math.max(0, remaining);
         const days = Math.floor(clamped / 86400000);
@@ -701,6 +1028,7 @@
         const weeks = Math.floor(totalDays / 7);
         const extraDays = totalDays % 7;
         const weeksLabel = document.getElementById("weeks-label");
+
         if (remaining <= 0) {
           weeksLabel.textContent = "Arrived";
         } else if (weeks > 0) {
@@ -709,18 +1037,35 @@
           weeksLabel.textContent = `${extraDays} day${extraDays === 1 ? "" : "s"} to go`;
         }
 
-        const elapsed = now - DEP;
-        let pct = (elapsed / TOTAL_MS) * 100;
+        // Time-away counter.
+        const elapsedForDays = Math.max(0, Math.min(now - DEP, TOTAL_MS));
+        const totalCalendarDays = Math.ceil(TOTAL_MS / 86400000);
+        const passedCalendarDays = Math.min(
+          totalCalendarDays,
+          Math.floor(elapsedForDays / 86400000),
+        );
+
+        document.getElementById("days-passed").textContent = passedCalendarDays;
+        document.getElementById("total-days").textContent = totalCalendarDays;
+
+        const awayPct = (elapsedForDays / TOTAL_MS) * 100;
+        document.getElementById("away-progress-fill").style.width =
+          awayPct.toFixed(2) + "%";
+
+        // Overall wait progress.
+        let pct = (elapsedForDays / TOTAL_MS) * 100;
         pct = Math.min(100, Math.max(0, pct));
         document.getElementById("fill").style.width = pct + "%";
         document.getElementById("plane").style.left = pct + "%";
         document.getElementById("pct-label").textContent =
-          pct.toFixed(1) + "% flown";
+          pct.toFixed(1) + "% of wait complete";
 
+        // Milestone state.
         let nextSet = false;
         [...msList.children].forEach((el) => {
           const t = Number(el.dataset.time);
           el.classList.remove("done", "now");
+
           if (now.getTime() >= t) {
             el.classList.add("done");
           } else if (!nextSet) {
@@ -728,6 +1073,12 @@
             nextSet = true;
           }
         });
+
+        // One-time celebration exactly when the return-home countdown reaches zero.
+        if (stage === "home" && !celebrationShown) {
+          celebrationShown = true;
+          createConfetti();
+        }
       }
 
       tick();
