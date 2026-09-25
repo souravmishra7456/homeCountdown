@@ -6,7 +6,7 @@
     <title>HC 910 · Homecoming Countdown · BBI → IXR → BBI</title>
     <meta
       name="description"
-      content="Homecoming countdown: left Bhubaneswar on 27 Sep 2026 21:00 IST and return home to Bhubaneswar on 16 Oct 2026 21:00 IST."
+      content="Homecoming countdown: left Bhubaneswar on 27 Sep 2026 21:00 IST and return home from Ranchi to Bhubaneswar on 16 Oct 2026 21:00 IST."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -265,23 +265,6 @@
         background: var(--green);
         animation: pulse 2s ease-in-out infinite;
       }
-      .flap.flip {
-        animation: flapFlip 420ms ease-out;
-        transform-origin: center;
-      }
-
-      @keyframes flapFlip {
-        0% {
-          transform: perspective(260px) rotateX(0deg);
-        }
-        45% {
-          transform: perspective(260px) rotateX(-82deg);
-        }
-        100% {
-          transform: perspective(260px) rotateX(0deg);
-        }
-      }
-
       @keyframes pulse {
         0%,
         100% {
@@ -305,70 +288,52 @@
       .route {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-        grid-template-areas:
-          "origin connector destination"
-          "return return return";
         align-items: end;
-        column-gap: clamp(16px, 4vw, 42px);
-        row-gap: 18px;
+        gap: clamp(16px, 5vw, 56px);
+      }
+      .route-arrow {
+        align-self: center;
+        color: var(--cyan);
+        font-family: var(--font-mono);
+        font-size: 22px;
+        line-height: 1;
+        opacity: 0.8;
+        padding-bottom: 18px;
+      }
+      .return-label {
+        text-align: center;
+        margin-top: -2px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .return-label strong {
+        color: var(--amber);
+        font-weight: 600;
       }
       .city {
         display: flex;
         flex-direction: column;
-        gap: 7px;
-        min-width: 0;
-      }
-      .city.origin {
-        grid-area: origin;
-      }
-      .city.dest {
-        grid-area: destination;
-        text-align: right;
-        align-items: flex-end;
+        gap: 6px;
       }
       .city .code {
         font-family: var(--font-display);
-        font-size: clamp(40px, 8vw, 64px);
+        font-size: clamp(40px, 9vw, 64px);
         font-weight: 700;
         letter-spacing: 0.01em;
-        line-height: 0.95;
+        line-height: 1;
       }
       .city .name {
         font-size: 13px;
         color: var(--ink-dim);
-        white-space: nowrap;
       }
-
-      .route-connector {
-        grid-area: connector;
-        align-self: center;
-        padding-bottom: 20px;
-        font-family: var(--font-mono);
-        font-size: 18px;
-        color: var(--ink-faint);
-        letter-spacing: 0.08em;
-      }
-
-      .route-return {
-        grid-area: return;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        min-width: 0;
-        padding-top: 13px;
-        border-top: 1px solid var(--line);
-        font-family: var(--font-mono);
-        font-size: 9px;
-        line-height: 1.5;
-        letter-spacing: 0.14em;
-        color: var(--ink-faint);
-        text-transform: uppercase;
-      }
-
-      .route-return strong {
-        color: var(--amber);
-        font-weight: 600;
+      .city.dest {
+        text-align: right;
+        align-items: flex-end;
       }
       .progress-track {
         display: flex;
@@ -685,26 +650,21 @@
         }
         .route {
           grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-          column-gap: 12px;
-          row-gap: 16px;
-          align-items: end;
+          gap: 10px;
+        }
+        .route-arrow {
+          font-size: 18px;
+          padding-bottom: 14px;
+        }
+        .return-label {
+          font-size: 8px;
+          letter-spacing: 0.14em;
         }
         .city .code {
-          font-size: clamp(32px, 12vw, 46px);
+          font-size: 32px;
         }
         .city .name {
           font-size: 11px;
-          white-space: normal;
-        }
-        .route-connector {
-          padding-bottom: 17px;
-          font-size: 15px;
-        }
-        .route-return {
-          flex-wrap: wrap;
-          gap: 5px 8px;
-          padding-top: 11px;
-          text-align: center;
         }
         .miles {
           font-size: 9px;
@@ -760,7 +720,7 @@
     <main>
       <div class="stripe">
         <div class="flightno">
-          HOMEBOUND <b>HC 910</b> · BBI → IXR → BBI
+          HOMEBOUND <b>HC 910</b> · <span id="header-route">BBI → IXR → BBI</span>
           <div class="stage-badge" id="stage-badge">
             The countdown continues
           </div>
@@ -772,21 +732,19 @@
       </div>
 
       <div class="hero">
-        <div class="route">
-          <div class="city origin">
-            <div class="code">BBI</div>
-            <div class="name">Home · 27 Sep · 21:00</div>
+        <div class="route" aria-label="Current journey route">
+          <div class="city" id="route-from">
+            <div class="code" id="route-from-code">BBI</div>
+            <div class="name" id="route-from-name">Home · 27 Sep 21:00</div>
           </div>
-          <div class="route-connector" aria-hidden="true">→</div>
-          <div class="city dest">
-            <div class="code">IXR</div>
-            <div class="name">Away · Ranchi</div>
+          <div class="route-arrow" id="route-arrow" aria-hidden="true">→</div>
+          <div class="city dest" id="route-to">
+            <div class="code" id="route-to-code">IXR</div>
+            <div class="name" id="route-to-name">Away · Ranchi</div>
           </div>
-          <div class="route-return" aria-label="Return home">
-            <span>Return home</span>
-            <strong>IXR → BBI</strong>
-            <span>16 Oct · 21:00 IST</span>
-          </div>
+        </div>
+        <div class="return-label" id="return-label">
+          DEPARTURE&nbsp;&nbsp;<strong>BBI → IXR</strong>&nbsp;&nbsp;27 SEP · 21:00 IST
         </div>
         <div class="progress-track">
           <div class="progress-meta">
@@ -878,7 +836,7 @@
       <div class="panel">
         <h2>The way back home</h2>
         <div class="desc">
-          The countdown from leaving Bhubaneswar to coming back home.
+          The countdown from leaving home to coming back home.
         </div>
         <div id="ms-list"></div>
       </div>
@@ -889,7 +847,7 @@
       </div>
 
       <footer>
-        <span>HC 910 · BBI → IXR → BBI · Return home</span>
+        <span id="footer-route">HC 910 · BBI → IXR → BBI</span>
         <span class="hl">Back home · 16 Oct 2026 · 21:00 IST</span>
       </footer>
     </main>
@@ -989,6 +947,8 @@
         2: ["Almost there", "Two days. Almost home."],
       };
 
+      const lastAwayDay = Math.max(0, Math.ceil((ARR - DEP) / 86400000) - 1);
+
       let celebrationShown = false;
 
       function createConfetti() {
@@ -1026,6 +986,41 @@
         setTimeout(() => {
           layer.innerHTML = "";
         }, 7500);
+      }
+
+      function updateJourneyRoute(now) {
+        const departed = now >= DEP;
+
+        const fromCode = document.getElementById("route-from-code");
+        const fromName = document.getElementById("route-from-name");
+        const toCode = document.getElementById("route-to-code");
+        const toName = document.getElementById("route-to-name");
+        const returnLabel = document.getElementById("return-label");
+        const footerRoute = document.getElementById("footer-route");
+        const headerRoute = document.getElementById("header-route");
+
+        if (departed) {
+          // At exactly 21:00 IST on 27 Sep, switch from the
+          // pre-departure view (BBI → IXR) to the actual return
+          // journey (IXR → BBI).
+          fromCode.textContent = "IXR";
+          fromName.textContent = "Away · Ranchi";
+          toCode.textContent = "BBI";
+          toName.textContent = "Home · 16 Oct 21:00";
+          returnLabel.innerHTML =
+            'RETURN HOME&nbsp;&nbsp;<strong>IXR → BBI</strong>&nbsp;&nbsp;16 OCT · 21:00 IST';
+          footerRoute.textContent = "HC 910 · IXR → BBI · Return home";
+          headerRoute.textContent = "IXR → BBI";
+        } else {
+          fromCode.textContent = "BBI";
+          fromName.textContent = "Home · 27 Sep 21:00";
+          toCode.textContent = "IXR";
+          toName.textContent = "Away · Ranchi";
+          returnLabel.innerHTML =
+            'DEPARTURE&nbsp;&nbsp;<strong>BBI → IXR</strong>&nbsp;&nbsp;27 SEP · 21:00 IST';
+          footerRoute.textContent = "HC 910 · BBI → IXR → BBI";
+          headerRoute.textContent = "BBI → IXR → BBI";
+        }
       }
 
       function getStage(now) {
@@ -1068,6 +1063,7 @@
 
         const stage = getStage(now);
         setStage(stage);
+        updateJourneyRoute(now);
 
         let remaining = ARR - now;
         let statusText, statusSub, quoteText;
@@ -1086,7 +1082,7 @@
           statusSub = "One day until home";
           quoteText = "Tomorrow, you go home.";
         } else {
-          const remainingDays = Math.floor(remaining / 86400000);
+          const remainingDays = Math.ceil(remaining / 86400000);
           const message = dailyMessages[remainingDays];
 
           if (message) {
