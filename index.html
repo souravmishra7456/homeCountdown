@@ -532,7 +532,7 @@
       }
       .ms {
         flex: 0 0 210px;
-        scroll-snap-align: start;
+        scroll-snap-align: center;
         display: flex;
         flex-direction: column;
         gap: 6px;
@@ -874,8 +874,12 @@
 
       function scrollToCard(i, smooth = true) {
         const el = msEls[Math.min(Math.max(i, 0), msEls.length - 1)];
-        msList.scrollTo({ left: el.offsetLeft, behavior: smooth ? "smooth" : "auto" });
+        msList.scrollTo({
+          left: el.offsetLeft - (msList.clientWidth - el.offsetWidth) / 2,
+          behavior: smooth ? "smooth" : "auto",
+        });
       }
+      window.addEventListener("resize", () => scrollToCard(lastNowIdx, false));
       function cardStep() {
         return msEls[0].offsetWidth + 12; // card width + gap
       }
