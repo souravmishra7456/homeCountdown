@@ -1027,7 +1027,7 @@
           statusSub = "One day until home";
           quoteText = "Tomorrow, you go home.";
         } else {
-          const remainingDays = Math.ceil(remaining / 86400000);
+          const remainingDays = Math.floor(remaining / 86400000);
           const message = dailyMessages[remainingDays];
 
           if (message) {
